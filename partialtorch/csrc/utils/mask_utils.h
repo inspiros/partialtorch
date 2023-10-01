@@ -6,6 +6,9 @@ namespace partialtorch {
     C10_ALWAYS_INLINE void validate_masked_pair(
             const at::Tensor &data,
             const c10::optional<at::Tensor> &mask) {
+        if (data.layout() != at::kStrided) {
+            TORCH_WARN_ONCE("Non-Strided layouts are not supported.")
+        }
         if (mask.has_value()) {
             TORCH_CHECK_VALUE(mask->defined(),
                               "mask must be defined tensor.")

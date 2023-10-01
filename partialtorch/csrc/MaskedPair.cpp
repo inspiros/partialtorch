@@ -184,9 +184,9 @@ namespace partialtorch {
 
     TORCH_LIBRARY_FRAGMENT(partialtorch, m) {
         m.class_<TensorMaskedPair>("MaskedPair")
-                .def(torch::init<at::Tensor &, const c10::optional<at::Tensor>>())
-                .def_readwrite("data", &TensorMaskedPair::data_)
-                .def_readwrite("mask", &TensorMaskedPair::mask_)
+                .def(torch::init<at::Tensor &, const c10::optional<at::Tensor> &>())
+                .def_property("data", &TensorMaskedPair::get_data, &TensorMaskedPair::set_data)
+                .def_property("mask", &TensorMaskedPair::get_mask, &TensorMaskedPair::set_mask)
                 .def_property("members", &TensorMaskedPair::get_members, &TensorMaskedPair::set_members)
                 .def_pickle(
                         [](const c10::intrusive_ptr<TensorMaskedPair> &self)
@@ -312,10 +312,10 @@ namespace partialtorch {
         // Creation ops
         m.def(ops::utils::FunctionSchemaBuilder("masked_pair")
                       .arg<const at::Tensor &>("data")
-                      .arg<const c10::optional<at::Tensor>>("mask", "None")
+                      .arg<const c10::optional<at::Tensor> &>("mask", "None")
                       .ret<c10::intrusive_ptr<TensorMaskedPair>>().schema().c_str(),
               static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
-                      const at::Tensor &, const c10::optional<at::Tensor>)>(&masked_pair));
+                      const at::Tensor &, const c10::optional<at::Tensor> &)>(&masked_pair));
         m.def(ops::utils::FunctionSchemaBuilder("masked_pair").overload("bool")
                       .arg<const at::Tensor &>("data")
                       .arg<const c10::optional<bool>>("mask")

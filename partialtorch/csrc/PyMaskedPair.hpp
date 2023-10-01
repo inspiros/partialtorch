@@ -23,12 +23,10 @@ namespace partialtorch {
                 TensorMaskedPair,
                 c10::intrusive_ptr<TensorMaskedPair>,
                 PyTensorMaskedPair>(py_module, "MaskedPair")
-                .def(py::init<at::Tensor &, const c10::optional<at::Tensor> >(),
+                .def(py::init<at::Tensor &, const c10::optional<at::Tensor> &>(),
                      py::arg("data"), py::arg("mask") = py::none())
-                .def(py::init<std::tuple<at::Tensor, const c10::optional<at::Tensor>>>())
-                .def(py::init<std::vector<at::Tensor>>())
-                .def_readwrite("data", &TensorMaskedPair::data_)
-                .def_readwrite("mask", &TensorMaskedPair::mask_)
+                .def_property("data", &TensorMaskedPair::get_data, &TensorMaskedPair::set_data)
+                .def_property("mask", &TensorMaskedPair::get_mask, &TensorMaskedPair::set_mask)
                 .def_property("members", &TensorMaskedPair::get_members, &TensorMaskedPair::set_members)
                 .def("__getstate__",
                      [](const c10::intrusive_ptr<TensorMaskedPair> &self)

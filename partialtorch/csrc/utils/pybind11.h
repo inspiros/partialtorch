@@ -14,8 +14,6 @@ namespace pybind11 {
         PYBIND11_TYPE_CASTER(partialtorch::TensorMaskedPair, _("partialtorch.MaskedPair"));
 
             bool load(handle src, bool) {
-                value.data_ = at::rand({2, 2});
-                value.mask_ = at::bernoulli(at::full_like(value.data_, 0.5));
                 return true;
             }
 

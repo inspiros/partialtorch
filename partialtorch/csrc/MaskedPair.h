@@ -25,16 +25,6 @@ namespace partialtorch {
             this->mask_ = mask;
         }
 
-        MaskedPair(std::tuple<T, c10::optional<bool>> args) {
-            this->data_ = std::get<0>(args);
-            this->mask_ = std::get<1>(args);
-        }
-
-        MaskedPair(std::pair<T, c10::optional<at::Tensor>> args) {
-            this->data_ = args.first;
-            this->mask_ = args.second;
-        }
-
         C10_ALWAYS_INLINE T get_data() const {
             return this->data_;
         }
@@ -80,34 +70,9 @@ namespace partialtorch {
 
         MaskedPair(
                 const at::Tensor &data,
-                const c10::optional<at::Tensor> mask = {}) {
+                const c10::optional<at::Tensor> &mask = {}) {
             this->data_ = data;
             this->mask_ = mask;
-            validate_members();
-        }
-
-        MaskedPair(std::tuple<at::Tensor, c10::optional<at::Tensor>> args) {
-            this->data_ = std::get<0>(args);
-            this->mask_ = std::get<1>(args);
-            validate_members();
-        }
-
-        MaskedPair(std::pair<at::Tensor, c10::optional<at::Tensor>> args) {
-            this->data_ = args.first;
-            this->mask_ = args.second;
-            validate_members();
-        }
-
-        MaskedPair(at::ArrayRef<at::Tensor> args) {
-            auto n_args = args.size();
-            TORCH_CHECK_VALUE(1 <= n_args && n_args <= 2,
-                              "MaskedPair must be initialized with a single tensor (data) "
-                              "or a pair of tensors (data and mask). Got ",
-                              n_args,
-                              " arguments.")
-            this->data_ = args[0];
-            if (n_args == 2)
-                this->mask_ = args[1];
             validate_members();
         }
 
@@ -128,12 +93,12 @@ namespace partialtorch {
             return mask_;
         }
 
-        inline void set_mask(const c10::optional<at::Tensor> mask) {
+        inline void set_mask(const c10::optional<at::Tensor> &mask) {
             mask_ = mask;
             validate_members();
         }
 
-        inline void set_mask_(const c10::optional<at::Tensor> mask) {
+        inline void set_mask_(const c10::optional<at::Tensor> &mask) {
             if (mask.has_value() && mask_.has_value())
                 mask_.value().copy_(mask.value());
             else
@@ -603,7 +568,7 @@ namespace partialtorch {
         inline std::string __repr__() const;
 
     private:
-        int64_t _idx;
+        int64_t _idx = 0;
     };
 
     template<typename T>
@@ -628,7 +593,7 @@ namespace partialtorch {
 
     PARTIALTORCH_API C10_ALWAYS_INLINE c10::intrusive_ptr<MaskedPair<at::Tensor>> masked_pair(
             const at::Tensor &data,
-            const c10::optional<at::Tensor> mask = {}) {
+            const c10::optional<at::Tensor> &mask = {}) {
         return at::make_intrusive<MaskedPair<at::Tensor>>(MaskedPair<at::Tensor>(data, mask));
     }
 
@@ -649,7 +614,7 @@ namespace partialtorch {
                     std::is_same_v<T, at::Tensor>,
                     c10::optional<at::Tensor>,
                     c10::optional<bool>>> args) {
-        return at::make_intrusive<MaskedPair<T>>(MaskedPair<T>(args));
+        return at::make_intrusive<MaskedPair<T>>(MaskedPair<T>(std::get<0>(args), std::get<1>(args)));
     }
 
     template<typename T>
@@ -658,12 +623,19 @@ namespace partialtorch {
                     std::is_same_v<T, at::Tensor>,
                     c10::optional<at::Tensor>,
                     c10::optional<bool>>> args) {
-        return at::make_intrusive<MaskedPair<T>>(MaskedPair<T>(args));
+        return at::make_intrusive<MaskedPair<T>>(MaskedPair<T>(args.first, args.second));
     }
 
     PARTIALTORCH_API C10_ALWAYS_INLINE c10::intrusive_ptr<MaskedPair<at::Tensor>> masked_pair(
             const at::ArrayRef<at::Tensor> args) {
-        return at::make_intrusive<MaskedPair<at::Tensor>>(MaskedPair<at::Tensor>(args));
+        auto n_args = args.size();
+        TORCH_CHECK_VALUE(1 <= n_args && n_args <= 2,
+                          "MaskedPair must be initialized with a single tensor (data) "
+                          "or a pair of tensors (data and mask). Got ",
+                          n_args,
+                          " arguments.")
+        auto mask = (n_args == 2) ?  args[1] : c10::optional<at::Tensor>{};
+        return at::make_intrusive<MaskedPair<at::Tensor>>(MaskedPair<at::Tensor>(args[0], mask));
     }
 
     using TensorMaskedPair = MaskedPair<at::Tensor>;
