@@ -71,6 +71,10 @@ def get_extensions():
         define_macros += [(f'{PACKAGE_ROOT}_EXPORTS', None)]
         extra_compile_args['cxx'].append('/MP')
 
+    if sys.platform == 'darwin':
+        extra_compile_args['cxx'].append('-Xpreprocessor')
+        extra_compile_args['cxx'].append('-lomp')
+
     if debug_mode:
         print('Compiling in debug mode')
         define_macros += [('DEBUG_OPS_SCHEMAS', None)]
