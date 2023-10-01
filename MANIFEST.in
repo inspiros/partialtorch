@@ -1,0 +1,5 @@
+recursive-include partialtorch *.cpp
+recursive-include partialtorch *.cu
+include README.md
+include LICENSE.txt
+include requirements*.txt
