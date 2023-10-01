@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/inspiros/partialtorch/master/resources/logo.png) PartialTorch ![Build wheels](https://img.shields.io/github/actions/workflow/status/inspiros/partialtorch/build_wheels.yml) ![GitHub](https://img.shields.io/github/license/inspiros/partialtorch)
+![logo](https://raw.githubusercontent.com/inspiros/partialtorch/master/resources/logo.png) PartialTorch ![Build Wheels Status](https://img.shields.io/github/actions/workflow/status/inspiros/partialtorch/build_wheels.yml) ![License](https://img.shields.io/github/license/inspiros/partialtorch)
 =============
 
 **PartialTorch** is a thin C++ wrapper of **PyTorch**'s operators to support masked and partial semantics.
@@ -75,7 +75,8 @@ For example, the identity value of element-wise addition is ``0``.
 
 All partial operators have a prefix ``partial_`` prepended to their name (e.g. ``partialtorch.partial_add``),
 while masked operators inherit their native ops' names.
-Reduction operators are excluded from this rule as they are already available in ``torch.masked``.
+Reduction operators are excluded from this rule as they can be considered unary partial, and some of them
+are already available in ``torch.masked``.
 
 #### Scaled Partial Operators
 
@@ -93,7 +94,7 @@ Programatically, all scaled partial operators share the same signature with thei
 and are dispatched to when adding a keyword-only argument ``scaled = True``:
 
 ```python
-pout = partialtorch.add(pa, pb, scaled=True)
+pout = partialtorch.partial_add(pa, pb, scaled=True)
 ```
 
 ### Torch Ops Coverage
