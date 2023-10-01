@@ -172,7 +172,7 @@ px = partialtorch.masked_pair(x, None)  # explicitly define mask = None
 px = partialtorch.masked_pair(x, True)  # explicitly define mask = True (equivalent to None)
 px = partialtorch.masked_pair((x, x_mask))  # from tuple
 
-# this new random function conviniently does the work of the above steps
+# this new random function conveniently does the work of the above steps
 px = partialtorch.rand_mask(x, 0.5)
 ```
 
