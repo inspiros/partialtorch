@@ -232,7 +232,7 @@ This code is part of another project of us. Citation will be added in the future
 
 ## Acknowledgements
 
-Part of the codebase are modified from the following repositories:
+Part of the codebase is modified from the following repositories:
 
 - https://github.com/pytorch/pytorch
 - https://github.com/NVIDIA/partialconv
