@@ -44,7 +44,6 @@ def get_extensions():
     extension = CppExtension
     extra_compile_args = {'cxx': []}
     extra_compile_args['cxx'].append('/std:c++17' if sys.platform == 'win32' else '-std=c++17')
-    extra_compile_args['cxx'].append('/openmp' if sys.platform == 'win32' else '-fopenmp')
     define_macros = [('USE_PYTHON', None)]
 
     print('Compiling extensions with following flags:')
@@ -71,8 +70,11 @@ def get_extensions():
         define_macros += [(f'{PACKAGE_ROOT}_EXPORTS', None)]
         extra_compile_args['cxx'].append('/MP')
 
+    # enable openmp
     if sys.platform == 'darwin':
         extra_compile_args['cxx'].append('-Xpreprocessor')
+    extra_compile_args['cxx'].append('/openmp' if sys.platform == 'win32' else '-fopenmp')
+    if sys.platform == 'darwin':
         extra_compile_args['cxx'].append('-lomp')
 
     if debug_mode:
