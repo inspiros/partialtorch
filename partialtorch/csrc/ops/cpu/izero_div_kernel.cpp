@@ -1,4 +1,5 @@
 #include <ATen/ATen.h>
+#include <ATen/Parallel.h>
 #include <torch/library.h>
 
 #include "cpu_helpers.h"
@@ -17,10 +18,12 @@ namespace partialtorch {
                             const scalar_t *self,
                             const scalar_t *other,
                             scalar_t *output) {
-                        CPU_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
-                            scalar_t o = other[index];
-                            output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self[index] / o;
-                        }
+                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
+                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
+                                scalar_t o = other[index];
+                                output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self[index] / o;
+                            }
+                        });
                     }
 
                     template<typename scalar_t, typename index_t>
@@ -29,10 +32,12 @@ namespace partialtorch {
                             scalar_t self,
                             const scalar_t *other,
                             scalar_t *output) {
-                        CPU_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
-                            scalar_t o = other[index];
-                            output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self / o;
-                        }
+                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
+                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
+                                scalar_t o = other[index];
+                                output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self / o;
+                            }
+                        });
                     }
 
                     template<typename scalar_t, typename index_t>
@@ -42,13 +47,17 @@ namespace partialtorch {
                             scalar_t other,
                             scalar_t *output) {
                         if (other == static_cast<scalar_t>(0)) {
-                            CPU_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
-                                output[index] = static_cast<scalar_t>(0);
-                            }
+                            at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
+                                CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
+                                    output[index] = static_cast<scalar_t>(0);
+                                }
+                            });
                         } else {
-                            CPU_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
-                                output[index] = self[index] / other;
-                            }
+                            at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
+                                CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
+                                    output[index] = self[index] / other;
+                                }
+                            });
                         }
                     }
                 }  // namespace impl
@@ -79,7 +88,7 @@ namespace partialtorch {
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CPU, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<scalar_t, index_t>(
                                         n_kernels,
@@ -115,7 +124,7 @@ namespace partialtorch {
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_Scalar", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CPU, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<scalar_t, index_t>(
                                         n_kernels,
@@ -173,7 +182,7 @@ namespace partialtorch {
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CPU, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<scalar_t, index_t>(
                                         n_kernels,
@@ -218,7 +227,7 @@ namespace partialtorch {
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div__Scalar", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CPU, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<scalar_t, index_t>(
                                         n_kernels,
@@ -249,14 +258,16 @@ namespace partialtorch {
                             const scalar_t *other,
                             scalar_t *grad_self,
                             scalar_t *grad_other) {
-                        CPU_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
-                            scalar_t o = other[index];
-                            if (o != static_cast<scalar_t>(0)) {
-                                scalar_t g_s = grad_output[index] / o;
-                                grad_self[index] = g_s;
-                                grad_other[index] = g_s * -self[index] / o;
+                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
+                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
+                                scalar_t o = other[index];
+                                if (o != static_cast<scalar_t>(0)) {
+                                    scalar_t g_s = grad_output[index] / o;
+                                    grad_self[index] = g_s;
+                                    grad_other[index] = g_s * -self[index] / o;
+                                }
                             }
-                        }
+                        });
                     }
 
                     template<typename scalar_t, typename index_t>
@@ -266,9 +277,11 @@ namespace partialtorch {
                             scalar_t other,
                             scalar_t *grad_self) {
                         if (other != static_cast<scalar_t>(0)) {
-                            CPU_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
-                                grad_self[index] = grad_output[index] / other;
-                            }
+                            at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
+                                CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
+                                    grad_self[index] = grad_output[index] / other;
+                                }
+                            });
                         }
                     }
 
@@ -279,12 +292,14 @@ namespace partialtorch {
                             scalar_t self,
                             const scalar_t *other,
                             scalar_t *grad_other) {
-                        CPU_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
-                            scalar_t o = other[index];
-                            if (o != static_cast<scalar_t>(0)) {
-                                grad_other[index] = grad_output[index] * -self / (o * o);
+                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
+                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
+                                scalar_t o = other[index];
+                                if (o != static_cast<scalar_t>(0)) {
+                                    grad_other[index] = grad_output[index] * -self / (o * o);
+                                }
                             }
-                        }
+                        });
                     }
                 }  // namespace impl
 
@@ -310,7 +325,7 @@ namespace partialtorch {
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_backward", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CPU, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_backward_kernel_impl<scalar_t, index_t>(
                                         n_kernels,
@@ -351,7 +366,7 @@ namespace partialtorch {
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_Scalar_backward", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CPU, ([&] {
                             if constexpr (left) {  // TODO
                                 impl::izero_div_backward_kernel_impl<scalar_t, index_t>(
                                         n_kernels,
@@ -389,7 +404,7 @@ namespace partialtorch {
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_rScalar_backward", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CPU, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_backward_kernel_impl<scalar_t, index_t>(
                                         n_kernels,

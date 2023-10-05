@@ -1,32 +1,8 @@
-import time
-
 import torch
 from tqdm import trange
 
 from partialtorch.ops.izero_div import _izero_div, _izero_ldiv, _izero_ldiv_
-
-
-class FPSTracker:
-    def __init__(self):
-        self.total = self.n = 0
-        self._start = self._stop = self._elapsed_time = None
-
-    @property
-    def fps(self):
-        return float('inf') if self.total == 0 else self.n / self.total
-
-    def reset(self):
-        self.n = self.total = 0
-        self._start = self._stop = self._elapsed_time = None
-
-    def __enter__(self):
-        self._start = time.time()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self._stop = time.time()
-        self._elapsed_time = self._stop - self._start
-        self.total += self._elapsed_time
-        self.n += 1
+from utils.time_meter import TimeMeter
 
 
 def test_izero_div(dtype=torch.float64, device='cuda'):
@@ -62,27 +38,27 @@ def test_izero_div(dtype=torch.float64, device='cuda'):
     y.data.mul_(mask)
 
     eps = torch.finfo(y.dtype).eps
-    print('outputs matche:', torch.allclose(
+    print('outputs match:', torch.allclose(
         _izero_div(x, y),
         x.div(y + eps).mul_(mask)
     ))
 
-    fps_tracker = FPSTracker()
-    native_fps_tracker = FPSTracker()
+    time_meter = TimeMeter()
+    native_time_meter = TimeMeter()
 
     # warmup
     out = _izero_div(x, y)
     grad = torch.ones_like(out)
 
     for iter_id in (pbar := trange(2000)):
-        with fps_tracker:
+        with time_meter:
             out = _izero_div(x, y)
             # out.backward(grad)
-        with native_fps_tracker:
+        with native_time_meter:
             out = torch.ops.aten.mul_(torch.ops.aten.div(x, torch.ops.aten.add(y, eps)), mask)
             # out.backward(grad)
-        pbar.set_description(f'[Iter {iter_id + 1}] op_fps={fps_tracker.fps:.04f}, '
-                             f'native_op_fps={native_fps_tracker.fps:.04f}')
+        pbar.set_description(f'[Iter {iter_id + 1}] op_fps={time_meter.fps:.04f}, '
+                             f'native_op_fps={native_time_meter.fps:.04f}')
 
 
 if __name__ == '__main__':

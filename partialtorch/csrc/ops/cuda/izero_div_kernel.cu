@@ -10,6 +10,10 @@ namespace partialtorch {
             namespace {
                 static constexpr auto default_result_type = at::kFloat;
 
+                constexpr unsigned int GET_THREADS() {
+                    return 1024;
+                }
+
                 namespace impl {
                     enum BinaryRestrictPtrScheme {
                         OutOfPlace, Inplace, LeftInplace
@@ -24,7 +28,7 @@ namespace partialtorch {
                                     const scalar_t *, const scalar_t *__restrict__> other,
                             std::conditional_t<scheme == OutOfPlace,
                                     scalar_t *__restrict__, scalar_t *> output) {
-                        CUDA_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
+                        CUDA_1D_KERNEL_LOOP(index, n_kernels) {
                             scalar_t o = other[index];
                             output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self[index] / o;
                         }
@@ -38,7 +42,7 @@ namespace partialtorch {
                                     const scalar_t *, const scalar_t *__restrict__> other,
                             std::conditional_t<scheme == OutOfPlace,
                                     scalar_t *__restrict__, scalar_t *> output) {
-                        CUDA_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
+                        CUDA_1D_KERNEL_LOOP(index, n_kernels) {
                             scalar_t o = other[index];
                             output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self / o;
                         }
@@ -53,11 +57,11 @@ namespace partialtorch {
                             std::conditional_t<scheme == OutOfPlace,
                                     scalar_t *__restrict__, scalar_t *> output) {
                         if (other == static_cast<scalar_t>(0)) {
-                            CUDA_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
+                            CUDA_1D_KERNEL_LOOP(index, n_kernels) {
                                 output[index] = static_cast<scalar_t>(0);
                             }
                         } else {
-                            CUDA_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
+                            CUDA_1D_KERNEL_LOOP(index, n_kernels) {
                                 output[index] = self[index] / other;
                             }
                         }
@@ -93,12 +97,12 @@ namespace partialtorch {
                     auto other_flatten = other_c.flatten();
                     auto output_flatten = output.flatten();
 
-                    const unsigned int threads = 1024;
+                    const unsigned int threads = GET_THREADS();
                     const unsigned int blocks = GET_BLOCKS(threads, n_kernels);
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CUDA, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<impl::OutOfPlace, scalar_t, index_t><<<blocks, threads>>>(
                                         n_kernels,
@@ -134,12 +138,12 @@ namespace partialtorch {
                     auto self_flatten = self_c.flatten();
                     auto output_flatten = output.flatten();
 
-                    const unsigned int threads = 1024;
+                    const unsigned int threads = GET_THREADS();
                     const unsigned int blocks = GET_BLOCKS(threads, n_kernels);
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_Scalar", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CUDA, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<impl::OutOfPlace, scalar_t, index_t><<<blocks, threads>>>(
                                         n_kernels,
@@ -201,12 +205,12 @@ namespace partialtorch {
                     auto self_flatten = self_c.flatten();
                     auto other_flatten = other_c.flatten();
 
-                    const unsigned int threads = 1024;
+                    const unsigned int threads = GET_THREADS();
                     const unsigned int blocks = GET_BLOCKS(threads, n_kernels);
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CUDA, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<impl::LeftInplace, scalar_t, index_t><<<blocks, threads>>>(
                                         n_kernels,
@@ -251,12 +255,12 @@ namespace partialtorch {
                     auto output_flatten = output.flatten();
                     auto self_flatten = self_c.flatten();
 
-                    const unsigned int threads = 1024;
+                    const unsigned int threads = GET_THREADS();
                     const unsigned int blocks = GET_BLOCKS(threads, n_kernels);
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div__Scalar", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CUDA, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_kernel_impl<impl::LeftInplace, scalar_t, index_t><<<blocks, threads>>>(
                                         n_kernels,
@@ -288,7 +292,7 @@ namespace partialtorch {
                             const scalar_t *__restrict__ other,
                             scalar_t *__restrict__ grad_self,
                             scalar_t *__restrict__ grad_other) {
-                        CUDA_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
+                        CUDA_1D_KERNEL_LOOP(index, n_kernels) {
                             scalar_t o = other[index];
                             if (o != static_cast<scalar_t>(0)) {
                                 scalar_t g_s = grad_output[index] / o;
@@ -305,7 +309,7 @@ namespace partialtorch {
                             scalar_t other,
                             scalar_t *__restrict__ grad_self) {
                         if (other != static_cast<scalar_t>(0)) {
-                            CUDA_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
+                            CUDA_1D_KERNEL_LOOP(index, n_kernels) {
                                 grad_self[index] = grad_output[index] / other;
                             }
                         }
@@ -318,7 +322,7 @@ namespace partialtorch {
                             scalar_t self,
                             const scalar_t *__restrict__ other,
                             scalar_t *__restrict__ grad_other) {
-                        CUDA_1D_KERNEL_LOOP_T(index, n_kernels, index_t) {
+                        CUDA_1D_KERNEL_LOOP(index, n_kernels) {
                             scalar_t o = other[index];
                             if (o != static_cast<scalar_t>(0)) {
                                 grad_other[index] = grad_output[index] * -self / (o * o);
@@ -348,12 +352,12 @@ namespace partialtorch {
                     auto grad_self_flatten = grad_self.flatten();
                     auto grad_other_flatten = grad_other.flatten();
 
-                    const unsigned int threads = 1024;
+                    const unsigned int threads = GET_THREADS();
                     const unsigned int blocks = GET_BLOCKS(threads, n_kernels);
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_backward", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CUDA, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_backward_kernel_impl<scalar_t, index_t><<<blocks, threads>>>(
                                         n_kernels,
@@ -394,12 +398,12 @@ namespace partialtorch {
                     auto self_flatten = self.flatten();
                     auto grad_self_flatten = grad_self.flatten();
 
-                    const unsigned int threads = 1024;
+                    const unsigned int threads = GET_THREADS();
                     const unsigned int blocks = GET_BLOCKS(threads, n_kernels);
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_Scalar_backward", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CUDA, ([&] {
                             if constexpr (left) {  // TODO
                                 impl::izero_div_backward_kernel_impl<scalar_t, index_t><<<blocks, threads>>>(
                                         n_kernels,
@@ -437,12 +441,12 @@ namespace partialtorch {
                     auto other_flatten = other.flatten();
                     auto grad_other_flatten = grad_other.flatten();
 
-                    const unsigned int threads = 1024;
+                    const unsigned int threads = GET_THREADS();
                     const unsigned int blocks = GET_BLOCKS(threads, n_kernels);
 
                     AT_DISPATCH_FLOATING_AND_COMPLEX_TYPES_AND2(
                             at::kHalf, at::kBFloat16, result_type, "izero_div_rScalar_backward", ([&] {
-                        PT_DISPATCH_INDEX_TYPE(n_kernels, ([&] {
+                        PT_DISPATCH_INDEX_TYPE_DEVICE(n_kernels, CUDA, ([&] {
                             if constexpr (left) {
                                 impl::izero_div_backward_kernel_impl<scalar_t, index_t><<<blocks, threads>>>(
                                         n_kernels,
