@@ -43,6 +43,8 @@ def get_parallel_options(backend=None):
     if backend == 'openmp':
         parallel_define_macros += [('AT_PARALLEL_OPENMP', None)]
         if sys.platform == 'darwin':
+            parallel_extra_compile_args.append('-L/opt/homebrew/lib')
+            parallel_extra_compile_args.append('-I/opt/homebrew/include')
             parallel_extra_compile_args.append('-Xpreprocessor')
         parallel_extra_compile_args.append('/openmp' if sys.platform == 'win32' else '-fopenmp')
         if sys.platform == 'darwin':
@@ -88,7 +90,7 @@ def get_extensions():
     print(f'  NVCC_FLAGS: {nvcc_flags}')
 
     # enable cpu parallel
-    parallel_extra_compile_args, parallel_define_macros = get_parallel_options('openmp')
+    parallel_extra_compile_args, parallel_define_macros = get_parallel_options()
     extra_compile_args['cxx'] += parallel_extra_compile_args
     define_macros += parallel_define_macros
 
