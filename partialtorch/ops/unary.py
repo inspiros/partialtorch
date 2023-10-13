@@ -197,3 +197,8 @@ dim = torch.ops.partialtorch.dim
 dense_dim = torch.ops.partialtorch.dense_dim
 size = torch.ops.partialtorch.size
 requires_grad_ = torch.ops.partialtorch.requires_grad_
+
+# ----------------------
+# partial unary
+# ----------------------
+linalg_partial_matrix_power = torch.ops.partialtorch.linalg_partial_matrix_power

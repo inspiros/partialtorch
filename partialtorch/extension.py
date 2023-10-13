@@ -10,6 +10,7 @@ from warnings import warn
 
 import torch
 from torch._ops import _OpNamespace
+from torch._classes import _ClassNamespace
 
 extension_namespace = os.path.basename(os.path.dirname(__file__))
 
@@ -85,6 +86,7 @@ except (ImportError, OSError):
     pass
 finally:
     _ops = _OpNamespace(extension_namespace)
+    _classes = _ClassNamespace(extension_namespace)
 
 
 def _assert_has_ops():

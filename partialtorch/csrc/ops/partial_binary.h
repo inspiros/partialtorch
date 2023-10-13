@@ -51,6 +51,8 @@ namespace partialtorch {
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                 partial_matmul, bool scaled = false)
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                linalg_partial_matmul, bool scaled = false)
+        PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                 partial_mv, bool scaled = false)
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                 partial_inner, bool scaled = false)

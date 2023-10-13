@@ -187,8 +187,9 @@ namespace partialtorch {
                 if (!utils::has_tensor_mask(self) && !utils::has_tensor_mask(other)) {
                     return masked_pair(op.call(utils::get_data(self), utils::get_data(other), args...));
                 }
-                auto mask_ratio_options = at::TensorOptions(
-                        at::result_type(utils::get_data(self), utils::get_data(other)));
+                auto output_data = op.call(fill_identity_op.call(self),
+                                           fill_identity_op.call(other), args...);
+                auto mask_ratio_options = output_data.options();
                 at::Tensor mask_ratio;
                 {
                     at::NoGradGuard g;
@@ -215,13 +216,8 @@ namespace partialtorch {
                         }
                     }
                 }
-                auto output_data = op.call(fill_identity_op.call(self),
-                                           fill_identity_op.call(other), args...);
                 if constexpr (scaled) {
-                    if (at::can_cast(mask_ratio.scalar_type(), output_data.scalar_type()))
-                        output_data.mul_(mask_ratio);
-                    else
-                        output_data = at::mul(output_data, mask_ratio);
+                    output_data.mul_(mask_ratio);
                 }
                 auto output_mask = mask_ratio.to(at::kBool);
                 return masked_pair(output_data, output_mask);
@@ -243,6 +239,10 @@ namespace partialtorch {
 
         PT_DEFINE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(
                 partial_matmul, at::_ops::matmul(),
+                utils::_ops::fill_identity_zeros())
+
+        PT_DEFINE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(
+                linalg_partial_matmul, at::_ops::linalg_matmul(),
                 utils::_ops::fill_identity_zeros())
 
         PT_DEFINE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(
@@ -287,6 +287,10 @@ namespace partialtorch {
                 utils::_ops::fill_identity_zeros(), impl::_ops::mm_scale())
 
         PT_DEFINE_SCALED_BINARY_OPS_FORALL_TENSOR_OVERLOADS(
+                linalg_partial_matmul, at::_ops::linalg_matmul(),
+                utils::_ops::fill_identity_zeros(), impl::_ops::mm_scale())
+
+        PT_DEFINE_SCALED_BINARY_OPS_FORALL_TENSOR_OVERLOADS(
                 partial_mv, at::_ops::mv(),
                 utils::_ops::fill_identity_zeros(), impl::_ops::mm_scale())
 
@@ -304,6 +308,7 @@ namespace partialtorch {
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_mm,)
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_bmm,)
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_matmul,)
+            PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS(linalg_partial_matmul,)
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_mv,)
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_inner,)
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_outer,)
@@ -320,6 +325,9 @@ namespace partialtorch {
                     bool, scaled,)
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                     partial_matmul, scaled,
+                    bool, scaled,)
+            PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                    linalg_partial_matmul, scaled,
                     bool, scaled,)
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                     partial_mv, scaled,

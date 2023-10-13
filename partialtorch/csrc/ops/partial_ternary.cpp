@@ -315,10 +315,7 @@ namespace partialtorch {
                     }
                 }
                 if constexpr (scaled) {
-                    if (at::can_cast(mask_ratio.scalar_type(), output_data.scalar_type()))
-                        output_data.mul_(mask_ratio);
-                    else
-                        output_data = at::mul(output_data, mask_ratio);
+                    output_data.mul_(mask_ratio);
                 }
                 auto output_mask = mask_ratio.to(at::kBool);
                 return masked_pair(output_data, output_mask);
@@ -379,10 +376,7 @@ namespace partialtorch {
                     }
                 }
                 if constexpr (scaled) {
-                    if (at::can_cast(mask_ratio.scalar_type(), output_data.scalar_type()))
-                        output_data.mul_(mask_ratio);
-                    else
-                        output_data = at::mul(output_data, mask_ratio);
+                    output_data.mul_(mask_ratio);
                 }
                 auto output_mask = mask_ratio.to(at::kBool);
                 if constexpr (std::is_same_v<c10::base_t<self_T>, TensorMaskedPair>) {

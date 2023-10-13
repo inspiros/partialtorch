@@ -179,6 +179,18 @@ namespace partialtorch {
             }
 
             template<bool copy = false, typename T>
+            C10_ALWAYS_INLINE std::vector<at::Tensor> get_tensor_mask(
+                    at::ArrayRef<T> inputs,
+                    c10::optional<at::TensorOptions> options = {}) {
+                std::vector<at::Tensor> masks;
+                masks.reserve(inputs.size());
+                for (const auto &input: inputs) {
+                    masks.emplace_back(get_tensor_mask(input));
+                }
+                return masks;
+            }
+
+            template<bool copy = false, typename T>
             C10_ALWAYS_INLINE at::Scalar get_tensor_mask(
                     const T &input,
                     c10::optional<at::TensorOptions> = {}) {
@@ -193,6 +205,14 @@ namespace partialtorch {
                 } else {
                     return false;
                 }
+            }
+
+            template<typename T>
+            C10_ALWAYS_INLINE bool has_tensor_mask(at::ArrayRef<T> inputs) {
+                bool result = false;
+                for (const auto &input: inputs)
+                    result |= utils::has_tensor_mask(input);
+                return result;
             }
 
             C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> &set_data(

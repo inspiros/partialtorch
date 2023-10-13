@@ -1204,7 +1204,8 @@ namespace partialtorch {
                     canonical_scale_T &&canonical_scale,
                     const self_T &self,
                     Args &&... args) {
-                auto mask_ratio_options = at::TensorOptions(utils::get_data(self).scalar_type());
+                auto output_data = op.call(utils::get_data(self), args...);
+                auto mask_ratio_options = output_data.options();
                 at::Tensor mask_ratio;
                 {
                     at::NoGradGuard g;
@@ -1223,7 +1224,7 @@ namespace partialtorch {
                         );
                     }
                 }
-                auto output_data = op.call(utils::get_data(self), args...).mul_(mask_ratio);
+                output_data.mul_(mask_ratio);
                 auto output_mask = utils::any(utils::get_mask(self));
                 return masked_pair(output_data, output_mask);
             }
@@ -1237,7 +1238,8 @@ namespace partialtorch {
                     const self_T &self,
                     dim_T dim,
                     Args... args) {
-                auto mask_ratio_options = at::TensorOptions(utils::get_data(self).scalar_type());
+                auto output_data = op.call(fill_identity_op.call(self), dim, args...);
+                auto mask_ratio_options = output_data.options();
                 at::Tensor mask_ratio;
                 {
                     at::NoGradGuard g;
@@ -1256,7 +1258,7 @@ namespace partialtorch {
                         );
                     }
                 }
-                auto output_data = op.call(fill_identity_op.call(self), dim, args...).mul_(mask_ratio);
+                output_data.mul_(mask_ratio);
                 auto output_mask = utils::any(utils::get_mask(self), dim);
                 return masked_pair(output_data, output_mask);
             }
@@ -1271,7 +1273,8 @@ namespace partialtorch {
                     dim_T dim,
                     bool keepdim,
                     Args... args) {
-                auto mask_ratio_options = at::TensorOptions(utils::get_data(self).scalar_type());
+                auto output_data = op.call(fill_identity_op.call(self), dim, keepdim, args...);
+                auto mask_ratio_options = output_data.options();
                 at::Tensor mask_ratio;
                 {
                     at::NoGradGuard g;
@@ -1290,7 +1293,7 @@ namespace partialtorch {
                         );
                     }
                 }
-                auto output_data = op.call(fill_identity_op.call(self), dim, keepdim, args...).mul_(mask_ratio);
+                output_data.mul_(mask_ratio);
                 auto output_mask = utils::any(utils::get_mask(self), dim, keepdim);
                 return masked_pair(output_data, output_mask);
             }
@@ -1306,8 +1309,8 @@ namespace partialtorch {
                     bool keepdim,
                     c10::optional<at::ScalarType> dtype,
                     Args... args) {
-                auto mask_ratio_options = at::TensorOptions(
-                        dtype.value_or(utils::get_data(self).scalar_type()));
+                auto output_data = op.call(fill_identity_op.call(self), dim, keepdim, dtype, args...);
+                auto mask_ratio_options = output_data.options();
                 at::Tensor mask_ratio;
                 {
                     at::NoGradGuard g;
@@ -1326,7 +1329,7 @@ namespace partialtorch {
                         );
                     }
                 }
-                auto output_data = op.call(fill_identity_op.call(self), dim, keepdim, dtype, args...).mul_(mask_ratio);
+                output_data.mul_(mask_ratio);
                 auto output_mask = utils::any(utils::get_mask(self), dim, keepdim);
                 return masked_pair(output_data, output_mask);
             }

@@ -81,6 +81,6 @@ broadcast_tensors = torch.ops.partialtorch.broadcast_tensors
 meshgrid = torch.ops.partialtorch.meshgrid
 
 # one to one/many to many
-atleast1d = torch.ops.partialtorch.atleast1d
-atleast2d = torch.ops.partialtorch.atleast2d
-atleast3d = torch.ops.partialtorch.atleast3d
+atleast_1d = torch.ops.partialtorch.atleast_1d
+atleast_2d = torch.ops.partialtorch.atleast_2d
+atleast_3d = torch.ops.partialtorch.atleast_3d

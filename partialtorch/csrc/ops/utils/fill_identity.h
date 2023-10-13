@@ -76,6 +76,16 @@ namespace partialtorch {
                     static at::Tensor call(const at::Tensor &self) {
                         return self.to(dtype);
                     }
+
+                    template<typename T>
+                    static std::vector<T> call(at::ArrayRef<T> inputs) {
+                        std::vector<T> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
+                    }
                 };
 
 /// \private
@@ -103,6 +113,17 @@ namespace partialtorch {
                             return self.clone();
                         else
                             return self;
+                    }
+
+                    template<typename T>
+                    static std::vector<T> call(at::ArrayRef<T> inputs,
+                            const c10::optional<at::ScalarType> &dtype) {
+                        std::vector<T> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input, dtype));
+                        }
+                        return outputs;
                     }
                 };
 
@@ -132,6 +153,16 @@ namespace partialtorch {
                             return self.clone();
                         else
                             return self;
+                    }
+
+                    template<typename T>
+                    C10_ALWAYS_INLINE std::vector<T> call(at::ArrayRef<T> inputs) const {
+                        std::vector<T> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input, dtype));
+                        }
+                        return outputs;
                     }
                 };
             }  // namespace _ops
@@ -311,6 +342,16 @@ namespace partialtorch {
                                   const at::Scalar &) {
                         return utils::get_data<copy>(self);
                     }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
+                    }
                 };
 
                 struct [[maybe_unused]] fill_identity_value_ {
@@ -323,6 +364,16 @@ namespace partialtorch {
                     static T call(const T &self,
                                   const at::Scalar &) {
                         return self;
+                    }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
                     }
                 };
 
@@ -340,6 +391,16 @@ namespace partialtorch {
                     C10_ALWAYS_INLINE T call(const T &self) const {
                         return utils::get_data<copy>(self);
                     }
+
+                    template<typename T>
+                    C10_ALWAYS_INLINE std::vector<at::Tensor> call(at::ArrayRef<T> inputs) const {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input, value));
+                        }
+                        return outputs;
+                    }
                 };
 
                 struct [[maybe_unused]] fill_identity_state_value_ {
@@ -355,6 +416,16 @@ namespace partialtorch {
                     C10_ALWAYS_INLINE T call(const T &self) const {
                         return self;
                     }
+
+                    template<typename T>
+                    C10_ALWAYS_INLINE std::vector<at::Tensor> call(at::ArrayRef<T> inputs) const {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input, value));
+                        }
+                        return outputs;
+                    }
                 };
 
                 template<bool copy = false>
@@ -367,6 +438,16 @@ namespace partialtorch {
                     static T call(const T &self) {
                         return utils::get_data<copy>(self);
                     }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
+                    }
                 };
 
                 struct [[maybe_unused]] fill_identity_zeros_ {
@@ -377,6 +458,16 @@ namespace partialtorch {
                     template<typename T>
                     static T call(const T &self) {
                         return self;
+                    }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
                     }
                 };
 
@@ -390,6 +481,16 @@ namespace partialtorch {
                     static T call(const T &self) {
                         return utils::get_data<copy>(self);
                     }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
+                    }
                 };
 
                 struct [[maybe_unused]] fill_identity_ones_ {
@@ -400,6 +501,16 @@ namespace partialtorch {
                     template<typename T>
                     static T call(const T &self) {
                         return self;
+                    }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
                     }
                 };
 
@@ -413,6 +524,16 @@ namespace partialtorch {
                     static T call(const T &self) {
                         return utils::get_data<copy>(self);
                     }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
+                    }
                 };
 
                 struct [[maybe_unused]] fill_identity_posinf_ {
@@ -423,6 +544,16 @@ namespace partialtorch {
                     template<typename T>
                     static T call(const T &self) {
                         return self;
+                    }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
                     }
                 };
 
@@ -436,6 +567,16 @@ namespace partialtorch {
                     static T call(const T &self) {
                         return utils::get_data<copy>(self);
                     }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
+                    }
                 };
 
                 struct [[maybe_unused]] fill_identity_neginf_ {
@@ -446,6 +587,16 @@ namespace partialtorch {
                     template<typename T>
                     static T call(const T &self) {
                         return self;
+                    }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
                     }
                 };
 
@@ -462,6 +613,16 @@ namespace partialtorch {
                     static T call(const T &self) {
                         return utils::get_data<copy>(self);
                     }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
+                    }
                 };
 
                 template<bool signaling = false>
@@ -476,6 +637,16 @@ namespace partialtorch {
                     template<typename T>
                     static T call(const T &self) {
                         return self;
+                    }
+
+                    template<typename T>
+                    static std::vector<at::Tensor> call(at::ArrayRef<T> inputs) {
+                        std::vector<at::Tensor> outputs;
+                        outputs.reserve(inputs.size());
+                        for (const auto &input: inputs) {
+                            outputs.emplace_back(call(input));
+                        }
+                        return outputs;
                     }
                 };
             }

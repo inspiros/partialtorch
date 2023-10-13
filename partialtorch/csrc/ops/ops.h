@@ -7,6 +7,7 @@
 #include "passthrough.h"
 #include "reduction.h"
 #include "unary.h"
+#include "partial_unary.h"
 #include "ternary.h"
 #include "partial_ternary.h"
 #include "nary.h"

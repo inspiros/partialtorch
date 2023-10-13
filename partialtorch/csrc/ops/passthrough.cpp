@@ -1567,4 +1567,5 @@ namespace partialtorch {
                   TORCH_FN(static_cast<std::vector<c10::intrusive_ptr<TensorMaskedPair>> (*)(
                           const at::ArrayRef<at::Tensor>, c10::string_view)>(meshgrid)));
         }
-    
+    }
+}

@@ -149,6 +149,7 @@ partial_ger = torch.ops.partialtorch.partial_ger
 partial_mm = torch.ops.partialtorch.partial_mm
 partial_bmm = torch.ops.partialtorch.partial_bmm
 partial_matmul = torch.ops.partialtorch.partial_matmul
+linalg_partial_matmul = torch.ops.partialtorch.linalg_partial_matmul
 partial_mv = torch.ops.partialtorch.partial_mv
 partial_inner = torch.ops.partialtorch.partial_inner
 partial_outer = torch.ops.partialtorch.partial_outer

@@ -450,10 +450,11 @@ namespace partialtorch {
                     const self_T &self,
                     const other_T &other,
                     Args &&... args) {
-                auto mask_ratio_options = at::TensorOptions(
-                        at::result_type(utils::get_data(self), utils::get_data(other)));
                 if constexpr (std::is_same_v<c10::remove_intrusive_t<self_T>, TensorMaskedPair> ||
                               std::is_same_v<self_T, at::Tensor>) {
+                    auto output_data = op.call(fill_identity_op.call(self),
+                                               fill_identity_op.call(other), args...);
+                    auto mask_ratio_options = output_data.options();
                     at::Tensor mask_ratio;
                     {
                         at::NoGradGuard g;
@@ -462,23 +463,10 @@ namespace partialtorch {
                                 utils::get_tensor_mask(other, mask_ratio_options));
                         utils::izero_ldiv_(mask_ratio, 2);
                     }
-                    auto output_data = op.call(fill_identity_op.call(self),
-                                               fill_identity_op.call(other), args...);
-                    if (at::can_cast(mask_ratio.scalar_type(), output_data.scalar_type()))
-                        output_data.mul_(mask_ratio);
-                    else
-                        output_data = at::mul(output_data, mask_ratio);
+                    output_data.mul_(mask_ratio);
                     auto output_mask = utils::any_masks(utils::get_mask(self), utils::get_mask(other));
                     return masked_pair(output_data, output_mask);
                 } else {
-                    at::Tensor mask_ratio;
-                    {
-                        at::NoGradGuard g;
-                        mask_ratio = at::add(
-                                at::ones_like(utils::get_data(other), mask_ratio_options),
-                                utils::get_tensor_mask(other, mask_ratio_options));
-                        utils::izero_ldiv_(mask_ratio, 2);
-                    }
                     at::Tensor output_data;
                     if constexpr (!std::is_same_v<std::base_t<op__T>, nullptr_t>) {
                         output_data = op_.call(
@@ -491,10 +479,16 @@ namespace partialtorch {
                                         utils::get_data(self)),
                                 fill_identity_op.call(other), args...);
                     }
-                    if (at::can_cast(mask_ratio.scalar_type(), output_data.scalar_type()))
-                        output_data.mul_(mask_ratio);
-                    else
-                        output_data = at::mul(output_data, mask_ratio);
+                    auto mask_ratio_options = output_data.options();
+                    at::Tensor mask_ratio;
+                    {
+                        at::NoGradGuard g;
+                        mask_ratio = at::add(
+                                at::ones_like(utils::get_data(other), mask_ratio_options),
+                                utils::get_tensor_mask(other, mask_ratio_options));
+                        utils::izero_ldiv_(mask_ratio, 2);
+                    }
+                    output_data.mul_(mask_ratio);
                     auto output_mask = utils::any_masks(utils::get_mask(self), utils::get_mask(other));
                     return masked_pair(output_data, output_mask);
                 }
@@ -509,10 +503,11 @@ namespace partialtorch {
                     self_T &self,
                     const other_T &other,
                     Args &&... args) {
-                auto mask_ratio_options = at::TensorOptions(
-                        at::result_type(utils::get_data(self), utils::get_data(other)));
                 if constexpr (std::is_same_v<c10::remove_intrusive_t<self_T>, TensorMaskedPair> ||
                               std::is_same_v<self_T, at::Tensor>) {
+                    auto self_data = utils::get_data(self);
+                    auto output_data = op_.call(self_data, fill_identity_op.call(other), args...);
+                    auto mask_ratio_options = output_data.options();
                     at::Tensor mask_ratio;
                     {
                         at::NoGradGuard g;
@@ -521,13 +516,6 @@ namespace partialtorch {
                                 utils::get_tensor_mask(other, mask_ratio_options));
                         utils::izero_ldiv_(mask_ratio, 2);
                     }
-                    auto self_data = utils::get_data(self);
-                    TORCH_CHECK(at::can_cast(at::result_type(self_data, mask_ratio), self_data.scalar_type()),
-                                "result type ",
-                                at::result_type(self_data, mask_ratio),
-                                " can't be cast to the desired output type ",
-                                self_data.scalar_type())
-                    auto output_data = op_.call(self_data, fill_identity_op.call(other), args...);
                     output_data.mul_(mask_ratio);
                     auto output_mask = utils::any_masks(utils::get_mask(self), utils::get_mask(other));
                     if constexpr (std::is_same_v<self_T, c10::intrusive_ptr<TensorMaskedPair>>) {
@@ -536,6 +524,11 @@ namespace partialtorch {
                         return masked_pair(output_data, output_mask);
                     }
                 } else {
+                    auto output_data = op_.call(
+                            at::empty_like(utils::get_data(other), at::MemoryFormat::Preserve).fill_(
+                                    utils::get_data(self)),
+                            fill_identity_op.call(other), args...);
+                    auto mask_ratio_options = output_data.options();
                     at::Tensor mask_ratio;
                     {
                         at::NoGradGuard g;
@@ -544,14 +537,7 @@ namespace partialtorch {
                                 utils::get_tensor_mask(other, mask_ratio_options));
                         utils::izero_ldiv_(mask_ratio, 2);
                     }
-                    auto output_data = op_.call(
-                            at::empty_like(utils::get_data(other), at::MemoryFormat::Preserve).fill_(
-                                    utils::get_data(self)),
-                            fill_identity_op.call(other), args...);
-                    if (at::can_cast(mask_ratio.scalar_type(), output_data.scalar_type()))
-                        output_data.mul_(mask_ratio);
-                    else
-                        output_data = at::mul(output_data, mask_ratio);
+                    output_data.mul_(mask_ratio);
                     auto output_mask = utils::any_masks(utils::get_mask(self), utils::get_mask(other));
                     return masked_pair(output_data, output_mask);
                 }
