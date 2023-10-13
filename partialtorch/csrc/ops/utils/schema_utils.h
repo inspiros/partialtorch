@@ -2,6 +2,10 @@
 
 #include <string>
 
+#ifdef DEBUG_OPS_SCHEMAS
+#include <iostream>
+#endif
+
 #include <ATen/ATen.h>
 
 #include "../../MaskedPair.h"
@@ -63,7 +67,7 @@
 namespace partialtorch {
     namespace ops {
         namespace utils {
-            template<typename T>
+            template<typename T, unsigned n = 0>
             C10_ALWAYS_INLINE std::string type_schema_str() {
                 // TODO: We have not covered a lot of possible scenarios.
                 //  Also, should this function be constexpr?
@@ -111,23 +115,17 @@ namespace partialtorch {
                 }
                     // Containers: std::vector<T>, c10::ArrayRef<T>, c10::OptionalArrayRef<T>, c10::IListRef<T>
                     // TODO: handle all special ArrayRef cases
-                else if constexpr (std::is_same_v<base_t, c10::IntArrayRef>) {
-                    return "int[1]";
-                } else if constexpr (std::is_same_v<base_t, c10::OptionalIntArrayRef>) {
-                    return "int[1]?";
-                } else if constexpr (std::is_same_v<base_t, c10::SymIntList>) {
+                else if constexpr (std::is_same_v<base_t, c10::SymIntList>) {
                     return "SymInt[1]";
-                } else if constexpr (std::is_same_v<base_t, at::OptionalSymIntArrayRef>) {
-                    return "SymInt[1]?";
                 } else if constexpr (std::is_same_v<base_t, at::DimnameList>) {
                     RETURN_WITH_OPTIONAL("DimnameList")
                 } else if constexpr (std::is_vector_v<base_t> ||
                                      c10::is_arrayref_v<base_t> ||
                                      c10::is_list_v<base_t> ||
-                                     c10::is_ilistref_v<base_t>) {
-                    RETURN_WITH_OPTIONAL(type_schema_str<typename base_t::value_type>() + "[]")
-                } else if constexpr (c10::is_optional_arrayref_v<base_t>) {
-                    static_assert(std::is_pod_v<T>, "value_type of c10::OptionalArrayRef cannot be deduced.");
+                                     c10::is_ilistref_v<base_t> ||
+                                     c10::is_optional_arrayref_v<base_t>) {
+                    RETURN_WITH_OPTIONAL(c10::str(type_schema_str<typename base_t::value_type>(),
+                                                  "[", n > 0 ? std::to_string(n) : "") + "]")
                 } else if constexpr (std::is_same_v<base_t, void>) {
                     return "()";
                 } else if constexpr (std::is_same_v<base_t, nullptr_t>) {
@@ -239,6 +237,12 @@ namespace partialtorch {
                     return arg(type_schema_str<T>(), name, default_value);
                 }
 
+                template<typename T, unsigned n>
+                inline FunctionSchemaBuilder &arg(const std::string &name,
+                                                  const std::string &default_value = "") {
+                    return arg(type_schema_str<T, n>(), name, default_value);
+                }
+
                 inline FunctionSchemaBuilder &ret(const std::string_view type,
                                                   const std::string_view &name = "") {
                     returns_.emplace_back(type, name);
@@ -274,6 +278,7 @@ namespace partialtorch {
 
                 C10_NODISCARD inline std::string schema() const {
                     auto res = c10::str(name(), signature());
+//                    at::print
 #ifdef DEBUG_OPS_SCHEMAS
                     std::cout << c10::str("- func: ", res) << std::endl;
 #endif
@@ -291,7 +296,7 @@ namespace partialtorch {
             private:
                 C10_NODISCARD inline std::string args_str() const {
                     std::string ss;
-                    for (const auto i : c10::irange(args_.size())) {
+                    for (const auto i: c10::irange(args_.size())) {
                         if (i > 0)
                             ss += ", ";
                         if (i == varargs_index_)

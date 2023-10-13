@@ -3,7 +3,7 @@
 
 **PartialTorch** is a thin C++ wrapper of **PyTorch**'s operators to support masked and partial semantics.
 
-## Highlights
+## Main Features
 
 ### Masked Pair
 
@@ -36,11 +36,11 @@ More details about the differences will be discussed below.
 ### Masked Operators
 
 <p align="center">
-    <img src="resources/torch_masked_binary.png" width="600">
+    <img src="https://raw.githubusercontent.com/inspiros/partialtorch/master/resources/torch_masked_binary.png" width="600">
 </p>
 
 <p align="center">
-    <img src="resources/masked_binary.png" width="600">
+    <img src="https://raw.githubusercontent.com/inspiros/partialtorch/master/resources/masked_binary.png" width="600">
 </p>
 
 **Masked operators** are the same things that can be found in ``torch.masked``
@@ -57,7 +57,7 @@ Our semantic differs from ``torch.masked`` for non-unary operators.
 ### Partial Operators
 
 <p align="center">
-    <img src="resources/partial_binary.png" width="600">
+    <img src="https://raw.githubusercontent.com/inspiros/partialtorch/master/resources/partial_binary.png" width="600">
 </p>
 
 Similar to masked operators, **partial operators** allow non-uniform masks but instead of using _bitwise all_
@@ -70,7 +70,7 @@ The identity value is defined as the initial value that has the property ``op(op
 For example, the identity value of element-wise addition is ``0``.
 
 <p align="center">
-    <img src="resources/regular_binary.png" width="600">
+    <img src="https://raw.githubusercontent.com/inspiros/partialtorch/master/resources/regular_binary.png" width="600">
 </p>
 
 All partial operators have a prefix ``partial_`` prepended to their name (e.g. ``partialtorch.partial_add``),
@@ -81,7 +81,7 @@ are already available in ``torch.masked``.
 #### Scaled Partial Operators
 
 <p align="center">
-    <img src="resources/scaled_binary.png" width="800">
+    <img src="https://raw.githubusercontent.com/inspiros/partialtorch/master/resources/scaled_binary.png" width="800">
 </p>
 
 Some partial operators that involves addition/substraction are extended to have _rescaling semantic_.
@@ -120,7 +120,7 @@ Also, everyone is welcome to contribute.
 
 ## Requirements
 
-- ``torch>=1.9.0``
+- ``torch>=2.1.0`` _(this version of **PyTorch** brought a number of changes that are not backward compatible)_
 
 ## Installation
 
@@ -133,22 +133,21 @@ Also, everyone is welcome to contribute.
 pip install -i https://test.pypi.org/simple/ partialtorch
 ```
 
-The Linux and Windows wheels are built with **Cuda 11.8**.
+The Linux and Windows wheels are built with **Cuda 12.1**.
 If you cannot find a wheel for your Arch/Python/Cuda, or there is any problem with library linking when importing,
-please proceed to [instructions to build from source](#from-source), all steps are super easy.
+proceed to [instructions to build from source](#from-source).
 
-|                  |                 Linux/Windows                 |     MacOS      |
-|------------------|:---------------------------------------------:|:--------------:|
-| Python version:  |                   3.8-3.11                    |    3.8-3.11    |
-| PyTorch version: |                `torch==2.0.1`                 | `torch==2.0.1` |
-| Cuda version:    |                     11.8                      |       -        |
-| GPU CCs:         | `3.7,5.0,6.0,6.1,7.0,7.5,8.0,8.6,8.9,9.0+PTX` |       -        |
+|                  |             Linux/Windows             |     MacOS      |
+|------------------|:-------------------------------------:|:--------------:|
+| Python version:  |               3.8-3.11                |    3.8-3.11    |
+| PyTorch version: |            `torch==2.1.0`             | `torch==2.1.0` |
+| Cuda version:    |                 12.1                  |       -        |
+| GPU CCs:         | `5.0,6.0,6.1,7.0,7.5,8.0,8.6,9.0+PTX` |       -        |
 
 #### From Source
 
-For installing from source, you need a C++ compiler (`gcc`/`msvc`) and a Cuda compiler (`nvcc`) with C++17 features
-enabled.
-Clone this repo and execute the following command:
+For installing from source, you need a C++17 compiler (`gcc`/`msvc`) and a Cuda compiler (`nvcc`) installed.
+Then, clone this repo and execute:
 
 ```bash
 pip install .

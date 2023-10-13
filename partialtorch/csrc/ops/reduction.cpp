@@ -1,4 +1,5 @@
 #include <ATen/ATen.h>
+#include <ATen/core/grad_mode.h>
 #include <torch/library.h>
 
 #include "../MaskedPair.h"
@@ -668,7 +669,7 @@ namespace partialtorch {
 
         c10::intrusive_ptr<TensorMaskedPair> median(const_intrusive_ptr_arg_t<TensorMaskedPair> self) {
             auto dtype = self->data_.scalar_type();
-            bool needs_cast = ~at::isFloatingType(dtype);
+            bool needs_cast = !at::isFloatingType(dtype);
             static constexpr auto op = at::_ops::nanmedian();
             if (needs_cast) {
                 auto fill_identity_op = utils::_ops::sequential(
@@ -685,7 +686,7 @@ namespace partialtorch {
 
         c10::intrusive_ptr<TensorMaskedPair> median(const at::Tensor &self) {
             auto dtype = self.scalar_type();
-            bool needs_cast = ~at::isFloatingType(dtype);
+            bool needs_cast = !at::isFloatingType(dtype);
             static constexpr auto op = at::_ops::nanmedian();
             if (needs_cast) {
                 auto fill_identity_op = utils::_ops::sequential(
@@ -703,7 +704,7 @@ namespace partialtorch {
         std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor>
         median(const_intrusive_ptr_arg_t<TensorMaskedPair> self, int64_t dim, bool keepdim) {
             auto dtype = self->data_.scalar_type();
-            bool needs_cast = ~at::isFloatingType(dtype);
+            bool needs_cast = !at::isFloatingType(dtype);
             static constexpr auto op = at::_ops::nanmedian_dim();
             if (needs_cast) {
                 auto fill_identity_op = utils::_ops::sequential(
@@ -722,7 +723,7 @@ namespace partialtorch {
         std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor>
         median(const at::Tensor &self, int64_t dim, bool keepdim) {
             auto dtype = self.scalar_type();
-            bool needs_cast = ~at::isFloatingType(dtype);
+            bool needs_cast = !at::isFloatingType(dtype);
             static constexpr auto op = at::_ops::nanmedian_dim();
             if (needs_cast) {
                 auto fill_identity_op = utils::_ops::sequential(
@@ -750,7 +751,7 @@ namespace partialtorch {
             static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> norm_impl(
                     const self_T &self,
                     const c10::optional<at::Scalar> &p,
-                    dim_T dim,
+                    dim_T &&dim,
                     bool keepdim,
                     c10::optional<at::ScalarType> dtype) {
                 at::Tensor output_data;
@@ -762,6 +763,34 @@ namespace partialtorch {
                 } else {
                     output_data = at::_ops::norm_ScalarOpt_dim_dtype::call(
                             utils::_ops::fill_identity_zeros<false>::call(self), p, dim, keepdim,
+                            dtype.value_or(utils::get_data(self).scalar_type()));
+                }
+                auto output_mask = utils::any(utils::get_mask(self), dim, keepdim);
+                return masked_pair(output_data, output_mask);
+            }
+
+            template<typename op_T, typename self_T, typename ord_T, typename dim_T>
+            static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> linalg_norm_impl(
+                    const self_T &self,
+                    ord_T &&ord,
+                    dim_T &&dim,
+                    bool keepdim,
+                    c10::optional<at::ScalarType> dtype) {
+                at::Tensor output_data;
+                if constexpr (std::is_same_v<c10::base_t<ord_T>, at::Scalar>) {
+                    if (ord.to<double>() < 0) {
+                        output_data = op_T::call(
+                                utils::_ops::fill_identity_posinf<false>::call(
+                                        utils::_ops::cast_dtype<false>::call(self, dtype)),
+                                ord, dim, keepdim, dtype.value_or(utils::get_data(self).scalar_type()));
+                    } else {
+                        output_data = op_T::call(
+                                utils::_ops::fill_identity_zeros<false>::call(self), ord, dim, keepdim,
+                                dtype.value_or(utils::get_data(self).scalar_type()));
+                    }
+                } else {
+                    output_data = op_T::call(
+                            utils::_ops::fill_identity_zeros<false>::call(self), ord, dim, keepdim,
                             dtype.value_or(utils::get_data(self).scalar_type()));
                 }
                 auto output_mask = utils::any(utils::get_mask(self), dim, keepdim);
@@ -787,15 +816,105 @@ namespace partialtorch {
             return impl::norm_impl(self, p, dim, keepdim, dtype);
         }
 
+        c10::intrusive_ptr<TensorMaskedPair> linalg_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                const at::Scalar &ord,
+                at::OptionalIntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_norm>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_norm(
+                const at::Tensor &self,
+                const at::Scalar &ord,
+                at::OptionalIntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_norm>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                c10::string_view ord,
+                at::OptionalIntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_norm_ord_str>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_norm(
+                const at::Tensor &self,
+                c10::string_view ord,
+                at::OptionalIntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_norm_ord_str>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_vector_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                const at::Scalar &ord,
+                at::OptionalIntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_vector_norm>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_vector_norm(
+                const at::Tensor &self,
+                const at::Scalar &ord,
+                at::OptionalIntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_vector_norm>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_matrix_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                const at::Scalar &ord,
+                at::IntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_matrix_norm>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_matrix_norm(
+                const at::Tensor &self,
+                const at::Scalar &ord,
+                at::IntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_matrix_norm>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_matrix_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                c10::string_view ord,
+                at::IntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_matrix_norm_str_ord>(self, ord, dim, keepdim, dtype);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> linalg_matrix_norm(
+                const at::Tensor &self,
+                c10::string_view ord,
+                at::IntArrayRef dim,
+                bool keepdim,
+                c10::optional<at::ScalarType> dtype) {
+            return impl::linalg_norm_impl<at::_ops::linalg_matrix_norm_str_ord>(self, ord, dim, keepdim, dtype);
+        }
+
         namespace impl {
             template<bool sqrt, typename self_T, typename correction_T>
             static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> stdvar_impl(
                     const self_T &self,
-                    at::OptionalIntArrayRef dim,
-                    correction_T unbiased_or_correction,
+                    const at::OptionalIntArrayRef &dim,
+                    correction_T &&unbiased_or_correction,
                     bool keepdim) {
                 if (!utils::get_mask(self).has_value()) {
-                    if constexpr (std::is_same_v<correction_T, c10::optional<int64_t>>) {
+                    if constexpr (std::is_same_v<c10::base_t<correction_T>, at::Scalar>) {
                         if constexpr (sqrt) {
                             return masked_pair(at::_ops::std_correction::call(
                                     utils::get_data(self), dim, unbiased_or_correction, keepdim));
@@ -813,11 +932,11 @@ namespace partialtorch {
                         }
                     }
                 }
-                int64_t correction_int;
-                if constexpr (std::is_same_v<correction_T, c10::optional<int64_t>>) {
-                    correction_int = unbiased_or_correction.value_or(1);
+                at::Scalar correction_val;
+                if constexpr (std::is_same_v<c10::base_t<correction_T>, at::Scalar>) {
+                    correction_val = unbiased_or_correction.value_or(1);
                 } else {  // unbiased
-                    correction_int = static_cast<int64_t>(unbiased_or_correction);
+                    correction_val = unbiased_or_correction;
                 }
 
                 auto mask = utils::get_mask(self).value();
@@ -829,8 +948,8 @@ namespace partialtorch {
                 auto total = at::sum(x * x.conj(), dim, keepdim);
                 if (!keepdim)
                     count = count.view_as(total);
-                if (correction_int)
-                    count.sub_(correction_int).clamp_min_(0);
+                if (!correction_val.equal(0))
+                    count.sub_(correction_val).clamp_min_(0);
                 auto output_data = total.div_(count);
                 if constexpr (sqrt) {
                     output_data = output_data.sqrt_();
@@ -871,7 +990,7 @@ namespace partialtorch {
         c10::intrusive_ptr<TensorMaskedPair> var(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
                 at::OptionalIntArrayRef dim,
-                c10::optional<int64_t> correction,
+                const c10::optional<at::Scalar> &correction,
                 bool keepdim) {
             return impl::stdvar_impl<false>(self, dim, correction, keepdim);
         }
@@ -879,7 +998,7 @@ namespace partialtorch {
         c10::intrusive_ptr<TensorMaskedPair> var(
                 const at::Tensor &self,
                 at::OptionalIntArrayRef dim,
-                c10::optional<int64_t> correction,
+                const c10::optional<at::Scalar> &correction,
                 bool keepdim) {
             return impl::stdvar_impl<false>(self, dim, correction, keepdim);
         }
@@ -915,7 +1034,7 @@ namespace partialtorch {
         c10::intrusive_ptr<TensorMaskedPair> std(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
                 at::OptionalIntArrayRef dim,
-                c10::optional<int64_t> correction,
+                const c10::optional<at::Scalar> &correction,
                 bool keepdim) {
             return impl::stdvar_impl<true>(self, dim, correction, keepdim);
         }
@@ -923,7 +1042,7 @@ namespace partialtorch {
         c10::intrusive_ptr<TensorMaskedPair> std(
                 const at::Tensor &self,
                 at::OptionalIntArrayRef dim,
-                c10::optional<int64_t> correction,
+                const c10::optional<at::Scalar> &correction,
                 bool keepdim) {
             return impl::stdvar_impl<true>(self, dim, correction, keepdim);
         }
@@ -1323,23 +1442,23 @@ namespace partialtorch {
             m.def(utils::FunctionSchemaBuilder("var").add_overload("MaskedPair").add_overload("correction")
                           .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
                           .arg<at::OptionalIntArrayRef>("dim", "None")
-                          .arg<c10::optional<int64_t>>("correction", "None")
+                          .arg<const c10::optional<at::Scalar> &>("correction", "None")
                           .arg<bool>("keepdim", "False")
                           .ret<TensorMaskedPair>().schema().c_str(),
                   TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
                           const_intrusive_ptr_arg_t<TensorMaskedPair>,
                           at::OptionalIntArrayRef,
-                          c10::optional<int64_t>, bool)>(var)));
+                          const c10::optional<at::Scalar> &, bool)>(var)));
             m.def(utils::FunctionSchemaBuilder("var").add_overload("Tensor").add_overload("correction")
                           .arg<const at::Tensor &>("self")
                           .arg<at::OptionalIntArrayRef>("dim", "None")
-                          .arg<c10::optional<int64_t>>("correction", "None")
+                          .arg<const c10::optional<at::Scalar> &>("correction", "None")
                           .arg<bool>("keepdim", "False")
                           .ret<TensorMaskedPair>().schema().c_str(),
                   TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
                           const at::Tensor &,
                           at::OptionalIntArrayRef,
-                          c10::optional<int64_t>, bool)>(var)));
+                          const c10::optional<at::Scalar> &, bool)>(var)));
 
             m.def(utils::FunctionSchemaBuilder("std").add_overload("MaskedPair")
                           .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
@@ -1380,25 +1499,25 @@ namespace partialtorch {
             m.def(utils::FunctionSchemaBuilder("std").add_overload("MaskedPair").add_overload("correction")
                           .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
                           .arg<at::OptionalIntArrayRef>("dim", "None")
-                          .arg<c10::optional<int64_t>>("correction", "None")
+                          .arg<const c10::optional<at::Scalar> &>("correction", "None")
                           .arg<bool>("keepdim", "False")
                           .ret<TensorMaskedPair>().schema().c_str(),
                   TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
                           const_intrusive_ptr_arg_t<TensorMaskedPair>,
                           at::OptionalIntArrayRef,
-                          c10::optional<int64_t>, bool)>(std)));
+                          const c10::optional<at::Scalar> &, bool)>(std)));
             m.def(utils::FunctionSchemaBuilder("std").add_overload("Tensor").add_overload("correction")
                           .arg<const at::Tensor &>("self")
                           .arg<at::OptionalIntArrayRef>("dim", "None")
-                          .arg<c10::optional<int64_t>>("correction", "None")
+                          .arg<const c10::optional<at::Scalar> &>("correction", "None")
                           .arg<bool>("keepdim", "False")
                           .ret<TensorMaskedPair>().schema().c_str(),
                   TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
                           const at::Tensor &,
                           at::OptionalIntArrayRef,
-                          c10::optional<int64_t>, bool)>(std)));
+                          const c10::optional<at::Scalar> &, bool)>(std)));
 
-            m.def(utils::FunctionSchemaBuilder("norm").add_overload("MaskedPair")
+            m.def(utils::FunctionSchemaBuilder("norm").overload("MaskedPair")
                           .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
                           .arg<const c10::optional<at::Scalar> &>("p", "None")
                           .arg<at::IntArrayRef>("dim", "[]")
@@ -1411,7 +1530,7 @@ namespace partialtorch {
                           at::IntArrayRef,
                           bool,
                           c10::optional<at::ScalarType>)>(norm)));
-            m.def(utils::FunctionSchemaBuilder("norm").add_overload("Tensor")
+            m.def(utils::FunctionSchemaBuilder("norm").overload("Tensor")
                           .arg<const at::Tensor &>("self")
                           .arg<const c10::optional<at::Scalar> &>("p", "None")
                           .arg<at::IntArrayRef>("dim", "[]")
@@ -1424,6 +1543,141 @@ namespace partialtorch {
                           at::IntArrayRef,
                           bool,
                           c10::optional<at::ScalarType>)>(norm)));
+
+            m.def(utils::FunctionSchemaBuilder("linalg_norm").overload("MaskedPair")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<const at::Scalar &>("ord")
+                          .arg<at::OptionalIntArrayRef>("dim", "None")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          const at::Scalar &,
+                          at::OptionalIntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_norm)));
+            m.def(utils::FunctionSchemaBuilder("linalg_norm").overload("Tensor")
+                          .arg<const at::Tensor &>("self")
+                          .arg<const at::Scalar &>("ord")
+                          .arg<at::OptionalIntArrayRef>("dim", "None")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const at::Tensor &,
+                          const at::Scalar &,
+                          at::OptionalIntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_norm)));
+
+            m.def(utils::FunctionSchemaBuilder("linalg_norm").overload("MaskedPair_ord_str")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<c10::string_view>("ord", "\"fro\"")
+                          .arg<at::OptionalIntArrayRef>("dim", "None")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          c10::string_view,
+                          at::OptionalIntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_norm)));
+            m.def(utils::FunctionSchemaBuilder("linalg_norm").overload("Tensor_ord_str")
+                          .arg<const at::Tensor &>("self")
+                          .arg<c10::string_view>("ord", "\"fro\"")
+                          .arg<at::OptionalIntArrayRef>("dim", "None")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const at::Tensor &,
+                          c10::string_view,
+                          at::OptionalIntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_norm)));
+
+            m.def(utils::FunctionSchemaBuilder("linalg_vector_norm").overload("MaskedPair")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<const at::Scalar &>("ord", "2")
+                          .arg<at::OptionalIntArrayRef, 1>("dim", "None")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          const at::Scalar &,
+                          at::OptionalIntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_vector_norm)));
+            m.def(utils::FunctionSchemaBuilder("linalg_vector_norm").overload("Tensor")
+                          .arg<const at::Tensor &>("self")
+                          .arg<const at::Scalar &>("ord", "2")
+                          .arg<at::OptionalIntArrayRef, 1>("dim", "None")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const at::Tensor &,
+                          const at::Scalar &,
+                          at::OptionalIntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_vector_norm)));
+
+            m.def(utils::FunctionSchemaBuilder("linalg_matrix_norm").overload("MaskedPair")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<const at::Scalar &>("ord")
+                          .arg<at::IntArrayRef>("dim", "[-2, -1]")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          const at::Scalar &,
+                          at::IntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_matrix_norm)));
+            m.def(utils::FunctionSchemaBuilder("linalg_matrix_norm").overload("Tensor")
+                          .arg<const at::Tensor &>("self")
+                          .arg<const at::Scalar &>("ord")
+                          .arg<at::IntArrayRef>("dim", "[-2, -1]")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const at::Tensor &,
+                          const at::Scalar &,
+                          at::IntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_matrix_norm)));
+
+            m.def(utils::FunctionSchemaBuilder("linalg_matrix_norm").overload("MaskedPair_str_ord")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<c10::string_view>("ord", "\"fro\"")
+                          .arg<at::IntArrayRef>("dim", "[-2, -1]")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          c10::string_view,
+                          at::IntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_matrix_norm)));
+            m.def(utils::FunctionSchemaBuilder("linalg_matrix_norm").overload("Tensor_str_ord")
+                          .arg<const at::Tensor &>("self")
+                          .arg<c10::string_view>("ord", "\"fro\"")
+                          .arg<at::IntArrayRef>("dim", "[-2, -1]")
+                          .arg<bool>("keepdim", "False")
+                          .vararg().arg<c10::optional<at::ScalarType>>("dtype", "None")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const at::Tensor &,
+                          c10::string_view,
+                          at::IntArrayRef,
+                          bool,
+                          c10::optional<at::ScalarType>)>(linalg_matrix_norm)));
 
             // min max
             PT_REGISTER_REDUCTION_OPS_FORALL_TENSOR_OVERLOADS(min,)

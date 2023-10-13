@@ -1,3 +1,7 @@
+r"""
+Partial equivalence of :mod:`~torch.nn.functional`.
+"""
+
 from typing import List, Tuple, Optional
 
 import torch.nn.functional

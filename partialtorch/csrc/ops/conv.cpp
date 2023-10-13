@@ -1,4 +1,5 @@
 #include <ATen/ATen.h>
+#include <ATen/core/grad_mode.h>
 #include <torch/library.h>
 
 #include "../MaskedPair.h"
@@ -49,8 +50,8 @@ c10::intrusive_ptr<TensorMaskedPair> NAME(                    \
         const at::Tensor &weight,                             \
         const c10::optional<at::Tensor> &bias,                \
         at::IntArrayRef stride,                               \
-        at::IntArrayRef padding,                              \
-        at::IntArrayRef output_padding,                       \
+        c10::SymIntArrayRef padding,                          \
+        c10::SymIntArrayRef output_padding,                   \
         int64_t groups,                                       \
         at::IntArrayRef dilation) {                           \
     static constexpr auto op = IMPL_OP;                       \
@@ -64,8 +65,8 @@ c10::intrusive_ptr<TensorMaskedPair> NAME(                           \
         const at::Tensor &weight,                                    \
         const c10::optional<at::Tensor> &bias,                       \
         at::IntArrayRef stride,                                      \
-        at::IntArrayRef padding,                                     \
-        at::IntArrayRef output_padding,                              \
+        c10::SymIntArrayRef padding,                                 \
+        c10::SymIntArrayRef output_padding,                          \
         int64_t groups,                                              \
         at::IntArrayRef dilation,                                    \
         bool scaled) {                                               \
@@ -102,51 +103,51 @@ PT_DEFINE_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, IMPL_OP)           
 PT_DEFINE_SCALED_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, IMPL_OP)
 
 // ~~~~~ ops registration macros ~~~~~
-#define PT_CONVND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T, PADDING_T, PADDING_DEFAULT) \
-utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<const at::Tensor &>("weight").arg<const c10::optional<at::Tensor> &>("bias", "None").arg<at::IntArrayRef>("stride", "1").arg<PADDING_T>("padding", #PADDING_DEFAULT).arg<at::IntArrayRef>("dilation", "1").arg<int64_t>("groups", "1").ret<TensorMaskedPair>()
+#define PT_CONVND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T, PADDING_T, PADDING_DEFAULT) \
+utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<const at::Tensor &>("weight").arg<const c10::optional<at::Tensor> &>("bias", "None").arg<at::IntArrayRef, DIMENSION>("stride", "1").arg<PADDING_T, DIMENSION>("padding", #PADDING_DEFAULT).arg<at::IntArrayRef, DIMENSION>("dilation", "1").arg<int64_t>("groups", "1").ret<TensorMaskedPair>()
 
-#define PT_CONV_TRANSPOSEND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T) \
-utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<const at::Tensor &>("weight").arg<const c10::optional<at::Tensor> &>("bias", "None").arg<at::IntArrayRef>("stride", "1").arg<at::IntArrayRef>("padding", "0").arg<at::IntArrayRef>("output_padding", "0").arg<int64_t>("groups", "1").arg<at::IntArrayRef>("dilation", "1").ret<TensorMaskedPair>()
+#define PT_CONV_TRANSPOSEND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
+utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<const at::Tensor &>("weight").arg<const c10::optional<at::Tensor> &>("bias", "None").arg<at::IntArrayRef, DIMENSION>("stride", "1").arg<at::SymIntArrayRef, DIMENSION>("padding", "0").arg<at::SymIntArrayRef, DIMENSION>("output_padding", "0").arg<int64_t>("groups", "1").arg<at::IntArrayRef, DIMENSION>("dilation", "1").ret<TensorMaskedPair>()
 
-#define PT_REGISTER_CONVND_OP(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T, PADDING_T, PADDING_DEFAULT) \
-m.def(PT_CONVND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T, PADDING_T, PADDING_DEFAULT).schema().c_str(), \
+#define PT_REGISTER_CONVND_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T, PADDING_T, PADDING_DEFAULT) \
+m.def(PT_CONVND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T, PADDING_T, PADDING_DEFAULT).schema().c_str(), \
     TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(INPUT_T, const at::Tensor &, const c10::optional<at::Tensor> &, at::IntArrayRef, PADDING_T, at::IntArrayRef, int64_t)>(NAME)));
 
-#define PT_REGISTER_SCALED_CONVND_OP(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T, PADDING_T, PADDING_DEFAULT) \
-m.def(PT_CONVND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T, PADDING_T, PADDING_DEFAULT).add_overload("scaled").vararg().arg<bool>("scaled").schema().c_str(), \
+#define PT_REGISTER_SCALED_CONVND_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T, PADDING_T, PADDING_DEFAULT) \
+m.def(PT_CONVND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T, PADDING_T, PADDING_DEFAULT).add_overload("scaled").vararg().arg<bool>("scaled").schema().c_str(), \
     TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(INPUT_T, const at::Tensor &, const c10::optional<at::Tensor> &, at::IntArrayRef, PADDING_T, at::IntArrayRef, int64_t, bool)>(NAME)));
 
-#define PT_REGISTER_CONV_TRANSPOSEND_OP(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T) \
-m.def(PT_CONV_TRANSPOSEND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T).schema().c_str(), \
-    TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(INPUT_T, const at::Tensor &, const c10::optional<at::Tensor> &, at::IntArrayRef, at::IntArrayRef, at::IntArrayRef, int64_t, at::IntArrayRef)>(NAME)));
+#define PT_REGISTER_CONV_TRANSPOSEND_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
+m.def(PT_CONV_TRANSPOSEND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T).schema().c_str(), \
+    TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(INPUT_T, const at::Tensor &, const c10::optional<at::Tensor> &, at::IntArrayRef, c10::SymIntArrayRef, c10::SymIntArrayRef, int64_t, at::IntArrayRef)>(NAME)));
 
-#define PT_REGISTER_SCALED_CONV_TRANSPOSEND_OP(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T) \
-m.def(PT_CONV_TRANSPOSEND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, INPUT_T).add_overload("scaled").vararg().arg<bool>("scaled").schema().c_str(), \
-    TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(INPUT_T, const at::Tensor &, const c10::optional<at::Tensor> &, at::IntArrayRef, at::IntArrayRef, at::IntArrayRef, int64_t, at::IntArrayRef, bool)>(NAME)));
+#define PT_REGISTER_SCALED_CONV_TRANSPOSEND_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
+m.def(PT_CONV_TRANSPOSEND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T).add_overload("scaled").vararg().arg<bool>("scaled").schema().c_str(), \
+    TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(INPUT_T, const at::Tensor &, const c10::optional<at::Tensor> &, at::IntArrayRef, c10::SymIntArrayRef, c10::SymIntArrayRef, int64_t, at::IntArrayRef, bool)>(NAME)));
 
-#define PT_REGISTER_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, PADDING_T, PADDING_DEFAULT) \
-PT_REGISTER_CONVND_OP(NAME, MaskedPair, POSTFIX, const_intrusive_ptr_arg_t<TensorMaskedPair>, PADDING_T, PADDING_DEFAULT) \
-PT_REGISTER_CONVND_OP(NAME, Tensor, POSTFIX, const at::Tensor &, PADDING_T, PADDING_DEFAULT)
+#define PT_REGISTER_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION, PADDING_T, PADDING_DEFAULT) \
+PT_REGISTER_CONVND_OP(NAME, MaskedPair, POSTFIX, DIMENSION, const_intrusive_ptr_arg_t<TensorMaskedPair>, PADDING_T, PADDING_DEFAULT) \
+PT_REGISTER_CONVND_OP(NAME, Tensor, POSTFIX, DIMENSION, const at::Tensor &, PADDING_T, PADDING_DEFAULT)
 
-#define PT_REGISTER_SCALED_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, PADDING_T, PADDING_DEFAULT) \
-PT_REGISTER_SCALED_CONVND_OP(NAME, MaskedPair, POSTFIX, const_intrusive_ptr_arg_t<TensorMaskedPair>, PADDING_T, PADDING_DEFAULT) \
-PT_REGISTER_SCALED_CONVND_OP(NAME, Tensor, POSTFIX, const at::Tensor &, PADDING_T, PADDING_DEFAULT)
+#define PT_REGISTER_SCALED_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION, PADDING_T, PADDING_DEFAULT) \
+PT_REGISTER_SCALED_CONVND_OP(NAME, MaskedPair, POSTFIX, DIMENSION, const_intrusive_ptr_arg_t<TensorMaskedPair>, PADDING_T, PADDING_DEFAULT) \
+PT_REGISTER_SCALED_CONVND_OP(NAME, Tensor, POSTFIX, DIMENSION, const at::Tensor &, PADDING_T, PADDING_DEFAULT)
 
-#define PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, PADDING_T, PADDING_DEFAULT) \
-PT_REGISTER_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, PADDING_T, PADDING_DEFAULT)                        \
-PT_REGISTER_SCALED_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, PADDING_T, PADDING_DEFAULT)
+#define PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION, PADDING_T, PADDING_DEFAULT) \
+PT_REGISTER_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION, PADDING_T, PADDING_DEFAULT)                        \
+PT_REGISTER_SCALED_CONVND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION, PADDING_T, PADDING_DEFAULT)
 
-#define PT_REGISTER_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX) \
-PT_REGISTER_CONV_TRANSPOSEND_OP(NAME, MaskedPair, POSTFIX, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
-PT_REGISTER_CONV_TRANSPOSEND_OP(NAME, Tensor, POSTFIX, const at::Tensor &)
+#define PT_REGISTER_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION) \
+PT_REGISTER_CONV_TRANSPOSEND_OP(NAME, MaskedPair, POSTFIX, DIMENSION, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
+PT_REGISTER_CONV_TRANSPOSEND_OP(NAME, Tensor, POSTFIX, DIMENSION, const at::Tensor &)
 
-#define PT_REGISTER_SCALED_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX) \
-PT_REGISTER_SCALED_CONV_TRANSPOSEND_OP(NAME, MaskedPair, POSTFIX, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
-PT_REGISTER_SCALED_CONV_TRANSPOSEND_OP(NAME, Tensor, POSTFIX, const at::Tensor &)
+#define PT_REGISTER_SCALED_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION) \
+PT_REGISTER_SCALED_CONV_TRANSPOSEND_OP(NAME, MaskedPair, POSTFIX, DIMENSION, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
+PT_REGISTER_SCALED_CONV_TRANSPOSEND_OP(NAME, Tensor, POSTFIX, DIMENSION, const at::Tensor &)
 
-#define PT_REGISTER_CONV_TRANSPOSEND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX) \
-PT_REGISTER_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX)                        \
-PT_REGISTER_SCALED_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX)
+#define PT_REGISTER_CONV_TRANSPOSEND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION) \
+PT_REGISTER_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION)                        \
+PT_REGISTER_SCALED_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION)
 
 namespace partialtorch {
     namespace ops {
@@ -230,13 +231,13 @@ namespace partialtorch {
                 return masked_pair(output_data, output_mask);
             }
 
-            template<bool scaled = false, typename op_T, typename input_T, typename padding_T>
+            template<bool scaled = false, typename op_T, typename input_T, typename stride_T, typename padding_T>
             static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> partial_convnd_impl(
                     op_T &&op,
                     const input_T &input,
                     const at::Tensor &weight,
                     const c10::optional<at::Tensor> &bias,
-                    at::IntArrayRef stride,
+                    stride_T stride,
                     padding_T padding,
                     at::IntArrayRef dilation,
                     int64_t groups) {
@@ -280,15 +281,16 @@ namespace partialtorch {
                 return masked_pair(output_data, output_mask);
             }
 
-            template<bool scaled = false, typename op_T, typename input_T>
+            template<bool scaled = false, typename op_T, typename input_T,
+                    typename stride_T, typename padding_T, typename output_padding_T>
             static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> partial_conv_transposend_impl(
                     op_T &&op,
                     const input_T &input,
                     const at::Tensor &weight,
                     const c10::optional<at::Tensor> &bias,
-                    at::IntArrayRef stride,
-                    at::IntArrayRef padding,
-                    at::IntArrayRef output_padding,
+                    stride_T stride,
+                    padding_T padding,
+                    output_padding_T output_padding,
                     int64_t groups,
                     at::IntArrayRef dilation) {
                 if (!utils::has_tensor_mask(input))
@@ -368,10 +370,10 @@ namespace partialtorch {
                 const at::Tensor &weight,
                 const c10::optional<at::Tensor> &bias,
                 at::IntArrayRef stride,
-                at::SymIntArrayRef padding,
+                c10::SymIntArrayRef padding,
                 at::IntArrayRef dilation,
                 bool transposed,
-                at::SymIntArrayRef output_padding,
+                c10::SymIntArrayRef output_padding,
                 int64_t groups) {
             return impl::partial_convolution_impl<false>(
                     input, weight, bias, stride, padding, dilation,
@@ -383,10 +385,10 @@ namespace partialtorch {
                 const at::Tensor &weight,
                 const c10::optional<at::Tensor> &bias,
                 at::IntArrayRef stride,
-                at::SymIntArrayRef padding,
+                c10::SymIntArrayRef padding,
                 at::IntArrayRef dilation,
                 bool transposed,
-                at::SymIntArrayRef output_padding,
+                c10::SymIntArrayRef output_padding,
                 int64_t groups) {
             return impl::partial_convolution_impl<false>(
                     input, weight, bias, stride, padding, dilation,
@@ -439,10 +441,10 @@ namespace partialtorch {
                 const at::Tensor &weight,
                 const c10::optional<at::Tensor> &bias,
                 at::IntArrayRef stride,
-                at::SymIntArrayRef padding,
+                c10::SymIntArrayRef padding,
                 at::IntArrayRef dilation,
                 bool transposed,
-                at::SymIntArrayRef output_padding,
+                c10::SymIntArrayRef output_padding,
                 int64_t groups,
                 bool scaled) {
             if (scaled)
@@ -459,10 +461,10 @@ namespace partialtorch {
                 const at::Tensor &weight,
                 const c10::optional<at::Tensor> &bias,
                 at::IntArrayRef stride,
-                at::SymIntArrayRef padding,
+                c10::SymIntArrayRef padding,
                 at::IntArrayRef dilation,
                 bool transposed,
-                at::SymIntArrayRef output_padding,
+                c10::SymIntArrayRef output_padding,
                 int64_t groups,
                 bool scaled) {
             if (scaled)
@@ -476,19 +478,19 @@ namespace partialtorch {
 
         // convnd
         PT_DEFINE_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                partial_conv1d, at::_ops::conv1d(), at::IntArrayRef)
+                partial_conv1d, at::_ops::conv1d(), c10::SymIntArrayRef)
 
         PT_DEFINE_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
                 partial_conv1d, at::_ops::conv1d_padding(), c10::string_view)
 
         PT_DEFINE_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                partial_conv2d, at::_ops::conv2d(), at::IntArrayRef)
+                partial_conv2d, at::_ops::conv2d(), c10::SymIntArrayRef)
 
         PT_DEFINE_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
                 partial_conv2d, at::_ops::conv2d_padding(), c10::string_view)
 
         PT_DEFINE_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                partial_conv3d, at::_ops::conv3d(), at::IntArrayRef)
+                partial_conv3d, at::_ops::conv3d(), c10::SymIntArrayRef)
 
         PT_DEFINE_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
                 partial_conv3d, at::_ops::conv3d_padding(), c10::string_view)
@@ -599,10 +601,10 @@ namespace partialtorch {
                           .arg<const at::Tensor &>("weight")
                           .arg<const c10::optional<at::Tensor> &>("bias")
                           .arg<at::IntArrayRef>("stride")
-                          .arg<at::SymIntArrayRef>("padding")
+                          .arg<c10::SymIntArrayRef>("padding")
                           .arg<at::IntArrayRef>("dilation")
                           .arg<bool>("transposed")
-                          .arg<at::SymIntArrayRef>("output_padding")
+                          .arg<c10::SymIntArrayRef>("output_padding")
                           .arg<int64_t>("groups")
                           .ret<TensorMaskedPair>().schema().c_str(),
                   TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
@@ -610,20 +612,20 @@ namespace partialtorch {
                           const at::Tensor &,
                           const c10::optional<at::Tensor> &,
                           at::IntArrayRef,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           at::IntArrayRef,
                           bool,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           int64_t)>(partial_convolution)));
             m.def(utils::FunctionSchemaBuilder("partial_convolution").overload("Tensor_symint")
                           .arg<const at::Tensor &>("input")
                           .arg<const at::Tensor &>("weight")
                           .arg<const c10::optional<at::Tensor> &>("bias")
                           .arg<at::IntArrayRef>("stride")
-                          .arg<at::SymIntArrayRef>("padding")
+                          .arg<c10::SymIntArrayRef>("padding")
                           .arg<at::IntArrayRef>("dilation")
                           .arg<bool>("transposed")
-                          .arg<at::SymIntArrayRef>("output_padding")
+                          .arg<c10::SymIntArrayRef>("output_padding")
                           .arg<int64_t>("groups")
                           .ret<TensorMaskedPair>().schema().c_str(),
                   TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
@@ -631,20 +633,20 @@ namespace partialtorch {
                           const at::Tensor &,
                           const c10::optional<at::Tensor> &,
                           at::IntArrayRef,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           at::IntArrayRef,
                           bool,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           int64_t)>(partial_convolution)));
             m.def(utils::FunctionSchemaBuilder("partial_convolution").overload("MaskedPair_symint_scaled")
                           .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("input")
                           .arg<const at::Tensor &>("weight")
                           .arg<const c10::optional<at::Tensor> &>("bias")
                           .arg<at::IntArrayRef>("stride")
-                          .arg<at::SymIntArrayRef>("padding")
+                          .arg<c10::SymIntArrayRef>("padding")
                           .arg<at::IntArrayRef>("dilation")
                           .arg<bool>("transposed")
-                          .arg<at::SymIntArrayRef>("output_padding")
+                          .arg<c10::SymIntArrayRef>("output_padding")
                           .arg<int64_t>("groups")
                           .vararg().arg<bool>("scaled")
                           .ret<TensorMaskedPair>().schema().c_str(),
@@ -653,10 +655,10 @@ namespace partialtorch {
                           const at::Tensor &,
                           const c10::optional<at::Tensor> &,
                           at::IntArrayRef,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           at::IntArrayRef,
                           bool,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           int64_t,
                           bool)>(partial_convolution)));
             m.def(utils::FunctionSchemaBuilder("partial_convolution").overload("Tensor_symint_scaled")
@@ -664,10 +666,10 @@ namespace partialtorch {
                           .arg<const at::Tensor &>("weight")
                           .arg<const c10::optional<at::Tensor> &>("bias")
                           .arg<at::IntArrayRef>("stride")
-                          .arg<at::SymIntArrayRef>("padding")
+                          .arg<c10::SymIntArrayRef>("padding")
                           .arg<at::IntArrayRef>("dilation")
                           .arg<bool>("transposed")
-                          .arg<at::SymIntArrayRef>("output_padding")
+                          .arg<c10::SymIntArrayRef>("output_padding")
                           .arg<int64_t>("groups")
                           .vararg().arg<bool>("scaled")
                           .ret<TensorMaskedPair>().schema().c_str(),
@@ -676,36 +678,42 @@ namespace partialtorch {
                           const at::Tensor &,
                           const c10::optional<at::Tensor> &,
                           at::IntArrayRef,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           at::IntArrayRef,
                           bool,
-                          at::SymIntArrayRef,
+                          c10::SymIntArrayRef,
                           int64_t,
                           bool)>(partial_convolution)));
 
             // convnd
             PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv1d, , at::IntArrayRef, 0)
+                    partial_conv1d, , 1,
+                    c10::SymIntArrayRef, 0)
             PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv1d, padding, c10::string_view, "valid")
+                    partial_conv1d, padding, 1,
+                    c10::string_view, "valid")
 
             PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv2d, , at::IntArrayRef, 0)
+                    partial_conv2d, , 2,
+                    c10::SymIntArrayRef, 0)
             PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv2d, padding, c10::string_view, "valid")
+                    partial_conv2d, padding, 2,
+                    c10::string_view, "valid")
 
             PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv3d, , at::IntArrayRef, 0)
+                    partial_conv3d, , 3,
+                    c10::SymIntArrayRef, 0)
             PT_REGISTER_CONVND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv3d, padding, c10::string_view, "valid")
+                    partial_conv3d, padding, 3,
+                    c10::string_view, "valid")
 
             // conv_transposend
             PT_REGISTER_CONV_TRANSPOSEND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv_transpose1d,)
+                    partial_conv_transpose1d, , 1)
             PT_REGISTER_CONV_TRANSPOSEND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv_transpose2d,)
+                    partial_conv_transpose2d, , 2)
             PT_REGISTER_CONV_TRANSPOSEND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
-                    partial_conv_transpose3d,)
+                    partial_conv_transpose3d, , 3)
         }
     }
 }

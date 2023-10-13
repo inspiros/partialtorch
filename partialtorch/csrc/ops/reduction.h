@@ -123,42 +123,42 @@ namespace partialtorch {
         // arithmetics
         PT_DECLARE_REDUCTION_AND_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
                 sum, at::OptionalIntArrayRef dim,
-                c10::optional<at::ScalarType> dtype = {}, bool scaled = false)
+                c10::optional<at::ScalarType> dtype = c10::nullopt, bool scaled = false)
 
         PT_DECLARE_REDUCTION_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
                 nansum, at::OptionalIntArrayRef dim,
-                c10::optional<at::ScalarType> dtype = {}, bool scaled = false)
+                c10::optional<at::ScalarType> dtype = c10::nullopt, bool scaled = false)
 
         PT_DECLARE_REDUCTION_AND_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                prod, at::OptionalIntArrayRef dim, c10::optional<at::ScalarType> dtype = {})
+                prod, at::OptionalIntArrayRef dim, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS(
                 logsumexp, at::IntArrayRef dim)
 
         PT_DECLARE_REDUCTION_DIM_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                softmax, int64_t dim, c10::optional<at::ScalarType> dtype = {})
+                softmax, int64_t dim, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_DIM_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                log_softmax, int64_t dim, c10::optional<at::ScalarType> dtype = {})
+                log_softmax, int64_t dim, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_DIM_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS_WITH(
-                cumsum, int64_t dim, c10::optional<at::ScalarType> dtype = {})
+                cumsum, int64_t dim, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_DIM_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS_WITH(
-                cumprod, int64_t dim, c10::optional<at::ScalarType> dtype = {})
+                cumprod, int64_t dim, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                 trace, bool scaled = false)
 
         // statistics
         PT_DECLARE_REDUCTION_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                mean, c10::optional<at::ScalarType> dtype = {})
+                mean, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                mean, at::OptionalIntArrayRef dim = {}, c10::optional<at::ScalarType> dtype = {})
+                mean, at::OptionalIntArrayRef dim = c10::nullopt, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                nanmean, at::OptionalIntArrayRef dim = {}, c10::optional<at::ScalarType> dtype = {})
+                nanmean, at::OptionalIntArrayRef dim = c10::nullopt, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PT_DECLARE_REDUCTION_OPS_FORALL_TENSOR_OVERLOADS(median)
 
@@ -172,10 +172,45 @@ namespace partialtorch {
 
         PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> norm(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
-                const c10::optional<at::Scalar> &p = {},
+                const c10::optional<at::Scalar> &p = c10::nullopt,
                 at::IntArrayRef dim = {},
                 bool keepdim = false,
-                c10::optional<at::ScalarType> dtype = {});
+                c10::optional<at::ScalarType> dtype = c10::nullopt);
+
+        PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> linalg_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                const at::Scalar &ord,
+                at::OptionalIntArrayRef dim = c10::nullopt,
+                bool keepdim = false,
+                c10::optional<at::ScalarType> dtype = c10::nullopt);
+
+        PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> linalg_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                c10::string_view ord = "fro",
+                at::OptionalIntArrayRef dim = c10::nullopt,
+                bool keepdim = false,
+                c10::optional<at::ScalarType> dtype = c10::nullopt);
+
+        PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> linalg_vector_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                const at::Scalar &ord = 2,
+                at::OptionalIntArrayRef dim = c10::nullopt,
+                bool keepdim = false,
+                c10::optional<at::ScalarType> dtype = c10::nullopt);
+
+        PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> linalg_matrix_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                const at::Scalar &ord,
+                at::IntArrayRef dim = {-2, -1},
+                bool keepdim = false,
+                c10::optional<at::ScalarType> dtype = c10::nullopt);
+
+        PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> linalg_matrix_norm(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                c10::string_view ord = "fro",
+                at::IntArrayRef dim = {-2, -1},
+                bool keepdim = false,
+                c10::optional<at::ScalarType> dtype = c10::nullopt);
 
         PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> var(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
@@ -189,8 +224,8 @@ namespace partialtorch {
 
         PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> var(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
-                at::OptionalIntArrayRef dim = {},
-                c10::optional<int64_t> correction = {},
+                at::OptionalIntArrayRef dim = c10::nullopt,
+                const c10::optional<at::Scalar> &correction = c10::nullopt,
                 bool keepdim = false);
 
         PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> std(
@@ -205,8 +240,8 @@ namespace partialtorch {
 
         PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> std(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
-                at::OptionalIntArrayRef dim = {},
-                c10::optional<int64_t> correction = {},
+                at::OptionalIntArrayRef dim = c10::nullopt,
+                const c10::optional<at::Scalar> &correction = c10::nullopt,
                 bool keepdim = false);
 
         // min max
@@ -228,12 +263,12 @@ namespace partialtorch {
 
         PARTIALTORCH_API at::Tensor argmin(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
-                c10::optional<int64_t> dim = {},
+                c10::optional<int64_t> dim = c10::nullopt,
                 bool keepdim = false);
 
         PARTIALTORCH_API at::Tensor argmax(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,
-                c10::optional<int64_t> dim = {},
+                c10::optional<int64_t> dim = c10::nullopt,
                 bool keepdim = false);
 
         PT_DECLARE_REDUCTION_INDICES_DIM_OPS_FORALL_TENSOR_OVERLOADS(
@@ -244,7 +279,7 @@ namespace partialtorch {
 
         // torch.nn.functional
         PT_DECLARE_REDUCTION_DIM_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                softmin, int64_t dim, c10::optional<at::ScalarType> dtype = {})
+                softmin, int64_t dim, c10::optional<at::ScalarType> dtype = c10::nullopt)
 
         PARTIALTORCH_API c10::intrusive_ptr<TensorMaskedPair> normalize(
                 const_intrusive_ptr_arg_t<TensorMaskedPair> self,

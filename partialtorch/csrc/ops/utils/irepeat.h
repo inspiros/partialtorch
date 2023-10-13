@@ -51,7 +51,7 @@ namespace c10 {
     } // namespace detail
 
     template<typename T, typename I,
-            typename std::enable_if<std::is_integral<I>::value, bool>::type = true>
+            typename std::enable_if_t<std::is_integral<I>::value, bool> = true>
     struct irepeat {
     public:
         irepeat(const T &value, I n = static_cast<I>(1)) : begin_(value, 0), end_(value, n) {}

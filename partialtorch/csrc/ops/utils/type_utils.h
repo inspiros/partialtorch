@@ -71,6 +71,46 @@ namespace c10 {
     };
 
     template<typename T>
+    struct is_optional<c10::OptionalArrayRef<T>> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
+    struct is_optional<const c10::OptionalArrayRef<T>> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
+    struct is_optional<c10::OptionalArrayRef<T> &> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
+    struct is_optional<const c10::OptionalArrayRef<T> &> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
+    struct is_optional<c10::OptionalArrayRef<T> &&> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
+    struct is_optional<const c10::OptionalArrayRef<T> &&> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
+    struct is_optional<c10::OptionalArrayRef<T> *> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
+    struct is_optional<const c10::OptionalArrayRef<T> *> {
+        static constexpr bool value = true;
+    };
+
+    template<typename T>
     constexpr bool is_optional_v = is_optional<T>::value;
 
     template<typename T>
@@ -81,6 +121,11 @@ namespace c10 {
     template<typename T>
     struct remove_optional<c10::optional<T>> {
         using type = typename c10::optional<T>::value_type;
+    };
+
+    template<typename T>
+    struct remove_optional<c10::OptionalArrayRef<T>> {
+        using type = typename c10::optional<c10::ArrayRef<T>>::value_type;
     };
 
     template<typename T>

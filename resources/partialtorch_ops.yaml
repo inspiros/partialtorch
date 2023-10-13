@@ -654,29 +654,29 @@
 - func: partialtorch::fmax.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::fmax.Tensor_MaskedPair(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::fmax.Tensor(Tensor self, Tensor other) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_convolution.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[1] stride, int[1] padding, int[1] dilation, bool transposed, int[1] output_padding, int g
-  roups) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_convolution.Tensor(Tensor input, Tensor weight, Tensor? bias, int[1] stride, int[1] padding, int[1] dilation, bool transposed, int[1] output_padding, int groups) -> __torch__.torch.classes.partialtorc
-  h.MaskedPair
-- func: partialtorch::partial_convolution.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[1] stride, int[1] padding, int[1] dilation, bool transposed, int[1] output_padding
-  , int groups, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_convolution.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias, int[1] stride, int[1] padding, int[1] dilation, bool transposed, int[1] output_padding, int groups, *, bool scaled) -> __torch__.to
-  rch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_convolution.MaskedPair_symint(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[1] stride, SymInt[] padding, int[1] dilation, bool transposed, SymInt[] output_pad
-  ding, int groups) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_convolution.Tensor_symint(Tensor input, Tensor weight, Tensor? bias, int[1] stride, SymInt[] padding, int[1] dilation, bool transposed, SymInt[] output_padding, int groups) -> __torch__.torch.classes.
-  partialtorch.MaskedPair
-- func: partialtorch::partial_convolution.MaskedPair_symint_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[1] stride, SymInt[] padding, int[1] dilation, bool transposed, SymInt[] out
-  put_padding, int groups, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_convolution.Tensor_symint_scaled(Tensor input, Tensor weight, Tensor? bias, int[1] stride, SymInt[] padding, int[1] dilation, bool transposed, SymInt[] output_padding, int groups, *, bool scaled) -> _
-  _torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv1d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.classe
-  s.partialtorch.MaskedPair
-- func: partialtorch::partial_conv1d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv1d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled) ->
-  __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv1d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedP
-  air
+- func: partialtorch::partial_convolution.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[] stride, int[] padding, int[] dilation, bool transposed, int[] output_padding, int group
+  s) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_convolution.Tensor(Tensor input, Tensor weight, Tensor? bias, int[] stride, int[] padding, int[] dilation, bool transposed, int[] output_padding, int groups) -> __torch__.torch.classes.partialtorch.Ma
+  skedPair
+- func: partialtorch::partial_convolution.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[] stride, int[] padding, int[] dilation, bool transposed, int[] output_padding, in
+  t groups, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_convolution.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias, int[] stride, int[] padding, int[] dilation, bool transposed, int[] output_padding, int groups, *, bool scaled) -> __torch__.torch.
+  classes.partialtorch.MaskedPair
+- func: partialtorch::partial_convolution.MaskedPair_symint(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[] stride, SymInt[] padding, int[] dilation, bool transposed, SymInt[] output_paddi
+  ng, int groups) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_convolution.Tensor_symint(Tensor input, Tensor weight, Tensor? bias, int[] stride, SymInt[] padding, int[] dilation, bool transposed, SymInt[] output_padding, int groups) -> __torch__.torch.classes.pa
+  rtialtorch.MaskedPair
+- func: partialtorch::partial_convolution.MaskedPair_symint_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias, int[] stride, SymInt[] padding, int[] dilation, bool transposed, SymInt[] outpu
+  t_padding, int groups, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_convolution.Tensor_symint_scaled(Tensor input, Tensor weight, Tensor? bias, int[] stride, SymInt[] padding, int[] dilation, bool transposed, SymInt[] output_padding, int groups, *, bool scaled) -> __t
+  orch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv1d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.cla
+  sses.partialtorch.MaskedPair
+- func: partialtorch::partial_conv1d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv1d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled)
+  -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv1d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.Mask
+  edPair
 - func: partialtorch::partial_conv1d.MaskedPair_padding(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1) -> __torch__.t
   orch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_conv1d.Tensor_padding(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -684,58 +684,58 @@
   scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_conv1d.Tensor_padding_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialto
   rch.MaskedPair
-- func: partialtorch::partial_conv2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.classe
-  s.partialtorch.MaskedPair
-- func: partialtorch::partial_conv2d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv2d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled) ->
-  __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv2d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedP
-  air
-- func: partialtorch::partial_conv2d.MaskedPair_padding(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1) -> __torch__.t
+- func: partialtorch::partial_conv2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, int[2] dilation=1, int groups=1) -> __torch__.torch.cla
+  sses.partialtorch.MaskedPair
+- func: partialtorch::partial_conv2d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, int[2] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv2d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, int[2] dilation=1, int groups=1, *, bool scaled)
+  -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv2d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, int[2] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.Mask
+  edPair
+- func: partialtorch::partial_conv2d.MaskedPair_padding(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[2] stride=1, str padding="valid", int[2] dilation=1, int groups=1) -> __torch__.t
   orch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv2d.Tensor_padding(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv2d.MaskedPair_padding_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1, *, bool
+- func: partialtorch::partial_conv2d.Tensor_padding(Tensor input, Tensor weight, Tensor? bias=None, int[2] stride=1, str padding="valid", int[2] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv2d.MaskedPair_padding_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[2] stride=1, str padding="valid", int[2] dilation=1, int groups=1, *, bool
   scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv2d.Tensor_padding_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialto
+- func: partialtorch::partial_conv2d.Tensor_padding_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[2] stride=1, str padding="valid", int[2] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialto
   rch.MaskedPair
-- func: partialtorch::partial_conv3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.classe
-  s.partialtorch.MaskedPair
-- func: partialtorch::partial_conv3d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv3d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled) ->
-  __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv3d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedP
-  air
-- func: partialtorch::partial_conv3d.MaskedPair_padding(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1) -> __torch__.t
+- func: partialtorch::partial_conv3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, int[3] dilation=1, int groups=1) -> __torch__.torch.cla
+  sses.partialtorch.MaskedPair
+- func: partialtorch::partial_conv3d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, int[3] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv3d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, int[3] dilation=1, int groups=1, *, bool scaled)
+  -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv3d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, int[3] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.Mask
+  edPair
+- func: partialtorch::partial_conv3d.MaskedPair_padding(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[3] stride=1, str padding="valid", int[3] dilation=1, int groups=1) -> __torch__.t
   orch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv3d.Tensor_padding(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv3d.MaskedPair_padding_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1, *, bool
+- func: partialtorch::partial_conv3d.Tensor_padding(Tensor input, Tensor weight, Tensor? bias=None, int[3] stride=1, str padding="valid", int[3] dilation=1, int groups=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv3d.MaskedPair_padding_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[3] stride=1, str padding="valid", int[3] dilation=1, int groups=1, *, bool
   scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv3d.Tensor_padding_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, str padding="valid", int[1] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialto
+- func: partialtorch::partial_conv3d.Tensor_padding_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[3] stride=1, str padding="valid", int[3] dilation=1, int groups=1, *, bool scaled) -> __torch__.torch.classes.partialto
   rch.MaskedPair
-- func: partialtorch::partial_conv_transpose1d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] di
-  lation=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose1d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] dilation=1) -> __torch__.torch.classes.partialt
-  orch.MaskedPair
-- func: partialtorch::partial_conv_transpose1d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, in
-  t[1] dilation=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose1d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] dilation=1, *, bool scaled) -> __torch__
-  .torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] di
-  lation=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose2d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] dilation=1) -> __torch__.torch.classes.partialt
-  orch.MaskedPair
-- func: partialtorch::partial_conv_transpose2d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, in
-  t[1] dilation=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose2d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] dilation=1, *, bool scaled) -> __torch__
-  .torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] di
-  lation=1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose3d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] dilation=1) -> __torch__.torch.classes.partialt
-  orch.MaskedPair
-- func: partialtorch::partial_conv_transpose3d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, in
-  t[1] dilation=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_conv_transpose3d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, int[1] padding=0, int[1] output_padding=0, int groups=1, int[1] dilation=1, *, bool scaled) -> __torch__
-  .torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose1d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, SymInt[1] output_padding=0, int groups=1, int
+  [1] dilation=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose1d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, SymInt[1] output_padding=0, int groups=1, int[1] dilation=1) -> __torch__.torch.classes.pa
+  rtialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose1d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, SymInt[1] output_padding=0, int groups
+  =1, int[1] dilation=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose1d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[1] stride=1, SymInt[1] padding=0, SymInt[1] output_padding=0, int groups=1, int[1] dilation=1, *, bool scaled) -> __t
+  orch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, SymInt[2] output_padding=0, int groups=1, int
+  [2] dilation=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose2d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, SymInt[2] output_padding=0, int groups=1, int[2] dilation=1) -> __torch__.torch.classes.pa
+  rtialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose2d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, SymInt[2] output_padding=0, int groups
+  =1, int[2] dilation=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose2d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[2] stride=1, SymInt[2] padding=0, SymInt[2] output_padding=0, int groups=1, int[2] dilation=1, *, bool scaled) -> __t
+  orch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, SymInt[3] output_padding=0, int groups=1, int
+  [3] dilation=1) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose3d.Tensor(Tensor input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, SymInt[3] output_padding=0, int groups=1, int[3] dilation=1) -> __torch__.torch.classes.pa
+  rtialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose3d.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, SymInt[3] output_padding=0, int groups
+  =1, int[3] dilation=1, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_conv_transpose3d.Tensor_scaled(Tensor input, Tensor weight, Tensor? bias=None, int[3] stride=1, SymInt[3] padding=0, SymInt[3] output_padding=0, int groups=1, int[3] dilation=1, *, bool scaled) -> __t
+  orch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_linear.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_linear.Tensor(Tensor input, Tensor weight, Tensor? bias=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_linear.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor weight, Tensor? bias=None, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -752,8 +752,8 @@
 - func: partialtorch::partial_bilinear.Tensor_MaskedPair_scaled(Tensor input1, __torch__.torch.classes.partialtorch.MaskedPair input2, Tensor weight, Tensor? bias=None, *, bool scaled) -> __torch__.torch.classes.partialtorch.Maske
   dPair
 - func: partialtorch::partial_bilinear.Tensor_Tensor_scaled(Tensor input1, Tensor input2, Tensor weight, Tensor? bias=None, *, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_einsum.MaskedPairList(str equation, __torch__.torch.classes.partialtorch.MaskedPair[] tensors, *, int[1]? path=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::partial_einsum.TensorList(str equation, Tensor[] tensors, *, int[1]? path=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_einsum.MaskedPairList(str equation, __torch__.torch.classes.partialtorch.MaskedPair[] tensors, *, int[]? path=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_einsum.TensorList(str equation, Tensor[] tensors, *, int[]? path=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::batch_norm.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor? weight, Tensor? bias, Tensor? running_mean, Tensor? running_var, bool training, float momentum, float eps) -> __torch__.tor
   ch.classes.partialtorch.MaskedPair
 - func: partialtorch::batch_norm.Tensor(Tensor input, Tensor? weight, Tensor? bias, Tensor? running_mean, Tensor? running_var, bool training, float momentum, float eps) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1412,14 +1412,14 @@
 - func: partialtorch::repeat_interleave.Tensor_int(Tensor self, SymInt repeats, int? dim, *, int? output_size=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::repeat_interleave.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor repeats, int? dim, *, int? output_size=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::repeat_interleave.Tensor_Tensor(Tensor self, Tensor repeats, int? dim, *, int? output_size=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::tile.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::tile.Tensor(Tensor self, int[1] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::tile.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, SymInt[] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::tile.Tensor(Tensor self, SymInt[] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::ravel.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::ravel.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::flatten.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int start_dim=0, int end_dim=0) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::flatten.Tensor(Tensor self, int start_dim=0, int end_dim=0) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::unflatten.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int dim, int[1] sizes) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::unflatten.Tensor(Tensor self, int dim, int[1] sizes) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::unflatten.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int dim, SymInt[] sizes) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::unflatten.Tensor(Tensor self, int dim, SymInt[] sizes) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::broadcast_to.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, SymInt[] size) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::broadcast_to.Tensor(Tensor self, SymInt[] size) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::expand.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, SymInt[] size, *, bool implicit=False) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1450,28 +1450,28 @@
 - func: partialtorch::squeeze.Tensor_dim(Tensor self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::squeeze_.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::squeeze_.Tensor_dim(Tensor self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::squeeze.MaskedPair_dims(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::squeeze.Tensor_dims(Tensor self, int[1] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::squeeze_.MaskedPair_dims(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::squeeze_.Tensor_dims(Tensor self, int[1] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::squeeze.MaskedPair_dims(__torch__.torch.classes.partialtorch.MaskedPair self, int[] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::squeeze.Tensor_dims(Tensor self, int[] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::squeeze_.MaskedPair_dims(__torch__.torch.classes.partialtorch.MaskedPair self, int[] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::squeeze_.Tensor_dims(Tensor self, int[] dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::unsqueeze.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::unsqueeze.Tensor(Tensor self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::unsqueeze_.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::unsqueeze_.Tensor(Tensor self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::matrix_H.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::matrix_H.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::moveaxis.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::moveaxis.Tensor_intlist(Tensor self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::moveaxes.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::moveaxes.Tensor_intlist(Tensor self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::moveaxis.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::moveaxis.Tensor_intlist(Tensor self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::moveaxes.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::moveaxes.Tensor_intlist(Tensor self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::moveaxis.MaskedPair_int(__torch__.torch.classes.partialtorch.MaskedPair self, int source, int destination) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::moveaxis.Tensor_int(Tensor self, int source, int destination) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::moveaxes.MaskedPair_int(__torch__.torch.classes.partialtorch.MaskedPair self, int source, int destination) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::moveaxes.Tensor_int(Tensor self, int source, int destination) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::movedim.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::movedim.Tensor_intlist(Tensor self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::movedims.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::movedims.Tensor_intlist(Tensor self, int[1] source, int[1] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::movedim.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::movedim.Tensor_intlist(Tensor self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::movedims.MaskedPair_intlist(__torch__.torch.classes.partialtorch.MaskedPair self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::movedims.Tensor_intlist(Tensor self, int[] source, int[] destination) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::movedim.MaskedPair_int(__torch__.torch.classes.partialtorch.MaskedPair self, int source, int destination) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::movedim.Tensor_int(Tensor self, int source, int destination) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::movedims.MaskedPair_int(__torch__.torch.classes.partialtorch.MaskedPair self, int source, int destination) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1500,10 +1500,10 @@
 - func: partialtorch::transpose.Tensor(Tensor self, int dim0, int dim1) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::transpose_.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int dim0, int dim1) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::transpose_.Tensor(Tensor self, int dim0, int dim1) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::permute.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::permute.Tensor(Tensor self, int[1] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::permute_copy.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::permute_copy.Tensor(Tensor self, int[1] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::permute.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int[] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::permute.Tensor(Tensor self, int[] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::permute_copy.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int[] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::permute_copy.Tensor(Tensor self, int[] dims) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::take.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor index) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::take.Tensor(Tensor self, Tensor index) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::take_along_dim.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor indices, int? dim=None) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1526,16 +1526,16 @@
 - func: partialtorch::split_with_sizes_copy.Tensor(Tensor self, SymInt[] split_sizes, int dim=0) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::dsplit.MaskedPair_int(__torch__.torch.classes.partialtorch.MaskedPair self, int sections) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::dsplit.Tensor_int(Tensor self, int sections) -> __torch__.torch.classes.partialtorch.MaskedPair[]
-- func: partialtorch::dsplit.MaskedPair_array(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
-- func: partialtorch::dsplit.Tensor_array(Tensor self, int[1] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
+- func: partialtorch::dsplit.MaskedPair_array(__torch__.torch.classes.partialtorch.MaskedPair self, int[] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
+- func: partialtorch::dsplit.Tensor_array(Tensor self, int[] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::hsplit.MaskedPair_int(__torch__.torch.classes.partialtorch.MaskedPair self, int sections) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::hsplit.Tensor_int(Tensor self, int sections) -> __torch__.torch.classes.partialtorch.MaskedPair[]
-- func: partialtorch::hsplit.MaskedPair_array(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
-- func: partialtorch::hsplit.Tensor_array(Tensor self, int[1] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
+- func: partialtorch::hsplit.MaskedPair_array(__torch__.torch.classes.partialtorch.MaskedPair self, int[] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
+- func: partialtorch::hsplit.Tensor_array(Tensor self, int[] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::vsplit.MaskedPair_int(__torch__.torch.classes.partialtorch.MaskedPair self, int sections) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::vsplit.Tensor_int(Tensor self, int sections) -> __torch__.torch.classes.partialtorch.MaskedPair[]
-- func: partialtorch::vsplit.MaskedPair_array(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
-- func: partialtorch::vsplit.Tensor_array(Tensor self, int[1] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
+- func: partialtorch::vsplit.MaskedPair_array(__torch__.torch.classes.partialtorch.MaskedPair self, int[] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
+- func: partialtorch::vsplit.Tensor_array(Tensor self, int[] indices) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::cat.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair[] self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::cat.Tensor(Tensor[] self, int dim) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::row_stack.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair[] self) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1558,30 +1558,30 @@
 - func: partialtorch::meshgrid.Tensor(Tensor[] self) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::meshgrid.MaskedPair_indexing(__torch__.torch.classes.partialtorch.MaskedPair[] self, *, str indexing) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::meshgrid.Tensor_indexing(Tensor[] self, *, str indexing) -> __torch__.torch.classes.partialtorch.MaskedPair[]
-- func: partialtorch::max_pool1d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partial
-  torch.MaskedPair
-- func: partialtorch::max_pool1d.Tensor(Tensor input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::max_pool2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partial
-  torch.MaskedPair
-- func: partialtorch::max_pool2d.Tensor(Tensor input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::max_pool3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partial
-  torch.MaskedPair
-- func: partialtorch::max_pool3d.Tensor(Tensor input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::max_pool1d_with_indices.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.c
-  lasses.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::max_pool1d_with_indices.Tensor(Tensor input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::max_pool2d_with_indices.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.c
-  lasses.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::max_pool2d_with_indices.Tensor(Tensor input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::max_pool3d_with_indices.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.c
-  lasses.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::max_pool3d_with_indices.Tensor(Tensor input, int[1] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::fractional_max_pool2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tens
-  or)
-- func: partialtorch::fractional_max_pool2d.Tensor(Tensor input, int[1] kernel_size, int[1] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::fractional_max_pool3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[1] kernel_size, int[1] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tens
-  or)
-- func: partialtorch::fractional_max_pool3d.Tensor(Tensor input, int[1] kernel_size, int[1] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::max_pool1d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialt
+  orch.MaskedPair
+- func: partialtorch::max_pool1d.Tensor(Tensor input, int[] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::max_pool2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[2] stride=[], int[2] padding=0, int[2] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialt
+  orch.MaskedPair
+- func: partialtorch::max_pool2d.Tensor(Tensor input, int[] kernel_size, int[2] stride=[], int[2] padding=0, int[2] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::max_pool3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[3] stride=[], int[3] padding=0, int[3] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialt
+  orch.MaskedPair
+- func: partialtorch::max_pool3d.Tensor(Tensor input, int[] kernel_size, int[3] stride=[], int[3] padding=0, int[3] dilation=1, bool ceil_mode=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::max_pool1d_with_indices.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.cl
+  asses.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::max_pool1d_with_indices.Tensor(Tensor input, int[] kernel_size, int[1] stride=[], int[1] padding=0, int[1] dilation=1, bool ceil_mode=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::max_pool2d_with_indices.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[2] stride=[], int[2] padding=0, int[2] dilation=1, bool ceil_mode=False) -> (__torch__.torch.cl
+  asses.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::max_pool2d_with_indices.Tensor(Tensor input, int[] kernel_size, int[2] stride=[], int[2] padding=0, int[2] dilation=1, bool ceil_mode=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::max_pool3d_with_indices.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[3] stride=[], int[3] padding=0, int[3] dilation=1, bool ceil_mode=False) -> (__torch__.torch.cl
+  asses.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::max_pool3d_with_indices.Tensor(Tensor input, int[] kernel_size, int[3] stride=[], int[3] padding=0, int[3] dilation=1, bool ceil_mode=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::fractional_max_pool2d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[2] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tenso
+  r)
+- func: partialtorch::fractional_max_pool2d.Tensor(Tensor input, int[] kernel_size, int[2] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
+- func: partialtorch::fractional_max_pool3d.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, int[] kernel_size, int[3] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tenso
+  r)
+- func: partialtorch::fractional_max_pool3d.Tensor(Tensor input, int[] kernel_size, int[3] output_size, Tensor random_samples) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
 - func: partialtorch::rand_mask.float(Tensor input, float p, Scalar? mask_value=None, *, Generator? generator=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::rand_mask.Tensor(Tensor input, Tensor p, Scalar? mask_value=None, *, Generator? generator=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::rand_mask.MaskedPair_float(__torch__.torch.classes.partialtorch.MaskedPair input, float p, Scalar? mask_value=None, *, Generator? generator=None) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1592,24 +1592,24 @@
 - func: partialtorch::rand_mask_.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor p, Scalar? mask_value=None, *, Generator? generator=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::all.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::all.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::all.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::all.Tensor_dim_IntList(Tensor self, int[1]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::all.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::all.Tensor_dim_IntList(Tensor self, int[]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::any.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::any.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::any.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::any.Tensor_dim_IntList(Tensor self, int[1]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::any.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::any.Tensor_dim_IntList(Tensor self, int[]? dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::sum.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::sum.Tensor(Tensor self, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::sum.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::sum.Tensor_dim_IntList(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::nansum.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::nansum.Tensor_dim_IntList(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::sum.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::sum.Tensor_dim_IntList(Tensor self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::nansum.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::nansum.Tensor_dim_IntList(Tensor self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::prod.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::prod.Tensor(Tensor self, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::prod.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::prod.Tensor_dim_IntList(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::logsumexp.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::logsumexp.Tensor_dim_IntList(Tensor self, int[1] dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::prod.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::prod.Tensor_dim_IntList(Tensor self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::logsumexp.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[] dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::logsumexp.Tensor_dim_IntList(Tensor self, int[] dim, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::softmax.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int dim, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::softmax.Tensor_dim(Tensor self, int dim, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::log_softmax.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int dim, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1626,10 +1626,10 @@
 - func: partialtorch::trace.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::mean.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::mean.Tensor(Tensor self, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::mean.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::mean.Tensor_dim_IntList(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::nanmean.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::nanmean.Tensor_dim_IntList(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::mean.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::mean.Tensor_dim_IntList(Tensor self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::nanmean.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::nanmean.Tensor_dim_IntList(Tensor self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::median.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::median.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::median.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int dim, bool keepdim=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
@@ -1640,18 +1640,32 @@
 - func: partialtorch::nanmedian.Tensor_dim(Tensor self, int dim, bool keepdim=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
 - func: partialtorch::var.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, bool unbiased=True) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::var.Tensor(Tensor self, bool unbiased=True) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::var.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::var.Tensor_dim(Tensor self, int[1]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::var.MaskedPair_correction(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim=None, int? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::var.Tensor_correction(Tensor self, int[1]? dim=None, int? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::var.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::var.Tensor_dim(Tensor self, int[]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::var.MaskedPair_correction(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim=None, Scalar? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::var.Tensor_correction(Tensor self, int[]? dim=None, Scalar? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::std.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, bool unbiased=True) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::std.Tensor(Tensor self, bool unbiased=True) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::std.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::std.Tensor_dim(Tensor self, int[1]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::std.MaskedPair_correction(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim=None, int? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::std.Tensor_correction(Tensor self, int[1]? dim=None, int? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::norm.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, Scalar? p=None, int[1] dim=[], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::norm.Tensor(Tensor self, Scalar? p=None, int[1] dim=[], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::std.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::std.Tensor_dim(Tensor self, int[]? dim, bool unbiased=True, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::std.MaskedPair_correction(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim=None, Scalar? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::std.Tensor_correction(Tensor self, int[]? dim=None, Scalar? correction=None, bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::norm.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, Scalar? p=None, int[] dim=[], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::norm.Tensor(Tensor self, Scalar? p=None, int[] dim=[], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::linalg_norm.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, Scalar ord, int[]? dim=None, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::linalg_norm.Tensor(Tensor self, Scalar ord, int[]? dim=None, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::linalg_norm.MaskedPair_ord_str(__torch__.torch.classes.partialtorch.MaskedPair self, str ord="fro", int[]? dim=None, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.Mask
+  edPair
+- func: partialtorch::linalg_norm.Tensor_ord_str(Tensor self, str ord="fro", int[]? dim=None, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::linalg_vector_norm.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, Scalar ord=2, int[1]? dim=None, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.Maske
+  dPair
+- func: partialtorch::linalg_vector_norm.Tensor(Tensor self, Scalar ord=2, int[1]? dim=None, bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::linalg_matrix_norm.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, Scalar ord, int[] dim=[-2, -1], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.Maske
+  dPair
+- func: partialtorch::linalg_matrix_norm.Tensor(Tensor self, Scalar ord, int[] dim=[-2, -1], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::linalg_matrix_norm.MaskedPair_str_ord(__torch__.torch.classes.partialtorch.MaskedPair self, str ord="fro", int[] dim=[-2, -1], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partial
+  torch.MaskedPair
+- func: partialtorch::linalg_matrix_norm.Tensor_str_ord(Tensor self, str ord="fro", int[] dim=[-2, -1], bool keepdim=False, *, ScalarType? dtype=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::min.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::min.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::min.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int dim, bool keepdim=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
@@ -1660,10 +1674,10 @@
 - func: partialtorch::max.Tensor(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::max.MaskedPair_dim(__torch__.torch.classes.partialtorch.MaskedPair self, int dim, bool keepdim=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
 - func: partialtorch::max.Tensor_dim(Tensor self, int dim, bool keepdim=False) -> (__torch__.torch.classes.partialtorch.MaskedPair, Tensor)
-- func: partialtorch::amin.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::amin.Tensor_dim_IntList(Tensor self, int[1] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::amax.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[1] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::amax.Tensor_dim_IntList(Tensor self, int[1] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::amin.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::amin.Tensor_dim_IntList(Tensor self, int[] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::amax.MaskedPair_dim_IntList(__torch__.torch.classes.partialtorch.MaskedPair self, int[] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::amax.Tensor_dim_IntList(Tensor self, int[] dim=[], bool keepdim=False) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::argmin.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int? dim=None, bool keepdim=False) -> Tensor
 - func: partialtorch::argmin.Tensor(Tensor self, int? dim=None, bool keepdim=False) -> Tensor
 - func: partialtorch::argmax.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int? dim=None, bool keepdim=False) -> Tensor
@@ -1678,12 +1692,12 @@
 - func: partialtorch::normalize.Tensor(Tensor self, Scalar? p=2, int dim=1, float eps=1e-12) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::sum.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair self, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::sum.Tensor_scaled(Tensor self, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::sum.MaskedPair_dim_IntList_scaled(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedP
-  air
-- func: partialtorch::sum.Tensor_dim_IntList_scaled(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::nansum.MaskedPair_dim_IntList_scaled(__torch__.torch.classes.partialtorch.MaskedPair self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.Mask
-  edPair
-- func: partialtorch::nansum.Tensor_dim_IntList_scaled(Tensor self, int[1]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::sum.MaskedPair_dim_IntList_scaled(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPa
+  ir
+- func: partialtorch::sum.Tensor_dim_IntList_scaled(Tensor self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::nansum.MaskedPair_dim_IntList_scaled(__torch__.torch.classes.partialtorch.MaskedPair self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.Maske
+  dPair
+- func: partialtorch::nansum.Tensor_dim_IntList_scaled(Tensor self, int[]? dim, bool keepdim=False, *, ScalarType? dtype=None, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::trace.MaskedPair_scaled(__torch__.torch.classes.partialtorch.MaskedPair self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::trace.Tensor_scaled(Tensor self) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::addcmul.MP_MP_MP(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair tensor1, __torch__.torch.classes.partialtorch.MaskedPair tensor2, *, Scalar alpha=1) -> _

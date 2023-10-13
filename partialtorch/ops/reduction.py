@@ -25,6 +25,9 @@ nanmedian = torch.ops.partialtorch.nanmedian
 var = torch.ops.partialtorch.var
 std = torch.ops.partialtorch.std
 norm = torch.ops.partialtorch.norm
+linalg_norm = torch.ops.partialtorch.linalg_norm
+linalg_vector_norm = torch.ops.partialtorch.linalg_vector_norm
+linalg_matrix_norm = torch.ops.partialtorch.linalg_matrix_norm
 
 # min/max
 min = torch.ops.partialtorch.min

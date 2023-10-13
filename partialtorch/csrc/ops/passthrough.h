@@ -224,7 +224,7 @@ namespace partialtorch {
                 select, int64_t dim, c10::SymInt index)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                repeat, at::SymIntArrayRef repeats)
+                repeat, c10::SymIntArrayRef repeats)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                 repeat_interleave,
@@ -239,13 +239,13 @@ namespace partialtorch {
                 c10::optional<int64_t> output_size = c10::nullopt)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                tile, at::IntArrayRef dims)
+                tile, c10::SymIntArrayRef dims)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
                 flatten, int64_t start_dim = 0, int64_t end_dim = 0)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
-                unflatten, int64_t dim, at::IntArrayRef sizes)
+                unflatten, int64_t dim, c10::SymIntArrayRef sizes)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                 broadcast_to, c10::SymIntArrayRef size)

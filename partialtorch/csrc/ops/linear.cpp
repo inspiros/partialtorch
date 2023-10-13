@@ -1,4 +1,5 @@
 #include <ATen/ATen.h>
+#include <ATen/core/grad_mode.h>
 #include <torch/library.h>
 
 #include "../MaskedPair.h"

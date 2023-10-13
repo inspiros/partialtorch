@@ -8,3 +8,4 @@ from ._masked_pair import *
 from .ops import *
 from . import ops
 from . import nn
+from . import linalg

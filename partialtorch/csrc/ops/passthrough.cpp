@@ -756,7 +756,7 @@ namespace partialtorch {
 
         PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                 tile, at::_ops::tile(),
-                at::IntArrayRef, dims)
+                at::SymIntArrayRef, dims)
 
         PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS(
                 ravel, at::_ops::ravel())
@@ -767,7 +767,7 @@ namespace partialtorch {
 
         PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
                 unflatten, at::_ops::unflatten_int(),
-                int64_t, dim, at::IntArrayRef, sizes)
+                int64_t, dim, c10::SymIntArrayRef, sizes)
 
         PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                 broadcast_to, at::_ops::broadcast_to(),
@@ -1309,7 +1309,7 @@ namespace partialtorch {
 
             PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                     tile, ,
-                    at::IntArrayRef, dims,)
+                    at::SymIntArrayRef, dims,)
             PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS(
                     ravel,)
             PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
@@ -1319,7 +1319,7 @@ namespace partialtorch {
             PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
                     unflatten, ,
                     int64_t, dim, ,
-                    at::IntArrayRef, sizes,)
+                    c10::SymIntArrayRef, sizes,)
             PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
                     broadcast_to, ,
                     at::SymIntArrayRef, size,)
