@@ -212,6 +212,9 @@ namespace partialtorch {
                 diagonal, int64_t offset = 0, int64_t dim1 = 0, int64_t dim2 = 1)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
+                linalg_diagonal, int64_t offset = 0, int64_t dim1 = -2, int64_t dim2 = -1)
+
+        PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                 narrow, int64_t dim, c10::SymInt start, c10::SymInt length)
 
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(

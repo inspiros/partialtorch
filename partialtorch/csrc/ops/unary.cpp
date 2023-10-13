@@ -548,12 +548,6 @@ namespace partialtorch {
 
         PT_DEFINE_UNARY_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS(i0, at::_ops::i0(), at::_ops::i0_())
 
-        PT_DEFINE_UNARY_OPS_FORALL_TENSOR_OVERLOADS(inverse, at::_ops::inverse())
-
-        PT_DEFINE_UNARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                pinverse, at::_ops::pinverse(),
-                double, rcond)
-
         PT_DEFINE_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isnan, at::_ops::isnan())
 
         PT_DEFINE_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isreal, at::_ops::isreal())
@@ -1068,10 +1062,6 @@ namespace partialtorch {
                     logit, ,
                     const c10::optional<double>, eps, None)
             PT_REGISTER_UNARY_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS(i0,)
-            PT_REGISTER_UNARY_OPS_FORALL_TENSOR_OVERLOADS(inverse,)
-            PT_REGISTER_UNARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                    pinverse, ,
-                    double, rcond, 1e-15)
             PT_REGISTER_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isnan,)
             PT_REGISTER_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isreal,)
             PT_REGISTER_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isfinite,)

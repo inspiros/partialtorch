@@ -185,10 +185,6 @@ namespace partialtorch {
         PT_DECLARE_UNARY_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS_WITH(
                 logit, const c10::optional<double> eps = c10::nullopt)
         PT_DECLARE_UNARY_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS(i0)
-        PT_DECLARE_UNARY_OPS_FORALL_TENSOR_OVERLOADS(inverse)
-        PT_DECLARE_UNARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                pinverse,
-                double rcond = 1e-15)
         PT_DECLARE_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isnan)
         PT_DECLARE_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isreal)
         PT_DECLARE_UNARY_OPS_FORALL_TENSOR_OVERLOADS(isfinite)

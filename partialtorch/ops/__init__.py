@@ -3,6 +3,7 @@ from .conv import *
 from .linear import *
 from .nary import *
 from .norm import *
+from .passthrough import *
 from .pooling import *
 from .random import *
 from .reduction import *

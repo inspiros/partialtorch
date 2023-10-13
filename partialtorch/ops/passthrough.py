@@ -14,6 +14,7 @@ diag = torch.ops.partialtorch.diag
 diag_embed = torch.ops.partialtorch.diag_embed
 diagflat = torch.ops.partialtorch.diagflat
 diagonal = torch.ops.partialtorch.diagonal
+linalg_diagonal = torch.ops.partialtorch.linalg_diagonal
 narrow = torch.ops.partialtorch.narrow
 narrow_copy = torch.ops.partialtorch.narrow_copy
 select = torch.ops.partialtorch.select

@@ -778,7 +778,7 @@ namespace partialtorch {
                     c10::optional<at::ScalarType> dtype) {
                 at::Tensor output_data;
                 if constexpr (std::is_same_v<c10::base_t<ord_T>, at::Scalar>) {
-                    if (ord.to<double>() < 0) {
+                    if (ord.template to<double>() < 0) {
                         output_data = op_T::call(
                                 utils::_ops::fill_identity_posinf<false>::call(
                                         utils::_ops::cast_dtype<false>::call(self, dtype)),

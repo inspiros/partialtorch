@@ -20,7 +20,7 @@ namespace partialtorch {
 
         MaskedPair(
                 const T &data,
-                const c10::optional<bool> mask = {}) {
+                const c10::optional<bool> mask = c10::nullopt) {
             this->data_ = data;
             this->mask_ = mask;
         }
@@ -70,7 +70,7 @@ namespace partialtorch {
 
         MaskedPair(
                 const at::Tensor &data,
-                const c10::optional<at::Tensor> &mask = {}) {
+                const c10::optional<at::Tensor> &mask = c10::nullopt) {
             this->data_ = data;
             this->mask_ = mask;
             validate_members();
@@ -587,13 +587,13 @@ namespace partialtorch {
             typename std::enable_if_t<!std::is_same_v<T, at::Tensor>, bool> = true>
     PARTIALTORCH_API C10_ALWAYS_INLINE c10::intrusive_ptr<MaskedPair<T>> masked_pair(
             const T &data,
-            const c10::optional<bool> mask = {}) {
+            const c10::optional<bool> mask = c10::nullopt) {
         return at::make_intrusive<MaskedPair<T>>(MaskedPair<T>(data, mask));
     }
 
     PARTIALTORCH_API C10_ALWAYS_INLINE c10::intrusive_ptr<MaskedPair<at::Tensor>> masked_pair(
             const at::Tensor &data,
-            const c10::optional<at::Tensor> &mask = {}) {
+            const c10::optional<at::Tensor> &mask = c10::nullopt) {
         return at::make_intrusive<MaskedPair<at::Tensor>>(MaskedPair<at::Tensor>(data, mask));
     }
 
