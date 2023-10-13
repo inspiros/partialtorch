@@ -1,5 +1,4 @@
 #include <ATen/ATen.h>
-#include <ATen/Parallel.h>
 #include <torch/library.h>
 
 #include "cpu_helpers.h"
@@ -18,12 +17,10 @@ namespace partialtorch {
                             const scalar_t *self,
                             const scalar_t *other,
                             scalar_t *output) {
-                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
-                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
-                                scalar_t o = other[index];
-                                output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self[index] / o;
-                            }
-                        });
+                        CPU_1D_PARALLEL_KERNEL_LOOP(index, n_kernels) {
+                            scalar_t o = other[index];
+                            output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self[index] / o;
+                        }
                     }
 
                     template<typename scalar_t, typename index_t>
@@ -32,12 +29,10 @@ namespace partialtorch {
                             scalar_t self,
                             const scalar_t *other,
                             scalar_t *output) {
-                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
-                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
-                                scalar_t o = other[index];
-                                output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self / o;
-                            }
-                        });
+                        CPU_1D_PARALLEL_KERNEL_LOOP(index, n_kernels) {
+                            scalar_t o = other[index];
+                            output[index] = o == static_cast<scalar_t>(0) ? static_cast<scalar_t>(0) : self / o;
+                        }
                     }
 
                     template<typename scalar_t, typename index_t>
@@ -47,17 +42,13 @@ namespace partialtorch {
                             scalar_t other,
                             scalar_t *output) {
                         if (other == static_cast<scalar_t>(0)) {
-                            at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
-                                CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
-                                    output[index] = static_cast<scalar_t>(0);
-                                }
-                            });
+                            CPU_1D_PARALLEL_KERNEL_LOOP(index, n_kernels) {
+                                output[index] = static_cast<scalar_t>(0);
+                            }
                         } else {
-                            at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
-                                CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
-                                    output[index] = self[index] / other;
-                                }
-                            });
+                            CPU_1D_PARALLEL_KERNEL_LOOP(index, n_kernels) {
+                                output[index] = self[index] / other;
+                            }
                         }
                     }
                 }  // namespace impl
@@ -258,16 +249,14 @@ namespace partialtorch {
                             const scalar_t *other,
                             scalar_t *grad_self,
                             scalar_t *grad_other) {
-                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
-                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
-                                scalar_t o = other[index];
-                                if (o != static_cast<scalar_t>(0)) {
-                                    scalar_t g_s = grad_output[index] / o;
-                                    grad_self[index] = g_s;
-                                    grad_other[index] = g_s * -self[index] / o;
-                                }
+                        CPU_1D_PARALLEL_KERNEL_LOOP(index, n_kernels) {
+                            scalar_t o = other[index];
+                            if (o != static_cast<scalar_t>(0)) {
+                                scalar_t g_s = grad_output[index] / o;
+                                grad_self[index] = g_s;
+                                grad_other[index] = g_s * -self[index] / o;
                             }
-                        });
+                        }
                     }
 
                     template<typename scalar_t, typename index_t>
@@ -277,11 +266,9 @@ namespace partialtorch {
                             scalar_t other,
                             scalar_t *grad_self) {
                         if (other != static_cast<scalar_t>(0)) {
-                            at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
-                                CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
-                                    grad_self[index] = grad_output[index] / other;
-                                }
-                            });
+                            CPU_1D_PARALLEL_KERNEL_LOOP(index, n_kernels) {
+                                grad_self[index] = grad_output[index] / other;
+                            }
                         }
                     }
 
@@ -292,14 +279,12 @@ namespace partialtorch {
                             scalar_t self,
                             const scalar_t *other,
                             scalar_t *grad_other) {
-                        at::parallel_for(0, n_kernels, 1, [&](int64_t begin, int64_t end) {
-                            CPU_1D_KERNEL_LOOP_BETWEEN_T(index, begin, end, index_t) {
-                                scalar_t o = other[index];
-                                if (o != static_cast<scalar_t>(0)) {
-                                    grad_other[index] = grad_output[index] * -self / (o * o);
-                                }
+                        CPU_1D_PARALLEL_KERNEL_LOOP(index, n_kernels) {
+                            scalar_t o = other[index];
+                            if (o != static_cast<scalar_t>(0)) {
+                                grad_other[index] = grad_output[index] * -self / (o * o);
                             }
-                        });
+                        }
                     }
                 }  // namespace impl
 
