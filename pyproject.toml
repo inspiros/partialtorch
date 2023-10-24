@@ -8,7 +8,7 @@ requires = [
 
 [tool.cibuildwheel]
 archs = ["auto64"]
-skip = ["pp*", "*-musllinux_*", "*-manylinux_i686", "*-win32"]
+skip = ["*-musllinux_*", "*-manylinux_i686", "*-win32"]
 
 [tool.cibuildwheel.linux]
 before-all = "tools/packaging/prepare_build_environment_linux.sh"
