@@ -1,5 +1,5 @@
 from .extension import _assert_has_ops, _classes, _ops, _HAS_OPS, has_ops, cuda_version, with_cuda
-from .version import *
+from .version import __version__
 
 _assert_has_ops()
 from . import _C
