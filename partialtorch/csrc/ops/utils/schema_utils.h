@@ -117,8 +117,6 @@ namespace partialtorch {
                     // TODO: handle all special ArrayRef cases
                 else if constexpr (std::is_same_v<base_t, c10::SymIntList>) {
                     return "SymInt[1]";
-                } else if constexpr (std::is_same_v<base_t, at::DimnameList>) {
-                    RETURN_WITH_OPTIONAL("DimnameList")
                 } else if constexpr (std::is_vector_v<base_t> ||
                                      c10::is_arrayref_v<base_t> ||
                                      c10::is_list_v<base_t> ||

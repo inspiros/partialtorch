@@ -19,6 +19,8 @@ __all__ = [
     '_layout',
     '_memory_format',
     '_dispatchkey',
+    '_dimname',
+    '_symint',
     'SymInt',
     'Number',
     'Device',
@@ -32,6 +34,8 @@ __all__ = [
     '_MaskedPairListOrTensorList',
 ]
 
+_dimname = Union[str, type(Ellipsis), None]
+_symint = Union[_int, SymInt]
 _MaskedPairOrMaskedPairs = Union[MaskedPair, Sequence[MaskedPair]]
 _MaskedPairOrTensor = Union[MaskedPair, Tensor]
 _MaskedPairListOrTensorList = Union[_MaskedPairOrMaskedPairs, _TensorOrTensors]
