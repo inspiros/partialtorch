@@ -1,9 +1,11 @@
-from typing import overload, List, Sequence, Optional
+from typing import overload, List, Sequence, Optional, Union
 
 import torch
 
-from partialtorch.types import (_int, _bool, _dtype, _layout, _device, _memory_format, _dimname, _symint,
-                                Tensor, MaskedPair, _MaskedPairOrTensor)
+from partialtorch.types import (
+    _int, _bool, _dtype, _layout, _device, _size, _memory_format, _dimname, _symint,
+    Tensor, MaskedPair, _MaskedPairOrTensor, _MaskedPairListOrTensorList
+)
 
 
 # to
@@ -268,7 +270,7 @@ def squeeze(self: _MaskedPairOrTensor,
 
 @overload
 def squeeze(self: _MaskedPairOrTensor,
-            dim: Sequence[_int]) -> MaskedPair: ...
+            dim: Union[_int, _size]) -> MaskedPair: ...
 
 
 def unsqueeze(self: _MaskedPairOrTensor,
@@ -284,8 +286,8 @@ def matrix_H(self: _MaskedPairOrTensor) -> MaskedPair: ...
 
 @overload
 def moveaxis(self: _MaskedPairOrTensor,
-             source: Sequence[_int],
-             destination: Sequence[_int]) -> MaskedPair: ...
+             source: Union[_int, _size],
+             destination: Union[_int, _size]) -> MaskedPair: ...
 
 
 @overload
@@ -296,8 +298,8 @@ def moveaxis(self: _MaskedPairOrTensor,
 
 @overload
 def moveaxes(self: _MaskedPairOrTensor,
-             source: Sequence[_int],
-             destination: Sequence[_int]) -> MaskedPair: ...
+             source: Union[_int, _size],
+             destination: Union[_int, _size]) -> MaskedPair: ...
 
 
 @overload
@@ -308,8 +310,8 @@ def moveaxes(self: _MaskedPairOrTensor,
 
 @overload
 def movedim(self: _MaskedPairOrTensor,
-            source: Sequence[_int],
-            destination: Sequence[_int]) -> MaskedPair: ...
+            source: Union[_int, _size],
+            destination: Union[_int, _size]) -> MaskedPair: ...
 
 
 @overload
@@ -320,8 +322,8 @@ def movedim(self: _MaskedPairOrTensor,
 
 @overload
 def movedims(self: _MaskedPairOrTensor,
-             source: Sequence[_int],
-             destination: Sequence[_int]) -> MaskedPair: ...
+             source: Union[_int, _size],
+             destination: Union[_int, _size]) -> MaskedPair: ...
 
 
 @overload
@@ -401,11 +403,11 @@ def transpose_(self: _MaskedPairOrTensor,
 
 
 def permute(self: _MaskedPairOrTensor,
-            dims: Sequence[_int]) -> MaskedPair: ...
+            dims: Union[_int, _size]) -> MaskedPair: ...
 
 
 def permute_copy(self: _MaskedPairOrTensor,
-                 dims: Sequence[_int]) -> MaskedPair: ...
+                 dims: Union[_int, _size]) -> MaskedPair: ...
 
 
 def take(self: _MaskedPairOrTensor,
@@ -453,12 +455,12 @@ def split(self: _MaskedPairOrTensor,
 
 @overload
 def split(self: _MaskedPairOrTensor,
-          split_size: Sequence[_int],
+          split_size: Union[_int, _size],
           dim: _int = 0) -> List[MaskedPair]: ...
 
 
 def split_with_sizes(self: _MaskedPairOrTensor,
-                     split_size: Sequence[_int],
+                     split_size: Union[_int, _size],
                      dim: _int = 0) -> List[MaskedPair]: ...
 
 
@@ -468,7 +470,7 @@ def split_copy(self: _MaskedPairOrTensor,
 
 
 def split_with_sizes_copy(self: _MaskedPairOrTensor,
-                          split_size: Sequence[_int],
+                          split_size: Union[_int, _size],
                           dim: _int = 0) -> List[MaskedPair]: ...
 
 
@@ -479,7 +481,7 @@ def dsplit(self: _MaskedPairOrTensor,
 
 @overload
 def dsplit(self: _MaskedPairOrTensor,
-           indices: Sequence[_int]) -> List[MaskedPair]: ...
+           indices: Union[_int, _size]) -> List[MaskedPair]: ...
 
 
 @overload
@@ -489,7 +491,7 @@ def hsplit(self: _MaskedPairOrTensor,
 
 @overload
 def hsplit(self: _MaskedPairOrTensor,
-           indices: Sequence[_int]) -> List[MaskedPair]: ...
+           indices: Union[_int, _size]) -> List[MaskedPair]: ...
 
 
 @overload
@@ -499,47 +501,47 @@ def vsplit(self: _MaskedPairOrTensor,
 
 @overload
 def vsplit(self: _MaskedPairOrTensor,
-           indices: Sequence[_int]) -> List[MaskedPair]: ...
+           indices: Union[_int, _size]) -> List[MaskedPair]: ...
 
 
 # many to one
-def cat(self: Sequence[_MaskedPairOrTensor],
+def cat(self: _MaskedPairListOrTensorList,
         dim: _int) -> MaskedPair: ...
 
 
-def row_stack(self: Sequence[_MaskedPairOrTensor]) -> MaskedPair: ...
+def row_stack(self: _MaskedPairListOrTensorList) -> MaskedPair: ...
 
 
-def column_stack(self: Sequence[_MaskedPairOrTensor]) -> MaskedPair: ...
+def column_stack(self: _MaskedPairListOrTensorList) -> MaskedPair: ...
 
 
-def hstack(self: Sequence[_MaskedPairOrTensor]) -> MaskedPair: ...
+def hstack(self: _MaskedPairListOrTensorList) -> MaskedPair: ...
 
 
-def vstack(self: Sequence[_MaskedPairOrTensor]) -> MaskedPair: ...
+def vstack(self: _MaskedPairListOrTensorList) -> MaskedPair: ...
 
 
 # many to many
 @overload
-def atleast_1d(self: Sequence[_MaskedPairOrTensor]) -> List[MaskedPair]: ...
+def atleast_1d(self: _MaskedPairListOrTensorList) -> List[MaskedPair]: ...
 
 
 @overload
-def atleast_2d(self: Sequence[_MaskedPairOrTensor]) -> List[MaskedPair]: ...
+def atleast_2d(self: _MaskedPairListOrTensorList) -> List[MaskedPair]: ...
 
 
 @overload
-def atleast_3d(self: Sequence[_MaskedPairOrTensor]) -> List[MaskedPair]: ...
+def atleast_3d(self: _MaskedPairListOrTensorList) -> List[MaskedPair]: ...
 
 
-def broadcast_tensors(self: Sequence[_MaskedPairOrTensor]) -> List[MaskedPair]: ...
-
-
-@overload
-def meshgrid(self: Sequence[_MaskedPairOrTensor]) -> List[MaskedPair]: ...
+def broadcast_tensors(self: _MaskedPairListOrTensorList) -> List[MaskedPair]: ...
 
 
 @overload
-def meshgrid(self: Sequence[_MaskedPairOrTensor],
+def meshgrid(self: _MaskedPairListOrTensorList) -> List[MaskedPair]: ...
+
+
+@overload
+def meshgrid(self: _MaskedPairListOrTensorList,
              *,
              indexing: str) -> List[MaskedPair]: ...
