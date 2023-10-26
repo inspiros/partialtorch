@@ -534,9 +534,17 @@ namespace partialtorch {
                 all, at::_ops::all(), utils::all_dim_IntList(), utils::_ops::fill_identity_ones(), true,
                 at::OptionalIntArrayRef)
 
+//        PT_DEFINE_REDUCTION_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS(
+//                all, at::_ops::all_dimname(), utils::_ops::fill_identity_ones(), true,
+//                at::Dimname)
+
         PT_DEFINE_REDUCTION_AND_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS(
                 any, at::_ops::any(), utils::any_dim_IntList(), utils::_ops::fill_identity_zeros(), true,
                 at::OptionalIntArrayRef)
+
+//        PT_DEFINE_REDUCTION_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS(
+//                any, at::_ops::any_dimname(), utils::_ops::fill_identity_zeros(), true,
+//                at::Dimname)
 
         // arithmetics
         PT_DEFINE_REDUCTION_AND_KEEPDIM_OPS_FORALL_TENSOR_OVERLOADS_WITH(
@@ -751,7 +759,7 @@ namespace partialtorch {
             static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> norm_impl(
                     const self_T &self,
                     const c10::optional<at::Scalar> &p,
-                    dim_T &&dim,
+                    dim_T dim,
                     bool keepdim,
                     c10::optional<at::ScalarType> dtype) {
                 at::Tensor output_data;
@@ -773,7 +781,7 @@ namespace partialtorch {
             static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> linalg_norm_impl(
                     const self_T &self,
                     ord_T &&ord,
-                    dim_T &&dim,
+                    dim_T dim,
                     bool keepdim,
                     c10::optional<at::ScalarType> dtype) {
                 at::Tensor output_data;

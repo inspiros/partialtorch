@@ -1,5 +1,8 @@
 import torch
 
+# ----------------------
+# bitwise binary
+# ----------------------
 # logical
 bitwise_and = torch.ops.partialtorch.bitwise_and
 bitwise_and_ = torch.ops.partialtorch.bitwise_and_
@@ -63,7 +66,6 @@ ldexp = torch.ops.partialtorch.ldexp
 ldexp_ = torch.ops.partialtorch.ldexp_
 lerp = torch.ops.partialtorch.lerp
 lerp_ = torch.ops.partialtorch.lerp_
-dist = torch.ops.partialtorch.dist
 
 # comparison
 isclose = torch.ops.partialtorch.isclose

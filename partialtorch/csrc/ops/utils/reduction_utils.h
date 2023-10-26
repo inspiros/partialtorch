@@ -133,6 +133,7 @@ namespace partialtorch {
             };
 
             namespace impl {
+                // TODO: add multidim_reduction_DimnameList_impl
                 template<typename zero_dim_op_T, typename single_dim_op_T, typename... Args>
                 C10_ALWAYS_INLINE at::Tensor multidim_reduction_impl(
                         const zero_dim_op_T &zd_op,
@@ -183,6 +184,13 @@ namespace partialtorch {
                 return impl::multidim_reduction_impl(zd_op, sd_op, self, dim, keepdim);
             }
 
+            C10_ALWAYS_INLINE at::Tensor all(
+                    const at::Tensor &self,
+                    at::Dimname dim,
+                    bool keepdim = false) {
+                return at::all(self, dim, keepdim);
+            }
+
             C10_ALWAYS_INLINE c10::optional<at::Tensor> all(
                     const c10::optional<at::Tensor> &mask,
                     at::OptionalIntArrayRef dim = {},
@@ -190,6 +198,15 @@ namespace partialtorch {
                 if (!mask.has_value())
                     return {};
                 return all(mask.value(), dim, keepdim);
+            }
+
+            C10_ALWAYS_INLINE c10::optional<at::Tensor> all(
+                    const c10::optional<at::Tensor> &mask,
+                    at::Dimname dim,
+                    bool keepdim = false) {
+                if (!mask.has_value())
+                    return {};
+                return at::all(mask.value(), dim, keepdim);
             }
 
             struct all_dim_IntList {
@@ -212,6 +229,13 @@ namespace partialtorch {
                 return impl::multidim_reduction_impl(zd_op, sd_op, self, dim, keepdim);
             }
 
+            C10_ALWAYS_INLINE at::Tensor any(
+                    const at::Tensor &self,
+                    at::Dimname dim,
+                    bool keepdim = false) {
+                return at::any(self, dim, keepdim);
+            }
+
             C10_ALWAYS_INLINE c10::optional<at::Tensor> any(
                     const c10::optional<at::Tensor> &mask,
                     at::OptionalIntArrayRef dim = {},
@@ -219,6 +243,15 @@ namespace partialtorch {
                 if (!mask.has_value())
                     return {};
                 return any(mask.value(), dim, keepdim);
+            }
+
+            C10_ALWAYS_INLINE c10::optional<at::Tensor> any(
+                    const c10::optional<at::Tensor> &mask,
+                    at::Dimname dim,
+                    bool keepdim = false) {
+                if (!mask.has_value())
+                    return {};
+                return at::any(mask.value(), dim, keepdim);
             }
 
             struct any_dim_IntList {

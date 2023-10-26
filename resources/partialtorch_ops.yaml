@@ -425,26 +425,22 @@
 - func: partialtorch::ldexp_.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::ldexp_.Tensor_MaskedPair(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::ldexp_.Tensor(Tensor self, Tensor other) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.MaskedPair_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.MaskedPair_Tensor_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.Tensor_MaskedPair_Scalar(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.Tensor_Scalar(Tensor self, Tensor other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.MaskedPair_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.MaskedPair_Tensor_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.Tensor_MaskedPair_Scalar(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.Tensor_Scalar(Tensor self, Tensor other, *, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.MaskedPair_Tensor_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.Tensor_MaskedPair_Tensor(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp.Tensor_Tensor(Tensor self, Tensor other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.MaskedPair_Tensor_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.Tensor_MaskedPair_Tensor(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::lerp_.Tensor_Tensor(Tensor self, Tensor other, *, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::dist.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Scalar p=2) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::dist.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, *, Scalar p=2) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::dist.Tensor_MaskedPair(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Scalar p=2) -> __torch__.torch.classes.partialtorch.MaskedPair
-- func: partialtorch::dist.Tensor(Tensor self, Tensor other, *, Scalar p=2) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.MaskedPair_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.MaskedPair_Tensor_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.Tensor_MaskedPair_Scalar(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.Tensor_Scalar(Tensor self, Tensor other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.MaskedPair_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.MaskedPair_Tensor_Scalar(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.Tensor_MaskedPair_Scalar(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.Tensor_Scalar(Tensor self, Tensor other, Scalar weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.MaskedPair_Tensor_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.Tensor_MaskedPair_Tensor(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp.Tensor_Tensor(Tensor self, Tensor other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.MaskedPair_Tensor_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.Tensor_MaskedPair_Tensor(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::lerp_.Tensor_Tensor(Tensor self, Tensor other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::isclose.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> __torch__.torch.cla
   sses.partialtorch.MaskedPair
 - func: partialtorch::isclose.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> __torch__.torch.classes.partialtorch.MaskedPair

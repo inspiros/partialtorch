@@ -217,9 +217,6 @@ namespace partialtorch {
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS_WITH(
                 lerp, const at::Tensor &weight)
 
-        PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH(
-                dist, const at::Scalar &p = 2)
-
         // comparison
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                 isclose, double rtol = 1e-05, double atol = 1e-08, bool equal_nan = false)

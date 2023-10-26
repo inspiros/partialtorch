@@ -112,7 +112,7 @@ But if they fall into one of the following categories, the porting may take long
 - Ops that cannot be implemented easily by calling native ops and requires writing custom kernels (e.g. ``torch.mode``).
 - Ops that accept output as an input a.k.a. _out_ ops (e.g.
   ``aten::mul.out(self: Tensor, other: Tensor, *, out: Tensor(a!)) -> Tensor(a!)``).
-- Ops for tensors with unsuported properties (e.g. sparse, quantized layouts).
+- Ops for tensors with unsuported properties (e.g. named tensors, sparse/quantized layouts).
 - Ops with any input/return type that do not have ``pybind11`` type conversions predefined by ``torch``'s C++ backend.
 
 Also, everyone is welcome to contribute.
