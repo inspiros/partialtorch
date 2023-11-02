@@ -305,6 +305,13 @@ def lerp_(self: _MaskedPairOrTensor,
 
 
 # comparison
+def allclose(self: _MaskedPairOrTensor,
+             other: _MaskedPairOrTensor,
+             rtol: _float = 1e-05,
+             atol: _float = 1e-08,
+             equal_nan: _bool = False) -> _bool: ...
+
+
 def isclose(self: _MaskedPairOrTensor,
             other: _MaskedPairOrTensor,
             rtol: _float = 1e-05,
@@ -638,6 +645,12 @@ def partial_subtract_(self: _MaskedPairOrTensor,
 
 
 # comparison
+def partial_allclose(self: _MaskedPairOrTensor,
+                     other: _MaskedPairOrTensor,
+                     rtol: _float = 1e-05,
+                     atol: _float = 1e-08) -> _bool: ...
+
+
 def partial_isclose(self: _MaskedPairOrTensor,
                     other: _MaskedPairOrTensor,
                     rtol: _float = 1e-05,

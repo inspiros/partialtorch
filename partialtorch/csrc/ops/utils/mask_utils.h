@@ -185,7 +185,7 @@ namespace partialtorch {
                 std::vector<at::Tensor> masks;
                 masks.reserve(inputs.size());
                 for (const auto &input: inputs) {
-                    masks.emplace_back(get_tensor_mask(input));
+                    masks.emplace_back(get_tensor_mask(input, options));
                 }
                 return masks;
             }

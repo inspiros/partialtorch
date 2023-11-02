@@ -218,6 +218,14 @@ namespace partialtorch {
                 lerp, const at::Tensor &weight)
 
         // comparison
+        PARTIALTORCH_API bool allclose(const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                                       const_intrusive_ptr_arg_t<TensorMaskedPair> other,
+                                       double rtol = 1e-05, double atol = 1e-08, bool equal_nan = false);
+
+        PARTIALTORCH_API bool allclose(const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                                       const at::Tensor &other,
+                                       double rtol = 1e-05, double atol = 1e-08, bool equal_nan = false);
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                 isclose, double rtol = 1e-05, double atol = 1e-08, bool equal_nan = false)
 

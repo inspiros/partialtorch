@@ -133,28 +133,48 @@ namespace partialtorch {
     namespace ops {
         // logical
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_bitwise_and)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_bitwise_or)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_bitwise_xor)
 
         // arithmetics
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS_WITH2(
-                partial_add, const at::Scalar & alpha = 1, bool scaled = false)
+                partial_add, const at::Scalar &alpha = 1, bool scaled = false)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS_WITH2(
-                partial_sub, const at::Scalar & alpha = 1, bool scaled = false)
+                partial_sub, const at::Scalar &alpha = 1, bool scaled = false)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS_WITH2(
-                partial_subtract, const at::Scalar & alpha = 1, bool scaled = false)
+                partial_subtract, const at::Scalar &alpha = 1, bool scaled = false)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_mul)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_multiply)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS_WITH(
                 partial_div, c10::optional<c10::string_view> rounding_mode = {})
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS_WITH(
                 partial_divide, c10::optional<c10::string_view> rounding_mode = {})
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_floor_divide)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_true_divide)
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_logaddexp)
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_logaddexp2)
 
         // comparison
+        PARTIALTORCH_API bool partial_allclose(const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                                               const_intrusive_ptr_arg_t<TensorMaskedPair> other,
+                                               double rtol = 1e-05, double atol = 1e-08);
+
+        PARTIALTORCH_API bool partial_allclose(const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                                               const at::Tensor &other,
+                                               double rtol = 1e-05, double atol = 1e-08);
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
                 partial_isclose, double rtol = 1e-05, double atol = 1e-08)
 
@@ -165,15 +185,22 @@ namespace partialtorch {
                                             const at::Tensor &other);
 
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_eq)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_ne)
+
         PT_DECLARE_BINARY_OPS_AND_OPS__FORALL_TENSOR_AND_SCALAR_OVERLOADS(partial_not_equal)
 
         // min max
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_min)
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_max)
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_minimum)
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_maxium)
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_fmin)
+
         PT_DECLARE_BINARY_OPS_FORALL_TENSOR_OVERLOADS(partial_fmax)
     }
 }

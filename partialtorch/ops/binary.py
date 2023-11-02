@@ -68,6 +68,7 @@ lerp = torch.ops.partialtorch.lerp
 lerp_ = torch.ops.partialtorch.lerp_
 
 # comparison
+allclose = torch.ops.partialtorch.allclose
 isclose = torch.ops.partialtorch.isclose
 equal = torch.ops.partialtorch.equal
 eq = torch.ops.partialtorch.eq
@@ -135,6 +136,7 @@ partial_logaddexp = torch.ops.partialtorch.partial_logaddexp
 partial_logaddexp2 = torch.ops.partialtorch.partial_logaddexp2
 
 # comparison
+partial_allclose = torch.ops.partialtorch.partial_allclose
 partial_isclose = torch.ops.partialtorch.partial_isclose
 partial_equal = torch.ops.partialtorch.partial_equal
 partial_eq = torch.ops.partialtorch.partial_eq

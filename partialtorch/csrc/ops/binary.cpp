@@ -507,12 +507,56 @@ namespace partialtorch {
         // comparison
         namespace impl {
             template<typename self_T, typename other_T>
+            static C10_ALWAYS_INLINE bool allclose_impl(
+                    const self_T &self,
+                    const other_T &other,
+                    double rtol,
+                    double atol,
+                    bool equal_nan) {
+                return at::_ops::allclose::call(utils::index_non_masked(self),
+                                                utils::index_non_masked(other),
+                                                rtol, atol, equal_nan);
+            }
+
+            template<typename self_T, typename other_T>
             static C10_ALWAYS_INLINE bool equal_impl(
                     const self_T &self,
                     const other_T &other) {
                 return at::_ops::equal::call(utils::index_non_masked(self),
                                              utils::index_non_masked(other));
             }
+        }
+
+        bool allclose(const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                      const_intrusive_ptr_arg_t<TensorMaskedPair> other,
+                      double rtol,
+                      double atol,
+                      bool equal_nan) {
+            return impl::allclose_impl(self, other, rtol, atol, equal_nan);
+        }
+
+        bool allclose(const_intrusive_ptr_arg_t<TensorMaskedPair> self,
+                      const at::Tensor &other,
+                      double rtol,
+                      double atol,
+                      bool equal_nan) {
+            return impl::allclose_impl(self, other, rtol, atol, equal_nan);
+        }
+
+        bool allclose(const at::Tensor &self,
+                      const_intrusive_ptr_arg_t<TensorMaskedPair> other,
+                      double rtol,
+                      double atol,
+                      bool equal_nan) {
+            return impl::allclose_impl(self, other, rtol, atol, equal_nan);
+        }
+
+        bool allclose(const at::Tensor &self,
+                      const at::Tensor &other,
+                      double rtol,
+                      double atol,
+                      bool equal_nan) {
+            return at::_ops::allclose::call(self, other, rtol, atol, equal_nan);
         }
 
         PT_DEFINE_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
@@ -662,6 +706,43 @@ namespace partialtorch {
                     const at::Tensor &, weight,)
 
             // comparison
+            m.def(utils::FunctionSchemaBuilder("allclose")
+                          .overload("MaskedPair")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("other")
+                          .arg<double>("rtol", "1e-05").arg<double>("atol", "1e-08").arg<bool>("equal_nan", "False")
+                          .ret<bool>().schema().c_str(),
+                  TORCH_FN(static_cast<bool (*)(const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                                                const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                                                double, double, bool)>(allclose)));
+            m.def(utils::FunctionSchemaBuilder("allclose")
+                          .overload("MaskedPair_Tensor")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<const at::Tensor &>("other")
+                          .arg<double>("rtol", "1e-05").arg<double>("atol", "1e-08").arg<bool>("equal_nan", "False")
+                          .ret<bool>().schema().c_str(),
+                  TORCH_FN(static_cast<bool (*)(const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                                                const at::Tensor &,
+                                                double, double, bool)>(allclose)));
+            m.def(utils::FunctionSchemaBuilder("allclose")
+                          .overload("Tensor_MaskedPair")
+                          .arg<const at::Tensor &>("self")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("other")
+                          .arg<double>("rtol", "1e-05").arg<double>("atol", "1e-08").arg<bool>("equal_nan", "False")
+                          .ret<bool>().schema().c_str(),
+                  TORCH_FN(static_cast<bool (*)(const at::Tensor &,
+                                                const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                                                double, double, bool)>(allclose)));
+            m.def(utils::FunctionSchemaBuilder("allclose")
+                          .overload("Tensor")
+                          .arg<const at::Tensor &>("self")
+                          .arg<const at::Tensor &>("other")
+                          .arg<double>("rtol", "1e-05").arg<double>("atol", "1e-08").arg<bool>("equal_nan", "False")
+                          .ret<bool>().schema().c_str(),
+                  TORCH_FN(static_cast<bool (*)(const at::Tensor &,
+                                                const at::Tensor &,
+                                                double, double, bool)>(allclose)));
+
             PT_REGISTER_BINARY_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                     isclose, , -1,
                     double, rtol, 1e-05,
