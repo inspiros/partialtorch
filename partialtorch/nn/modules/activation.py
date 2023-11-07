@@ -1,8 +1,8 @@
-import torch.nn.modules.activation
-
 import partialtorch
-import partialtorch.nn.functional as partial_F
+import torch.nn.modules.activation
 from partialtorch.types import MaskedPair
+
+from .. import functional as partial_F
 
 __all__ = ['Threshold', 'ReLU', 'RReLU', 'Hardtanh', 'ReLU6', 'Sigmoid', 'Hardsigmoid', 'Tanh',
            'SiLU', 'Mish', 'Hardswish', 'ELU', 'CELU', 'SELU', 'GLU', 'GELU', 'Hardshrink', 'LeakyReLU',

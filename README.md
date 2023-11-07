@@ -217,11 +217,17 @@ A few examples can be found in [examples](examples) folder.
 
 ### Neural Network Layers
 
-Only some layers are implemented in `partialtorch.nn` sub package.
+Currently, there are a few modules implemented in ``partialtorch.nn`` subpackage that are masked equivalences of those
+in ``torch.nn``:
 
-- `PartialConvNd`, `PartialConvTransposeNd`: [examples/partial_conv_example.py](examples/partial_conv_example.py)
-- ``MaskedMaxPoolNd``, ``MaskedFractionalMaxPoolNd`` [examples/masked_max_pool_example.py](examples/masked_max_pool_example.py)
-- `MaskedBatchNormNd`: [examples/masked_batchnorm_example.py](examples/masked_batchnorm_example.py)
+- [`partialtorch.nn.modules.activation`](partialtorch/nn/modules/activation.py): All activations except `torch.nn.modules.activation.MultiheadAttention`.
+- [`partialtorch.nn.modules.batchnorm`](partialtorch/nn/modules/batchnorm.py): `BatchNormNd` (see [examples/masked_batchnorm_example.py](examples/masked_batchnorm_example.py))
+- [`partialtorch.nn.modules.batchnorm`](partialtorch/nn/modules/batchnorm.py): `DropoutNd`, `AlphaDropout`, `FeatureAlphaDropout`
+- [`partialtorch.nn.modules.flatten`](partialtorch/nn/modules/flatten.py): `Flatten`, `Unflatten`
+- [`partialtorch.nn.modules.fold`](partialtorch/nn/modules/fold.py): `Fold`, `Unfold`
+- [`partialtorch.nn.modules.padding`](partialtorch/nn/modules/padding.py): `CircularPadNd`, `ConstantPadNd`, `ReflectionPadNd`, `ReplicationPadNd`, `ZeroPadNd`
+- [`partialtorch.nn.modules.partial_conv`](partialtorch/nn/modules/partial_conv.py): `PartialConvNd`, `PartialConvTransposeNd` (see [examples/partial_conv_example.py](examples/partial_conv_example.py))
+- [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): `MaxPoolNd`, `FractionalMaxPoolNd` (see [examples/masked_max_pool_example.py](examples/masked_max_pool_example.py))
 - _More to be added_
 
 ## Citation

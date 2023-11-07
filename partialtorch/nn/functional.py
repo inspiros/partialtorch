@@ -462,6 +462,7 @@ def batch_norm(
 
 # TODO: instance_norm, layer_norm, group_norm, local_response_norm
 
+pad = partialtorch.ops.pad
 normalize = partialtorch.ops.normalize
 
 

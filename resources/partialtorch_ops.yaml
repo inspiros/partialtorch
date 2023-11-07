@@ -759,6 +759,9 @@
 - func: partialtorch::batch_norm.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair input, Tensor? weight, Tensor? bias, Tensor? running_mean, Tensor? running_var, bool training, float momentum, float eps) -> __torch__.tor
   ch.classes.partialtorch.MaskedPair
 - func: partialtorch::batch_norm.Tensor(Tensor input, Tensor? weight, Tensor? bias, Tensor? running_mean, Tensor? running_var, bool training, float momentum, float eps) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::pad.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, SymInt[] pad, str mode="constant", float? value=None, *, str mask_mode="constant", bool? mask_value=None) -> __torch__.torch.classes.partia
+  ltorch.MaskedPair
+- func: partialtorch::pad.Tensor(Tensor self, SymInt[] pad, str mode="constant", float? value=None, *, str mask_mode="constant", bool? mask_value=None) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_ger.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_ger.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_ger.Tensor_MaskedPair(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -2185,4 +2188,4 @@
   graph=False) -> ()
 - func: partialtorch::_backward.MaskedPair_TensorList(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor[] inputs, Tensor? gradient=None, bool? retain_graph=None, bool create_graph=False) -> ()
 - func: partialtorch::_backward.Tensor_MaskedPairList(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair[] inputs, Tensor? gradient=None, bool? retain_graph=None, bool create_graph=False) -> ()
-- func: partialtorch::_backward.Tensor_TensorList(Tensor self, Tensor[] inputs, Tensor? gradient=None, bool? retain_graph=None, bool create_graph=False) -> ()
+- func: partialtorch::_backward.Tensor_TensorList(Tensor self, Tensor[] inputs, Tensor? gradient=None, bool?

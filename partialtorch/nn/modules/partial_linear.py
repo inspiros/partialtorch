@@ -1,9 +1,9 @@
 import warnings
 
 import torch.nn as nn
-
-import partialtorch.nn.functional as partial_F
 from partialtorch.types import MaskedPair
+
+from .. import functional as partial_F
 
 __all__ = [
     'PartialLinear'

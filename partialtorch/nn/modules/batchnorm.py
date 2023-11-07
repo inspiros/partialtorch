@@ -1,7 +1,7 @@
 import torch.nn.modules.batchnorm
-
-import partialtorch.nn.functional as partial_F
 from partialtorch.types import MaskedPair
+
+from .. import functional as partial_F
 
 __all__ = [
     'BatchNorm1D',

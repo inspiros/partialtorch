@@ -1,9 +1,9 @@
 import torch.nn as nn
 import torch.nn.modules.pooling
+from partialtorch.types import MaskedPair
 from torch.nn.common_types import _size_1_t, _size_2_t, _size_3_t
 
-import partialtorch.nn.functional as partial_F
-from partialtorch.types import MaskedPair
+from .. import functional as partial_F
 
 __all__ = [
     'MaxPool1d',

@@ -3,12 +3,12 @@ Modified from https://github.com/NVIDIA/partialconv/blob/master/models/partialco
 """
 from typing import List, Optional, Union
 
+from partialtorch.types import Tensor, MaskedPair
 from torch.nn.common_types import _size_any_t, _size_1_t, _size_2_t, _size_3_t
 from torch.nn.modules.conv import _ConvNd, _ConvTransposeNd
 from torch.nn.modules.utils import _single, _pair, _triple
 
-import partialtorch.nn.functional as partial_F
-from partialtorch.types import Tensor, MaskedPair
+from .. import functional as partial_F
 
 __all__ = [
     'PartialConv1d',
