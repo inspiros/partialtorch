@@ -441,6 +441,10 @@
 - func: partialtorch::lerp_.MaskedPair_Tensor_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::lerp_.Tensor_MaskedPair_Tensor(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::lerp_.Tensor_Tensor(Tensor self, Tensor other, Tensor weight) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::allclose.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> bool
+- func: partialtorch::allclose.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> bool
+- func: partialtorch::allclose.Tensor_MaskedPair(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> bool
+- func: partialtorch::allclose.Tensor(Tensor self, Tensor other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> bool
 - func: partialtorch::isclose.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> __torch__.torch.cla
   sses.partialtorch.MaskedPair
 - func: partialtorch::isclose.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, float rtol=1e-05, float atol=1e-08, bool equal_nan=False) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1111,6 +1115,10 @@
 - func: partialtorch::partial_subtract_.Tensor_Scalar_scaled(Tensor self, Scalar other, *, Scalar alpha=1, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_subtract_.Scalar_MaskedPair_scaled(Scalar self, __torch__.torch.classes.partialtorch.MaskedPair other, *, Scalar alpha=1, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::partial_subtract_.Scalar_Tensor_scaled(Scalar self, Tensor other, *, Scalar alpha=1, bool scaled) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::partial_allclose.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, float rtol=1e-05, float atol=1e-08) -> bool
+- func: partialtorch::partial_allclose.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, float rtol=1e-05, float atol=1e-08) -> bool
+- func: partialtorch::partial_allclose.Tensor_MaskedPair(Tensor self, __torch__.torch.classes.partialtorch.MaskedPair other, float rtol=1e-05, float atol=1e-08) -> bool
+- func: partialtorch::partial_allclose.Tensor(Tensor self, Tensor other, float rtol=1e-05, float atol=1e-08) -> bool
 - func: partialtorch::partial_isclose.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, __torch__.torch.classes.partialtorch.MaskedPair other, float rtol=1e-05, float atol=1e-08) -> __torch__.torch.classes.partialto
   rch.MaskedPair
 - func: partialtorch::partial_isclose.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, Tensor other, float rtol=1e-05, float atol=1e-08) -> __torch__.torch.classes.partialtorch.MaskedPair
@@ -1543,6 +1551,11 @@
 - func: partialtorch::gather.Tensor_dimname(Tensor self, Dimname dim, Tensor index, *, bool sparse_grad="False") -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::unfold.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int dimension, int size, int step) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::unfold.Tensor(Tensor self, int dimension, int size, int step) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::im2col.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int[2] kernel_size, int[2] dilation, int[2] padding, int[2] stride) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::im2col.Tensor(Tensor self, int[2] kernel_size, int[2] dilation, int[2] padding, int[2] stride) -> __torch__.torch.classes.partialtorch.MaskedPair
+- func: partialtorch::col2im.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, SymInt[2] output_size, int[2] kernel_size, int[2] dilation, int[2] padding, int[2] stride) -> __torch__.torch.classes.partialtorch.Maske
+  dPair
+- func: partialtorch::col2im.Tensor(Tensor self, SymInt[2] output_size, int[2] kernel_size, int[2] dilation, int[2] padding, int[2] stride) -> __torch__.torch.classes.partialtorch.MaskedPair
 - func: partialtorch::chunk.MaskedPair(__torch__.torch.classes.partialtorch.MaskedPair self, int chunks, int dim=0) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::chunk.Tensor(Tensor self, int chunks, int dim=0) -> __torch__.torch.classes.partialtorch.MaskedPair[]
 - func: partialtorch::split.MaskedPair_Tensor(__torch__.torch.classes.partialtorch.MaskedPair self, SymInt split_size, int dim=0) -> __torch__.torch.classes.partialtorch.MaskedPair[]
