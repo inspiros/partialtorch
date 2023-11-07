@@ -17,7 +17,7 @@ def test_masked_batchnorm(masked=True, p=0.5, feat_dims=(5,), feat_mean=10., fea
 
     ndim = 1 if len(feat_dims) in [1, 2] else len(feat_dims) - 1
     if masked:
-        bn_class = getattr(partialtorch.nn, f'MaskedBatchNorm{ndim}d')
+        bn_class = getattr(partialtorch.nn, f'BatchNorm{ndim}d')
     else:
         bn_class = getattr(torch.nn, f'BatchNorm{ndim}d')
     bn = bn_class(feat_dims[0])

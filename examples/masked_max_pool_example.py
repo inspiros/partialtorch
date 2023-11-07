@@ -10,7 +10,7 @@ def test_masked_pool_module():
     print(px)
     print()
 
-    pool = partialtorch.nn.MaskedMaxPool2d(kernel_size=(2, 2))
+    pool = partialtorch.nn.MaxPool2d(kernel_size=(2, 2))
 
     # op
     pout, indices = partialtorch.max_pool2d_with_indices(

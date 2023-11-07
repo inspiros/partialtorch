@@ -1,13 +1,11 @@
 r"""
 Partial equivalence of :mod:`~torch.nn.functional`.
 """
-
 from typing import List, Tuple, Optional
 
 import torch.nn.functional
 # noinspection PyUnresolvedReferences
 from torch._jit_internal import boolean_dispatch, BroadcastingList1, BroadcastingList2, BroadcastingList3
-
 from torch.nn.modules.utils import _pair, _triple
 
 import partialtorch
@@ -67,6 +65,7 @@ fractional_max_pool2d = boolean_dispatch(
     module_name=__name__,
     func_name="fractional_max_pool2d",
 )
+
 
 # noinspection PyUnusedLocal
 def fractional_max_pool3d_with_indices(
@@ -460,4 +459,32 @@ def batch_norm(
     """
     return partialtorch.ops.batch_norm(input, weight, bias, running_mean, running_var, training, momentum, eps)
 
+
 # TODO: instance_norm, layer_norm, group_norm, local_response_norm
+
+normalize = partialtorch.ops.normalize
+
+
+def unfold(
+        input: MaskedPair,
+        kernel_size: BroadcastingList2[int],
+        dilation: BroadcastingList2[int] = 1,
+        padding: BroadcastingList2[int] = 0,
+        stride: BroadcastingList2[int] = 1) -> MaskedPair:
+    r"""See :func:`~torch.nn.functional.unfold` for details.
+    """
+    return partialtorch.ops.im2col(input, _pair(kernel_size), _pair(dilation), _pair(padding), _pair(stride))
+
+
+def fold(
+        input: MaskedPair,
+        output_size: BroadcastingList2[int],
+        kernel_size: BroadcastingList2[int],
+        dilation: BroadcastingList2[int] = 1,
+        padding: BroadcastingList2[int] = 0,
+        stride: BroadcastingList2[int] = 1) -> MaskedPair:
+    r"""See :func:`~torch.nn.functional.fold` for details.
+    """
+    return partialtorch.ops.col2im(
+        input, _pair(output_size), _pair(kernel_size), _pair(dilation), _pair(padding), _pair(stride)
+    )

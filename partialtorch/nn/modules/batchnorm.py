@@ -1,17 +1,16 @@
-import torch
-from torch.nn.modules.batchnorm import _BatchNorm
+import torch.nn.modules.batchnorm
 
-from partialtorch.types import MaskedPair
 import partialtorch.nn.functional as partial_F
+from partialtorch.types import MaskedPair
 
 __all__ = [
-    'MaskedBatchNorm1d',
-    'MaskedBatchNorm2d',
-    'MaskedBatchNorm3d',
+    'BatchNorm1D',
+    'BatchNorm2D',
+    'BatchNorm3D',
 ]
 
 
-class _MaskedBatchNorm(_BatchNorm):
+class _BatchNorm(torch.nn.modules.batchnorm._BatchNorm):
     def forward(self, input: MaskedPair) -> MaskedPair:
         self._check_input_dim(input.data)
 
@@ -48,19 +47,19 @@ class _MaskedBatchNorm(_BatchNorm):
         )
 
 
-class MaskedBatchNorm1d(_MaskedBatchNorm):
-    r"""Mased version of :class:`torch.nn.BatchNorm1d`.
+class BatchNorm1D(_BatchNorm):
+    r"""See :class:`torch.nn.BatchNorm1d` for details.
     """
     _check_input_dim = torch.nn.BatchNorm1d._check_input_dim
 
 
-class MaskedBatchNorm2d(_MaskedBatchNorm):
-    r"""Mased version of :class:`torch.nn.BatchNorm2d`.
+class BatchNorm2D(_BatchNorm):
+    r"""See :class:`torch.nn.BatchNorm2d` for details.
     """
     _check_input_dim = torch.nn.BatchNorm2d._check_input_dim
 
 
-class MaskedBatchNorm3d(_MaskedBatchNorm):
-    r"""Mased version of :class:`torch.nn.BatchNorm3d`.
+class BatchNorm3D(_BatchNorm):
+    r"""See :class:`torch.nn.BatchNorm3d` for details.
     """
     _check_input_dim = torch.nn.BatchNorm3d._check_input_dim

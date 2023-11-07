@@ -441,6 +441,21 @@ def unfold(self: _MaskedPairOrTensor,
            step: _int) -> MaskedPair: ...
 
 
+def im2col(self: _MaskedPairOrTensor,
+           kernel_size: Union[_int, _size],
+           stride: Union[_int, _size],
+           padding: Union[_int, _size],
+           dilation: Union[_int, _size]) -> MaskedPair: ...
+
+
+def col2im(self: _MaskedPairOrTensor,
+           output_size: Union[_symint, Sequence[_symint]],
+           kernel_size: Union[_int, _size],
+           stride: Union[_int, _size],
+           padding: Union[_int, _size],
+           dilation: Union[_int, _size]) -> MaskedPair: ...
+
+
 # one to many
 def chunk(self: _MaskedPairOrTensor,
           chunks: _int,

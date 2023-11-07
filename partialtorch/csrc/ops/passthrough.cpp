@@ -38,6 +38,12 @@ c10::intrusive_ptr<TensorMaskedPair> NAME(SELF_T self, ARG1_T ARG1_NAME, ARG2_T 
     return impl::one2one_passthrough_impl(op, self, ARG1_NAME, ARG2_NAME, ARG3_NAME, ARG4_NAME);                                                  \
 }
 
+#define PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_WITH5(NAME, IMPL_OP, SELF_T, ARG1_T, ARG1_NAME, ARG2_T, ARG2_NAME, ARG3_T, ARG3_NAME, ARG4_T, ARG4_NAME, ARG5_T, ARG5_NAME) \
+c10::intrusive_ptr<TensorMaskedPair> NAME(SELF_T self, ARG1_T ARG1_NAME, ARG2_T ARG2_NAME, ARG3_T ARG3_NAME, ARG4_T ARG4_NAME, ARG5_T ARG5_NAME) {                   \
+    static constexpr auto op = IMPL_OP;                                                                                                                              \
+    return impl::one2one_passthrough_impl(op, self, ARG1_NAME, ARG2_NAME, ARG3_NAME, ARG4_NAME, ARG5_NAME);                                                          \
+}
+
 #define PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_(NAME, IMPL_OP, SELF_T) \
 c10::intrusive_ptr<TensorMaskedPair> NAME##_(SELF_T self) {      \
     static constexpr auto op_ = IMPL_OP;                         \
@@ -87,6 +93,10 @@ PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_WITH3(NAME, IMPL_OP, const at::Tensor &, ARG1_T
 #define PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH4(NAME, IMPL_OP, ARG1_T, ARG1_NAME, ARG2_T, ARG2_NAME, ARG3_T, ARG3_NAME, ARG4_T, ARG4_NAME) \
 PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_WITH4(NAME, IMPL_OP, const_intrusive_ptr_arg_t<TensorMaskedPair>, ARG1_T, ARG1_NAME, ARG2_T, ARG2_NAME, ARG3_T, ARG3_NAME, ARG4_T, ARG4_NAME) \
 PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_WITH4(NAME, IMPL_OP, const at::Tensor &, ARG1_T, ARG1_NAME, ARG2_T, ARG2_NAME, ARG3_T, ARG3_NAME, ARG4_T, ARG4_NAME)
+
+#define PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH5(NAME, IMPL_OP, ARG1_T, ARG1_NAME, ARG2_T, ARG2_NAME, ARG3_T, ARG3_NAME, ARG4_T, ARG4_NAME, ARG5_T, ARG5_NAME) \
+PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_WITH5(NAME, IMPL_OP, const_intrusive_ptr_arg_t<TensorMaskedPair>, ARG1_T, ARG1_NAME, ARG2_T, ARG2_NAME, ARG3_T, ARG3_NAME, ARG4_T, ARG4_NAME, ARG5_T, ARG5_NAME) \
+PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_WITH5(NAME, IMPL_OP, const at::Tensor &, ARG1_T, ARG1_NAME, ARG2_T, ARG2_NAME, ARG3_T, ARG3_NAME, ARG4_T, ARG4_NAME, ARG5_T, ARG5_NAME)
 
 #define PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS__FORALL_TENSOR_OVERLOADS(NAME, IMPL_OP) \
 PT_DEFINE_ONE2ONE_PASSTHROUGH_OP_(NAME, IMPL_OP, intrusive_ptr_arg_t<TensorMaskedPair>) \
@@ -329,10 +339,6 @@ PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS__FORALL_TENSOR_OVERLOADS_WITH2(NAME, POSTFIX
 #define PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS_WITH3(NAME, POSTFIX, VARARG_INDEX, ARG1_T, ARG1_NAME, ARG1_DEFAULT, ARG2_T, ARG2_NAME, ARG2_DEFAULT, ARG3_T, ARG3_NAME, ARG3_DEFAULT) \
 PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(NAME, POSTFIX, VARARG_INDEX, ARG1_T, ARG1_NAME, ARG1_DEFAULT, ARG2_T, ARG2_NAME, ARG2_DEFAULT, ARG3_T, ARG3_NAME, ARG3_DEFAULT)                  \
 PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS__FORALL_TENSOR_OVERLOADS_WITH3(NAME, POSTFIX, VARARG_INDEX, ARG1_T, ARG1_NAME, ARG1_DEFAULT, ARG2_T, ARG2_NAME, ARG2_DEFAULT, ARG3_T, ARG3_NAME, ARG3_DEFAULT)
-
-#define PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_AND_OPS__FORALL_TENSOR_OVERLOADS_WITH4(NAME, POSTFIX, VARARG_INDEX, ARG1_T, ARG1_NAME, ARG1_DEFAULT, ARG2_T, ARG2_NAME, ARG2_DEFAULT, ARG3_T, ARG3_NAME, ARG3_DEFAULT, ARG4_T, ARG4_NAME, ARG4_DEFAULT) \
-PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH4(NAME, POSTFIX, VARARG_INDEX, ARG1_T, ARG1_NAME, ARG1_DEFAULT, ARG2_T, ARG2_NAME, ARG2_DEFAULT, ARG3_T, ARG3_NAME, ARG3_DEFAULT, ARG4_T, ARG4_NAME, ARG4_DEFAULT)                  \
-PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS__FORALL_TENSOR_OVERLOADS_WITH4(NAME, POSTFIX, VARARG_INDEX, ARG1_T, ARG1_NAME, ARG1_DEFAULT, ARG2_T, ARG2_NAME, ARG2_DEFAULT, ARG3_T, ARG3_NAME, ARG3_DEFAULT, ARG4_T, ARG4_NAME, ARG4_DEFAULT)
 
 // one to many
 #define PT_REGISTER_ONE2MANY_PASSTHROUGH_OP(NAME, OVERLOAD_NAME, POSTFIX, SELF_T) \
@@ -1031,6 +1037,21 @@ namespace partialtorch {
                 unfold, at::_ops::unfold(),
                 int64_t, dimension, int64_t, size, int64_t, step)
 
+        PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH4(
+                im2col, at::_ops::im2col(),
+                at::IntArrayRef, kernel_size,
+                at::IntArrayRef, dilation,
+                at::IntArrayRef, padding,
+                at::IntArrayRef, stride)
+
+        PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH5(
+                col2im, at::_ops::col2im(),
+                c10::SymIntArrayRef, output_size,
+                at::IntArrayRef, kernel_size,
+                at::IntArrayRef, dilation,
+                at::IntArrayRef, padding,
+                at::IntArrayRef, stride)
+
         // one to many
         PT_DEFINE_ONE2MANY_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH2(
                 chunk, at::_ops::chunk(),
@@ -1511,6 +1532,64 @@ namespace partialtorch {
             PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                     unfold, , ,
                     int64_t, dimension, , int64_t, size, , int64_t, step,)
+
+            m.def(utils::FunctionSchemaBuilder("im2col").overload("MaskedPair")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<at::IntArrayRef, 2>("kernel_size")
+                          .arg<at::IntArrayRef, 2>("dilation")
+                          .arg<at::IntArrayRef, 2>("padding")
+                          .arg<at::IntArrayRef, 2>("stride")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair>(*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef)>(im2col)));
+            m.def(utils::FunctionSchemaBuilder("im2col").overload("Tensor")
+                          .arg<const at::Tensor &>("self")
+                          .arg<at::IntArrayRef, 2>("kernel_size")
+                          .arg<at::IntArrayRef, 2>("dilation")
+                          .arg<at::IntArrayRef, 2>("padding")
+                          .arg<at::IntArrayRef, 2>("stride")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair>(*)(
+                          const at::Tensor &,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef)>(im2col)));
+
+            m.def(utils::FunctionSchemaBuilder("col2im").overload("MaskedPair")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("self")
+                          .arg<c10::SymIntArrayRef, 2>("output_size")
+                          .arg<at::IntArrayRef, 2>("kernel_size")
+                          .arg<at::IntArrayRef, 2>("dilation")
+                          .arg<at::IntArrayRef, 2>("padding")
+                          .arg<at::IntArrayRef, 2>("stride")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair>(*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          c10::SymIntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef)>(col2im)));
+            m.def(utils::FunctionSchemaBuilder("col2im").overload("Tensor")
+                          .arg<const at::Tensor &>("self")
+                          .arg<c10::SymIntArrayRef, 2>("output_size")
+                          .arg<at::IntArrayRef, 2>("kernel_size")
+                          .arg<at::IntArrayRef, 2>("dilation")
+                          .arg<at::IntArrayRef, 2>("padding")
+                          .arg<at::IntArrayRef, 2>("stride")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair>(*)(
+                          const at::Tensor &,
+                          c10::SymIntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef,
+                          at::IntArrayRef)>(col2im)));
 
             // one to many
             PT_REGISTER_ONE2MANY_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH2(

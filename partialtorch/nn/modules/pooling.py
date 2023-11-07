@@ -1,25 +1,25 @@
 import torch.nn as nn
+import torch.nn.modules.pooling
 from torch.nn.common_types import _size_1_t, _size_2_t, _size_3_t
-from torch.nn.modules.pooling import _MaxPoolNd
 
 import partialtorch.nn.functional as partial_F
 from partialtorch.types import MaskedPair
 
 __all__ = [
-    'MaskedMaxPool1d',
-    'MaskedMaxPool2d',
-    'MaskedMaxPool3d',
-    'MaskedFractionalMaxPool2d',
-    'MaskedFractionalMaxPool3d',
+    'MaxPool1d',
+    'MaxPool2d',
+    'MaxPool3d',
+    'FractionalMaxPool2d',
+    'FractionalMaxPool3d',
 ]
 
 
-class _MaskedMaxPoolNd(_MaxPoolNd):
+class _MaxPoolNd(torch.nn.modules.pooling._MaxPoolNd):
     pass
 
 
-class MaskedMaxPool1d(_MaxPoolNd):
-    r"""Mased version of :class:`torch.nn.MaxPool1d`.
+class MaxPool1d(_MaxPoolNd):
+    r"""See :class:`torch.nn.MaxPool1d` for details.
     """
 
     kernel_size: _size_1_t
@@ -33,8 +33,8 @@ class MaskedMaxPool1d(_MaxPoolNd):
                                     return_indices=self.return_indices)
 
 
-class MaskedMaxPool2d(_MaxPoolNd):
-    r"""Mased version of :class:`torch.nn.MaxPool2d`.
+class MaxPool2d(_MaxPoolNd):
+    r"""See :class:`torch.nn.MaxPool2d` for details.
     """
 
     kernel_size: _size_2_t
@@ -48,8 +48,8 @@ class MaskedMaxPool2d(_MaxPoolNd):
                                     return_indices=self.return_indices)
 
 
-class MaskedMaxPool3d(_MaxPoolNd):
-    r"""Mased version of :class:`torch.nn.MaxPool3d`.
+class MaxPool3d(_MaxPoolNd):
+    r"""See :class:`torch.nn.MaxPool3d` for details.
     """
 
     kernel_size: _size_3_t
@@ -63,8 +63,8 @@ class MaskedMaxPool3d(_MaxPoolNd):
                                     return_indices=self.return_indices)
 
 
-class MaskedFractionalMaxPool2d(nn.FractionalMaxPool2d):
-    r"""Mased version of :class:`torch.nn.FractionalMaxPool2d`.
+class FractionalMaxPool2d(nn.FractionalMaxPool2d):
+    r"""See :class:`torch.nn.FractionalMaxPool2d` for details.
     """
 
     def forward(self, input: MaskedPair):
@@ -74,8 +74,8 @@ class MaskedFractionalMaxPool2d(nn.FractionalMaxPool2d):
             _random_samples=self._random_samples)
 
 
-class MaskedFractionalMaxPool3d(nn.FractionalMaxPool3d):
-    r"""Mased version of :class:`torch.nn.FractionalMaxPool3d`.
+class FractionalMaxPool3d(nn.FractionalMaxPool3d):
+    r"""See :class:`torch.nn.FractionalMaxPool3d` for details.
     """
 
     def forward(self, input: MaskedPair):

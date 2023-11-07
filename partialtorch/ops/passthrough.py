@@ -58,6 +58,8 @@ take = torch.ops.partialtorch.take
 take_along_dim = torch.ops.partialtorch.take_along_dim
 gather = torch.ops.partialtorch.gather
 unfold = torch.ops.partialtorch.unfold
+im2col = torch.ops.partialtorch.im2col
+col2im = torch.ops.partialtorch.col2im
 
 # one to many
 chunk = torch.ops.partialtorch.chunk
