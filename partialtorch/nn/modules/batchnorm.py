@@ -48,18 +48,18 @@ class _BatchNorm(torch.nn.modules.batchnorm._BatchNorm):
 
 
 class BatchNorm1D(_BatchNorm):
-    r"""See :class:`torch.nn.BatchNorm1d` for details.
+    r"""See :class:`torch.nn.modules.batchnorm.BatchNorm1d` for details.
     """
     _check_input_dim = torch.nn.BatchNorm1d._check_input_dim
 
 
 class BatchNorm2D(_BatchNorm):
-    r"""See :class:`torch.nn.BatchNorm2d` for details.
+    r"""See :class:`torch.nn.modules.batchnorm.BatchNorm2d` for details.
     """
     _check_input_dim = torch.nn.BatchNorm2d._check_input_dim
 
 
 class BatchNorm3D(_BatchNorm):
-    r"""See :class:`torch.nn.BatchNorm3d` for details.
+    r"""See :class:`torch.nn.modules.batchnorm.BatchNorm3d` for details.
     """
     _check_input_dim = torch.nn.BatchNorm3d._check_input_dim

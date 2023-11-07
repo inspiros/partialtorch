@@ -3,9 +3,9 @@ Modified from https://github.com/NVIDIA/partialconv/blob/master/models/partialco
 """
 from typing import List, Optional, Union
 
+import torch.nn.modules.conv
 from partialtorch.types import Tensor, MaskedPair
 from torch.nn.common_types import _size_any_t, _size_1_t, _size_2_t, _size_3_t
-from torch.nn.modules.conv import _ConvNd, _ConvTransposeNd
 from torch.nn.modules.utils import _single, _pair, _triple
 
 from .. import functional as partial_F
@@ -24,7 +24,7 @@ __all__ = [
 # PartialConv
 ################################################################################
 # noinspection DuplicatedCode,PyMethodOverriding
-class _PartialConvNd(_ConvNd):
+class _PartialConvNd(torch.nn.modules.conv._ConvNd):
 
     def __init__(self,
                  in_channels: int,
@@ -64,6 +64,9 @@ class _PartialConvNd(_ConvNd):
 
 
 class PartialConv1d(_PartialConvNd):
+    r"""See :class:`torch.nn.modules.conv.Conv1d` for details.
+    """
+
     def __init__(self,
                  in_channels: int,
                  out_channels: int,
@@ -96,6 +99,9 @@ class PartialConv1d(_PartialConvNd):
 
 
 class PartialConv2d(_PartialConvNd):
+    r"""See :class:`torch.nn.modules.conv.Conv2d` for details.
+    """
+
     def __init__(self,
                  in_channels: int,
                  out_channels: int,
@@ -128,6 +134,9 @@ class PartialConv2d(_PartialConvNd):
 
 
 class PartialConv3d(_PartialConvNd):
+    r"""See :class:`torch.nn.modules.conv.Conv3d` for details.
+    """
+
     def __init__(self,
                  in_channels: int,
                  out_channels: int,
@@ -163,7 +172,7 @@ class PartialConv3d(_PartialConvNd):
 # PartialConvTransposed
 ################################################################################
 # noinspection DuplicatedCode,PyMethodOverriding
-class _PartialConvTransposeNd(_ConvTransposeNd):
+class _PartialConvTransposeNd(torch.nn.modules.conv._ConvTransposeNd):
     def __init__(self,
                  in_channels: int,
                  out_channels: int,
@@ -211,6 +220,9 @@ class _PartialConvTransposeNd(_ConvTransposeNd):
 
 
 class PartialConvTranspose1d(_PartialConvTransposeNd):
+    r"""See :class:`torch.nn.modules.conv.ConvTranspose1d` for details.
+    """
+
     def __init__(self,
                  in_channels: int,
                  out_channels: int,
@@ -245,6 +257,9 @@ class PartialConvTranspose1d(_PartialConvTransposeNd):
 
 
 class PartialConvTranspose2d(_PartialConvTransposeNd):
+    r"""See :class:`torch.nn.modules.conv.ConvTranspose2d` for details.
+    """
+
     def __init__(self,
                  in_channels: int,
                  out_channels: int,
@@ -279,6 +294,9 @@ class PartialConvTranspose2d(_PartialConvTransposeNd):
 
 
 class PartialConvTranspose3d(_PartialConvTransposeNd):
+    r"""See :class:`torch.nn.modules.conv.ConvTranspose3d` for details.
+    """
+
     def __init__(self,
                  in_channels: int,
                  out_channels: int,

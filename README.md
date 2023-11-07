@@ -226,7 +226,7 @@ in ``torch.nn``:
 - [`partialtorch.nn.modules.flatten`](partialtorch/nn/modules/flatten.py): `Flatten`, `Unflatten`
 - [`partialtorch.nn.modules.fold`](partialtorch/nn/modules/fold.py): `Fold`, `Unfold`
 - [`partialtorch.nn.modules.padding`](partialtorch/nn/modules/padding.py): `CircularPadNd`, `ConstantPadNd`, `ReflectionPadNd`, `ReplicationPadNd`, `ZeroPadNd`
-- [`partialtorch.nn.modules.partial_conv`](partialtorch/nn/modules/partial_conv.py): `PartialConvNd`, `PartialConvTransposeNd` (see [examples/partial_conv_example.py](examples/partial_conv_example.py))
+- [`partialtorch.nn.modules.partial_conv`](partialtorch/nn/modules/conv.py): `PartialConvNd`, `PartialConvTransposeNd` (see [examples/partial_conv_example.py](examples/partial_conv_example.py))
 - [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): `MaxPoolNd`, `FractionalMaxPoolNd` (see [examples/masked_max_pool_example.py](examples/masked_max_pool_example.py))
 - _More to be added_
 
