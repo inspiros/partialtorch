@@ -83,6 +83,8 @@ def get_extensions():
     print(f'  FORCE_CUDA: {force_cuda}')
     debug_mode = os.getenv('DEBUG', '0') == '1'
     print(f'  DEBUG: {debug_mode}')
+    debug_ops_schemas_mode = os.getenv('DEBUG_OPS_SCHEMAS', '0') == '1'
+    print(f'  DEBUG_OPS_SCHEMAS: {debug_ops_schemas_mode}')
 
     nvcc_flags = os.getenv('NVCC_FLAGS', '')
     print(f'  NVCC_FLAGS: {nvcc_flags}')
@@ -110,7 +112,6 @@ def get_extensions():
 
     if debug_mode:
         print('Compiling in debug mode')
-        define_macros += [('DEBUG_OPS_SCHEMAS', None)]
         extra_compile_args['cxx'].append('-g')
         extra_compile_args['cxx'].append('-O0')
         if 'nvcc' in extra_compile_args:
@@ -119,6 +120,9 @@ def get_extensions():
             extra_compile_args['nvcc'] = [f for f in nvcc_flags if not ('-O' in f or '-g' in f)]
             extra_compile_args['nvcc'].append('-O0')
             extra_compile_args['nvcc'].append('-g')
+    if debug_ops_schemas_mode:
+        print('Compiling with ops schemas printing enabled')
+        define_macros += [('DEBUG_OPS_SCHEMAS', None)]
 
     include_dirs = [extensions_dir]
     ext_modules = [
