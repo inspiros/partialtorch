@@ -188,47 +188,149 @@ In the meantime, please consider ``MaskedPair`` purely a fast container and use
 
 **Note:** You cannot index ``MaskedPair`` with ``pair[..., 1:-1]`` as they acts like tuple of 2 elements when indexed.
 
-### Operations
+### Operators
 
 All registered ops can be accessed like any torch's custom C++ operator by calling ``torch.ops.partialtorch.[op_name]``
 (the same way we call native ATen function ``torch.ops.aten.[op_name]``).
 Their overloaded versions that accept ``Tensor`` are also registered for convenience
 (but return type is always converted to ``MaskedPair``).
 
-```python
-import torch, partialtorch
+<table>
+<tr>
+<th>torch</th>
+<th>partialtorch</th>
+</tr>
 
+<tr>
+<td>
+<sub>
+
+```python
+import torch
+
+torch.manual_seed(1)
+x = torch.rand(5, 5)
+
+y = torch.sum(x, 0, keepdim=True)
+```
+
+</sub>
+<td>
+<sub>
+
+```python
+import torch
+import partialtorch
+
+torch.manual_seed(1)
 x = torch.rand(5, 5)
 px = partialtorch.rand_mask(x, 0.5)
 
-# traditional
+# standard extension ops calling
 pout = torch.ops.partialtorch.sum(px, 0, keepdim=True)
-# all exposed ops should be aliased inside partialtorch.ops
+# all exposed ops are also aliased inside partialtorch.ops
 pout = partialtorch.ops.sum(px, 0, keepdim=True)
 ```
 
-Furthermore, we inherit the naming convention of for inplace ops - appending a trailing ``_`` after their names
-(``partialtorch.relu`` and ``partialtorch.relu_``).
+</sub>
+</td>
+</tr>
+
+</table>
+
+Furthermore, we inherit the naming convention of for inplace ops - appending a trailing ``_`` character after their
+names (e.g. ``partialtorch.relu`` and ``partialtorch.relu_``).
 They modify both data and mask of the first operand inplacely.
 
 The usage is kept as close to the corresponding ``Tensor`` ops as possible.
 Hence, further explaination is redundant.
-A few examples can be found in [examples](examples) folder.
 
 ### Neural Network Layers
 
-Currently, there are a few modules implemented in ``partialtorch.nn`` subpackage that are masked equivalences of those
-in ``torch.nn``:
+Currently, there are only a number of modules implemented in ``partialtorch.nn`` subpackage that are masked equivalences
+of those in ``torch.nn``.
+This is the list of submodules inside ``partialtorch.nn.modules`` and the layers they provide:
 
-- [`partialtorch.nn.modules.activation`](partialtorch/nn/modules/activation.py): All activations except `torch.nn.modules.activation.MultiheadAttention`.
-- [`partialtorch.nn.modules.batchnorm`](partialtorch/nn/modules/batchnorm.py): `BatchNormNd` (see [examples/masked_batchnorm_example.py](examples/masked_batchnorm_example.py))
-- [`partialtorch.nn.modules.batchnorm`](partialtorch/nn/modules/batchnorm.py): `DropoutNd`, `AlphaDropout`, `FeatureAlphaDropout`
+- [`partialtorch.nn.modules.activation`](partialtorch/nn/modules/activation.py): All activations except `torch.nn.MultiheadAttention`
+- [`partialtorch.nn.modules.batchnorm`](partialtorch/nn/modules/batchnorm.py): `BatchNormNd`
+- [`partialtorch.nn.modules.conv`](partialtorch/nn/modules/conv.py): `PartialConvNd`, `PartialConvTransposeNd`
+- [`partialtorch.nn.modules.dropout`](partialtorch/nn/modules/dropout.py): `DropoutNd`, `AlphaDropout`, `FeatureAlphaDropout`
 - [`partialtorch.nn.modules.flatten`](partialtorch/nn/modules/flatten.py): `Flatten`, `Unflatten`
 - [`partialtorch.nn.modules.fold`](partialtorch/nn/modules/fold.py): `Fold`, `Unfold`
+- [`partialtorch.nn.modules.instancenorm`](partialtorch/nn/modules/instancenorm.py): `InstanceNormNd`
+- [`partialtorch.nn.modules.normalization`](partialtorch/nn/modules/normalization.py): `LayerNorm`
 - [`partialtorch.nn.modules.padding`](partialtorch/nn/modules/padding.py): `CircularPadNd`, `ConstantPadNd`, `ReflectionPadNd`, `ReplicationPadNd`, `ZeroPadNd`
-- [`partialtorch.nn.modules.partial_conv`](partialtorch/nn/modules/conv.py): `PartialConvNd`, `PartialConvTransposeNd` (see [examples/partial_conv_example.py](examples/partial_conv_example.py))
-- [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): `MaxPoolNd`, `FractionalMaxPoolNd` (see [examples/masked_max_pool_example.py](examples/masked_max_pool_example.py))
-- _More to be added_
+- [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): `MaxPoolNd`, `FractionalMaxPoolNd`
+
+The steps for declaring your custom module is identical, except that we now use the classes inside ``partialtorch.nn``
+which input and output ``MaskedPair``.
+Note that to make them scriptable, you may have to explicitly annotate input and output types.
+
+<table>
+<tr>
+<th>torch</th>
+<th>partialtorch</th>
+</tr>
+
+<tr>
+<td>
+<sub>
+
+```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+from torch import Tensor
+
+class ConvBlock(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        self.conv = nn.Conv2d(in_channels, out_channels, (3, 3))
+        self.bn = nn.BatchNorm2d(out_channels)
+        self.pool = nn.MaxPool2d((2, 2))
+
+    def forward(self, x: Tensor) -> Tensor:
+        x = self.conv(x)
+        x = self.bn(x)
+        x = F.relu(x)
+        x = self.pool(x)
+        return x
+```
+
+</sub>
+<td>
+<sub>
+
+```python
+import torch.nn as nn
+
+import partialtorch
+import partialtorch.nn as partial_nn
+import partialtorch.nn.functional as partial_F
+
+from partialtorch import MaskedPair
+
+class PartialConvBlock(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        self.conv = partial_nn.PartialConv2d(in_channels, out_channels, (3, 3))
+        self.bn = partial_nn.BatchNorm2d(out_channels)
+        self.pool = partial_nn.MaxPool2d((2, 2))
+
+    def forward(self, x: MaskedPair) -> MaskedPair:
+        x = self.conv(x)
+        x = self.bn(x)
+        x = partial_F.relu(x)
+        x = self.pool(x)
+        return x
+```
+
+</sub>
+</td>
+</tr>
+
+</table>
+
+A few other examples can be found in [examples](examples) folder.
 
 ## Citation
 

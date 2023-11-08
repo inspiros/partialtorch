@@ -944,10 +944,10 @@ namespace partialtorch {
                 if constexpr (std::is_same_v<c10::base_t<correction_T>, at::Scalar>) {
                     correction_val = unbiased_or_correction.value_or(1);
                 } else {  // unbiased
-                    correction_val = unbiased_or_correction;
+                    correction_val = (int) unbiased_or_correction;
                 }
 
-                auto mask = utils::get_mask(self).value();
+                auto mask = utils::get_tensor_mask(self);
                 auto not_mask = mask.logical_not();
                 auto sample_total = at::sum(utils::get_data(self).masked_fill(not_mask, 0), dim, true);
                 auto count = at::sum(mask, dim, true, sample_total.scalar_type());
@@ -959,9 +959,8 @@ namespace partialtorch {
                 if (!correction_val.equal(0))
                     count.sub_(correction_val).clamp_min_(0);
                 auto output_data = total.div_(count);
-                if constexpr (sqrt) {
+                if constexpr (sqrt)
                     output_data = output_data.sqrt_();
-                }
                 auto output_mask = utils::any(mask, dim, keepdim);
                 return masked_pair(output_data, output_mask);
             }

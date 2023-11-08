@@ -9,6 +9,32 @@ namespace partialtorch {
         namespace utils {
 /// \private
 ///
+/// Return number of input elements that are reduced to 1 output element.
+            C10_ALWAYS_INLINE int64_t reduction_numel(
+                    const at::Tensor &self,
+                    at::OptionalIntArrayRef dim) {
+                // TODO: in the future, dim = {} will translate to "no reduction", thus returning 1.
+                if (!dim.has_value() || dim->empty())
+                    return self.numel();
+                int64_t result = 1;
+                for (auto d: dim.value()) {
+                    result *= self.size(d);
+                }
+                return result;
+            }
+
+/// \private
+///
+/// Return number of input elements that are reduced to 1 output element.
+            C10_ALWAYS_INLINE at::Tensor reduction_numel(
+                    const c10::intrusive_ptr<TensorMaskedPair> &self,
+                    at::OptionalIntArrayRef dim,
+                    bool keepdim = false) {
+                return at::sum(utils::get_tensor_mask(self), dim, keepdim, self->scalar_type());
+            }
+
+/// \private
+///
 /// Return dim argument as a tuple of sorted dim values.
             C10_ALWAYS_INLINE std::vector<int64_t> canonical_dim(
                     at::OptionalIntArrayRef dim,
@@ -27,7 +53,7 @@ namespace partialtorch {
                 for (const auto d: *dim) {
                     TORCH_CHECK(std::find(dim_.begin(), dim_.end(), d) == dim_.end(),
                                 "dim=", d, " appears multiple times in the list of dim")
-                    TORCH_CHECK_INDEX(-ndim <= d < ndim,
+                    TORCH_CHECK_INDEX(-ndim <= d && d < ndim,
                                       "Dimension out of range (expected to be in range of [",
                                       -ndim, ", ", ndim - 1, "], but got ", d, ")")
                     dim_.emplace_back(d % ndim);

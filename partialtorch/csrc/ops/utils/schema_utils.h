@@ -122,8 +122,9 @@ namespace partialtorch {
                                      c10::is_list_v<base_t> ||
                                      c10::is_ilistref_v<base_t> ||
                                      c10::is_optional_arrayref_v<base_t>) {
+                    // from torch>=2.1.0, array list should be annotated with at least [1]
                     RETURN_WITH_OPTIONAL(c10::str(type_schema_str<typename base_t::value_type>(),
-                                                  "[", n > 0 ? std::to_string(n) : "") + "]")
+                                                  "[", n > 0 ? std::to_string(n) : "1") + "]")
                 } else if constexpr (std::is_same_v<base_t, void>) {
                     return "()";
                 } else if constexpr (std::is_same_v<base_t, nullptr_t>) {

@@ -4,9 +4,9 @@ from partialtorch.types import MaskedPair
 from .. import functional as partial_F
 
 __all__ = [
-    'BatchNorm1D',
-    'BatchNorm2D',
-    'BatchNorm3D',
+    'BatchNorm1d',
+    'BatchNorm2d',
+    'BatchNorm3d',
 ]
 
 
@@ -47,19 +47,30 @@ class _BatchNorm(torch.nn.modules.batchnorm._BatchNorm):
         )
 
 
-class BatchNorm1D(_BatchNorm):
+class BatchNorm1d(_BatchNorm):
     r"""See :class:`torch.nn.modules.batchnorm.BatchNorm1d` for details.
     """
-    _check_input_dim = torch.nn.BatchNorm1d._check_input_dim
+
+    def _check_input_dim(self, input):
+        if input.dim() != 2 and input.dim() != 3:
+            raise ValueError(
+                f"expected 2D or 3D input (got {input.dim()}D input)"
+            )
 
 
-class BatchNorm2D(_BatchNorm):
+class BatchNorm2d(_BatchNorm):
     r"""See :class:`torch.nn.modules.batchnorm.BatchNorm2d` for details.
     """
-    _check_input_dim = torch.nn.BatchNorm2d._check_input_dim
+
+    def _check_input_dim(self, input):
+        if input.dim() != 4:
+            raise ValueError(f"expected 4D input (got {input.dim()}D input)")
 
 
-class BatchNorm3D(_BatchNorm):
+class BatchNorm3d(_BatchNorm):
     r"""See :class:`torch.nn.modules.batchnorm.BatchNorm3d` for details.
     """
-    _check_input_dim = torch.nn.BatchNorm3d._check_input_dim
+
+    def _check_input_dim(self, input):
+        if input.dim() != 5:
+            raise ValueError(f"expected 5D input (got {input.dim()}D input)")

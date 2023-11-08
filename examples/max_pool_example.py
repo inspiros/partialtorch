@@ -3,7 +3,7 @@ import partialtorch
 
 
 # noinspection DuplicatedCode
-def test_masked_pool_module():
+def test_max_pool():
     x = torch.rand(1, 1, 4, 4)
     px = partialtorch.rand_mask_(x, 0.4, mask_value=torch.inf)
     print('>>> x')
@@ -28,4 +28,4 @@ def test_masked_pool_module():
 
 
 if __name__ == '__main__':
-    test_masked_pool_module()
+    test_max_pool()

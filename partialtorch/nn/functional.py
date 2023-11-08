@@ -457,10 +457,42 @@ def batch_norm(
         eps: float = 1e-5) -> MaskedPair:
     r"""See :func:`~torch.nn.functional.batch_norm` for details.
     """
-    return partialtorch.ops.batch_norm(input, weight, bias, running_mean, running_var, training, momentum, eps)
+    if training:
+        torch.nn.functional._verify_batch_size(input.shape)
+    return partialtorch.ops.batch_norm(
+        input, weight, bias, running_mean, running_var, training, momentum, eps, torch.backends.cudnn.enabled)
 
 
-# TODO: instance_norm, layer_norm, group_norm, local_response_norm
+def instance_norm(
+        input: MaskedPair,
+        running_mean: Optional[Tensor] = None,
+        running_var: Optional[Tensor] = None,
+        weight: Optional[Tensor] = None,
+        bias: Optional[Tensor] = None,
+        use_input_stats: bool = True,
+        momentum: float = 0.1,
+        eps: float = 1e-5) -> MaskedPair:
+    r"""See :func:`~torch.nn.functional.instance_norm` for details.
+    """
+    if use_input_stats:
+        torch.nn.functional._verify_spatial_size(input.shape)
+    return partialtorch.ops.instance_norm(
+        input, weight, bias, running_mean, running_var, use_input_stats, momentum, eps, torch.backends.cudnn.enabled)
+
+
+def layer_norm(
+        input: MaskedPair,
+        normalized_shape: List[int],
+        weight: Optional[Tensor] = None,
+        bias: Optional[Tensor] = None,
+        eps: float = 1e-5) -> MaskedPair:
+    r"""See :func:`~torch.nn.functional.layer_norm` for details.
+    """
+    return partialtorch.ops.layer_norm(
+        input, normalized_shape, weight, bias, eps, torch.backends.cudnn.enabled)
+
+
+# TODO: group_norm, local_response_norm
 
 pad = partialtorch.ops.pad
 normalize = partialtorch.ops.normalize

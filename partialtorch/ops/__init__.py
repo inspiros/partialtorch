@@ -2,7 +2,7 @@ from .binary import *
 from .conv import *
 from .linear import *
 from .nary import *
-from .norm import *
+from .normalization import *
 from .padding import *
 from .passthrough import *
 from .pooling import *

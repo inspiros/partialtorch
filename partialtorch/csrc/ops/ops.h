@@ -5,7 +5,7 @@
 #include "izero_div.h"
 #include "linear.h"
 #include "nary.h"
-#include "norm.h"
+#include "normalization.h"
 #include "padding.h"
 #include "partial_binary.h"
 #include "partial_bitwise_binary.h"

@@ -17,7 +17,7 @@ class _CircularPadNd(torch.nn.modules.padding._CircularPadNd):
     mask_mode: str
     mask_value: Optional[bool]
 
-    def __init__(self, *, mask_mode: str, mask_value: Optional[bool]):
+    def __init__(self, mask_mode: str, mask_value: Optional[bool]):
         super().__init__()
         self.mask_mode = mask_mode
         self.mask_value = mask_value
@@ -42,10 +42,10 @@ class CircularPad1d(_CircularPadNd):
     padding: Tuple[int, int]
 
     def __init__(self, padding: _size_2_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _pair(padding)
 
     def _check_input_dim(self, input: MaskedPair) -> None:
@@ -61,10 +61,10 @@ class CircularPad2d(_CircularPadNd):
     padding: Tuple[int, int, int, int]
 
     def __init__(self, padding: _size_4_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _quadruple(padding)
 
     def _check_input_dim(self, input: MaskedPair) -> None:
@@ -80,10 +80,10 @@ class CircularPad3d(_CircularPadNd):
     padding: Tuple[int, int, int, int, int, int]
 
     def __init__(self, padding: _size_6_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _ntuple(6)(padding)
 
     def _check_input_dim(self, input: MaskedPair) -> None:
@@ -98,7 +98,7 @@ class _ConstantPadNd(torch.nn.modules.padding._ConstantPadNd):
     mask_mode: str
     mask_value: Optional[bool]
 
-    def __init__(self, value: float, *, mask_mode: str, mask_value: Optional[bool]) -> None:
+    def __init__(self, value: float, mask_mode: str, mask_value: Optional[bool]) -> None:
         super().__init__(value)
         self.mask_mode = mask_mode
         self.mask_value = mask_value
@@ -120,10 +120,10 @@ class ConstantPad1d(_ConstantPadNd):
     padding: Tuple[int, int]
 
     def __init__(self, padding: _size_2_t, value: float,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None):
-        super().__init__(value, mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(value, **factory_kwargs)
         self.padding = _pair(padding)
 
 
@@ -133,10 +133,10 @@ class ConstantPad2d(_ConstantPadNd):
     padding: Tuple[int, int, int, int]
 
     def __init__(self, padding: _size_4_t, value: float,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(value, mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(value, **factory_kwargs)
         self.padding = _quadruple(padding)
 
 
@@ -146,10 +146,10 @@ class ConstantPad3d(_ConstantPadNd):
     padding: Tuple[int, int, int, int, int, int]
 
     def __init__(self, padding: _size_6_t, value: float,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(value, mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(value, **factory_kwargs)
         self.padding = _ntuple(6)(padding)
 
 
@@ -158,7 +158,7 @@ class _ReflectionPadNd(torch.nn.modules.padding._ReflectionPadNd):
     mask_mode: str
     mask_value: Optional[bool]
 
-    def __init__(self, *, mask_mode: str, mask_value: Optional[bool]):
+    def __init__(self, mask_mode: str, mask_value: Optional[bool]):
         super().__init__()
         self.mask_mode = mask_mode
         self.mask_value = mask_value
@@ -180,10 +180,10 @@ class ReflectionPad1d(_ReflectionPadNd):
     padding: Tuple[int, int]
 
     def __init__(self, padding: _size_2_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _pair(padding)
 
 
@@ -193,10 +193,10 @@ class ReflectionPad2d(_ReflectionPadNd):
     padding: Tuple[int, int, int, int]
 
     def __init__(self, padding: _size_4_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _quadruple(padding)
 
 
@@ -206,10 +206,10 @@ class ReflectionPad3d(_ReflectionPadNd):
     padding: Tuple[int, int, int, int, int, int]
 
     def __init__(self, padding: _size_6_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _ntuple(6)(padding)
 
 
@@ -218,7 +218,7 @@ class _ReplicationPadNd(torch.nn.modules.padding._ReplicationPadNd):
     mask_mode: str
     mask_value: Optional[bool]
 
-    def __init__(self, *, mask_mode: str, mask_value: Optional[bool]):
+    def __init__(self, mask_mode: str, mask_value: Optional[bool]):
         super().__init__()
         self.mask_mode = mask_mode
         self.mask_value = mask_value
@@ -240,10 +240,10 @@ class ReplicationPad1d(_ReplicationPadNd):
     padding: Tuple[int, int]
 
     def __init__(self, padding: _size_2_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _pair(padding)
 
 
@@ -253,10 +253,10 @@ class ReplicationPad2d(_ReplicationPadNd):
     padding: Tuple[int, int, int, int]
 
     def __init__(self, padding: _size_4_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _quadruple(padding)
 
 
@@ -266,10 +266,10 @@ class ReplicationPad3d(_ReplicationPadNd):
     padding: Tuple[int, int, int, int, int, int]
 
     def __init__(self, padding: _size_6_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(**factory_kwargs)
         self.padding = _ntuple(6)(padding)
 
 
@@ -278,10 +278,10 @@ class ZeroPad1d(ConstantPad1d):
     """
 
     def __init__(self, padding: _size_2_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(padding, 0., mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(padding, 0., **factory_kwargs)
 
     def extra_repr(self) -> str:
         res = f'{self.padding}, mask_mode={self.mask_mode}'
@@ -295,10 +295,10 @@ class ZeroPad2d(ConstantPad2d):
     """
 
     def __init__(self, padding: _size_4_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(padding, 0., mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(padding, 0., **factory_kwargs)
 
     def extra_repr(self) -> str:
         res = f'{self.padding}, mask_mode={self.mask_mode}'
@@ -312,10 +312,10 @@ class ZeroPad3d(ConstantPad3d):
     """
 
     def __init__(self, padding: _size_6_t,
-                 *,
                  mask_mode: str = 'constant',
                  mask_value: Optional[bool] = None) -> None:
-        super().__init__(padding, 0., mask_mode=mask_mode, mask_value=mask_value)
+        factory_kwargs = {'mask_mode': mask_mode, 'mask_value': mask_value}
+        super().__init__(padding, 0., **factory_kwargs)
 
     def extra_repr(self) -> str:
         res = f'{self.padding}, mask_mode={self.mask_mode}'

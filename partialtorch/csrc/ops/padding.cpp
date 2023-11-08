@@ -25,7 +25,11 @@ namespace partialtorch {
                     return masked_pair(at::_ops::pad::call(utils::get_data(self), pad, mode, value));
 
                 auto output_data = at::_ops::pad::call(utils::get_data(self), pad, mode, value);
-                auto output_mask = at::_ops::pad::call(utils::get_tensor_mask(self), pad, mode, value);
+                auto output_mask = mask_value.has_value() ?
+                                   at::_ops::pad::call(utils::get_tensor_mask(self), pad,
+                                                       mask_mode, mask_value.value())
+                                                          : at::_ops::pad::call(utils::get_tensor_mask(self), pad,
+                                                                                mask_mode, {});
                 return masked_pair(output_data, output_mask);
             }
         }
