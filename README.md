@@ -293,8 +293,8 @@ class ConvBlock(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.conv(x)
-        x = self.bn(x)
         x = F.relu(x)
+        x = self.bn(x)
         x = self.pool(x)
         return x
 ```
@@ -322,8 +322,8 @@ class PartialConvBlock(nn.Module):
 
     def forward(self, x: MaskedPair) -> MaskedPair:
         x = self.conv(x)
-        x = self.bn(x)
         x = partial_F.relu(x)
+        x = self.bn(x)
         x = self.pool(x)
         return x
 ```
