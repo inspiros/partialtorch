@@ -11,7 +11,7 @@ __all__ = ['Threshold', 'ReLU', 'RReLU', 'Hardtanh', 'ReLU6', 'Sigmoid', 'Hardsi
 
 
 class Threshold(torch.nn.modules.activation.Threshold):
-    r"""See :class:`~torch.nn.modules.activation.Threshold` for details.
+    r"""See :class:`torch.nn.Threshold` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -19,7 +19,7 @@ class Threshold(torch.nn.modules.activation.Threshold):
 
 
 class ReLU(torch.nn.modules.activation.ReLU):
-    r"""See :class:`~torch.nn.modules.activation.ReLU` for details.
+    r"""See :class:`torch.nn.ReLU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -27,7 +27,7 @@ class ReLU(torch.nn.modules.activation.ReLU):
 
 
 class RReLU(torch.nn.modules.activation.RReLU):
-    r"""See :class:`~torch.nn.modules.activation.RReLU` for details.
+    r"""See :class:`torch.nn.RReLU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -35,7 +35,7 @@ class RReLU(torch.nn.modules.activation.RReLU):
 
 
 class Hardtanh(torch.nn.modules.activation.Hardtanh):
-    r"""See :class:`~torch.nn.modules.activation.Hardtanh` for details.
+    r"""See :class:`torch.nn.Hardtanh` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -43,7 +43,7 @@ class Hardtanh(torch.nn.modules.activation.Hardtanh):
 
 
 class ReLU6(torch.nn.modules.activation.ReLU6):
-    r"""See :class:`~torch.nn.modules.activation.ReLU6` for details.
+    r"""See :class:`torch.nn.ReLU6` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -51,7 +51,7 @@ class ReLU6(torch.nn.modules.activation.ReLU6):
 
 
 class Sigmoid(torch.nn.modules.activation.Sigmoid):
-    r"""See :class:`~torch.nn.modules.activation.Sigmoid` for details.
+    r"""See :class:`torch.nn.Sigmoid` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -59,7 +59,7 @@ class Sigmoid(torch.nn.modules.activation.Sigmoid):
 
 
 class Hardsigmoid(torch.nn.modules.activation.Hardsigmoid):
-    r"""See :class:`~torch.nn.modules.activation.Hardsigmoid` for details.
+    r"""See :class:`torch.nn.Hardsigmoid` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -67,7 +67,7 @@ class Hardsigmoid(torch.nn.modules.activation.Hardsigmoid):
 
 
 class Tanh(torch.nn.modules.activation.Tanh):
-    r"""See :class:`~torch.nn.modules.activation.Tanh` for details.
+    r"""See :class:`torch.nn.Tanh` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -75,7 +75,7 @@ class Tanh(torch.nn.modules.activation.Tanh):
 
 
 class SiLU(torch.nn.modules.activation.SiLU):
-    r"""See :class:`~torch.nn.modules.activation.SiLU` for details.
+    r"""See :class:`torch.nn.SiLU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -83,7 +83,7 @@ class SiLU(torch.nn.modules.activation.SiLU):
 
 
 class Mish(torch.nn.modules.activation.Mish):
-    r"""See :class:`~torch.nn.modules.activation.Mish` for details.
+    r"""See :class:`torch.nn.Mish` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -91,7 +91,7 @@ class Mish(torch.nn.modules.activation.Mish):
 
 
 class Hardswish(torch.nn.modules.activation.Hardswish):
-    r"""See :class:`~torch.nn.modules.activation.Hardswish` for details.
+    r"""See :class:`torch.nn.Hardswish` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -99,7 +99,7 @@ class Hardswish(torch.nn.modules.activation.Hardswish):
 
 
 class ELU(torch.nn.modules.activation.ELU):
-    r"""See :class:`~torch.nn.modules.activation.ELU` for details.
+    r"""See :class:`torch.nn.ELU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -107,7 +107,7 @@ class ELU(torch.nn.modules.activation.ELU):
 
 
 class CELU(torch.nn.modules.activation.CELU):
-    r"""See :class:`~torch.nn.modules.activation.CELU` for details.
+    r"""See :class:`torch.nn.CELU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -115,7 +115,7 @@ class CELU(torch.nn.modules.activation.CELU):
 
 
 class SELU(torch.nn.modules.activation.SELU):
-    r"""See :class:`~torch.nn.modules.activation.SELU` for details.
+    r"""See :class:`torch.nn.SELU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -123,7 +123,7 @@ class SELU(torch.nn.modules.activation.SELU):
 
 
 class GLU(torch.nn.modules.activation.GLU):
-    r"""See :class:`~torch.nn.modules.activation.GLU` for details.
+    r"""See :class:`torch.nn.GLU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -131,7 +131,7 @@ class GLU(torch.nn.modules.activation.GLU):
 
 
 class GELU(torch.nn.modules.activation.GELU):
-    r"""See :class:`~torch.nn.modules.activation.GELU` for details.
+    r"""See :class:`torch.nn.GELU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -139,7 +139,7 @@ class GELU(torch.nn.modules.activation.GELU):
 
 
 class Hardshrink(torch.nn.modules.activation.Hardshrink):
-    r"""See :class:`~torch.nn.modules.activation.Hardshrink` for details.
+    r"""See :class:`torch.nn.Hardshrink` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -147,7 +147,7 @@ class Hardshrink(torch.nn.modules.activation.Hardshrink):
 
 
 class LeakyReLU(torch.nn.modules.activation.LeakyReLU):
-    r"""See :class:`~torch.nn.modules.activation.LeakyReLU` for details.
+    r"""See :class:`torch.nn.LeakyReLU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -155,7 +155,7 @@ class LeakyReLU(torch.nn.modules.activation.LeakyReLU):
 
 
 class LogSigmoid(torch.nn.modules.activation.LogSigmoid):
-    r"""See :class:`~torch.nn.modules.activation.LogSigmoid` for details.
+    r"""See :class:`torch.nn.LogSigmoid` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -163,7 +163,7 @@ class LogSigmoid(torch.nn.modules.activation.LogSigmoid):
 
 
 class Softplus(torch.nn.modules.activation.Softplus):
-    r"""See :class:`~torch.nn.modules.activation.Softplus` for details.
+    r"""See :class:`torch.nn.Softplus` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -171,7 +171,7 @@ class Softplus(torch.nn.modules.activation.Softplus):
 
 
 class Softshrink(torch.nn.modules.activation.Softshrink):
-    r"""See :class:`~torch.nn.modules.activation.Softshrink` for details.
+    r"""See :class:`torch.nn.Softshrink` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -181,7 +181,7 @@ class Softshrink(torch.nn.modules.activation.Softshrink):
 # TODO: MultiheadAttention
 
 class PReLU(torch.nn.modules.activation.PReLU):
-    r"""See :class:`~torch.nn.modules.activation.PReLU` for details.
+    r"""See :class:`torch.nn.PReLU` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -189,7 +189,7 @@ class PReLU(torch.nn.modules.activation.PReLU):
 
 
 class Softsign(torch.nn.modules.activation.Softsign):
-    r"""See :class:`~torch.nn.modules.activation.Softsign` for details.
+    r"""See :class:`torch.nn.Softsign` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -197,7 +197,7 @@ class Softsign(torch.nn.modules.activation.Softsign):
 
 
 class Tanhshrink(torch.nn.modules.activation.Tanhshrink):
-    r"""See :class:`~torch.nn.modules.activation.Tanhshrink` for details.
+    r"""See :class:`torch.nn.Tanhshrink` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -205,7 +205,7 @@ class Tanhshrink(torch.nn.modules.activation.Tanhshrink):
 
 
 class Softmin(torch.nn.modules.activation.Softmin):
-    r"""See :class:`~torch.nn.modules.activation.Softmin` for details.
+    r"""See :class:`torch.nn.Softmin` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -213,7 +213,7 @@ class Softmin(torch.nn.modules.activation.Softmin):
 
 
 class Softmax(torch.nn.modules.activation.Softmax):
-    r"""See :class:`~torch.nn.modules.activation.Softmax` for details.
+    r"""See :class:`torch.nn.Softmax` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -221,7 +221,7 @@ class Softmax(torch.nn.modules.activation.Softmax):
 
 
 class Softmax2d(torch.nn.modules.activation.Softmax2d):
-    r"""See :class:`~torch.nn.modules.activation.Softmax2d` for details.
+    r"""See :class:`torch.nn.Softmax2d` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -233,7 +233,7 @@ class Softmax2d(torch.nn.modules.activation.Softmax2d):
 
 
 class LogSoftmax(torch.nn.modules.activation.LogSoftmax):
-    r"""See :class:`~torch.nn.modules.activation.LogSoftmax` for details.
+    r"""See :class:`torch.nn.LogSoftmax` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:

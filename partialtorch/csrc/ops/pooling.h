@@ -25,6 +25,11 @@ PARTIALTORCH_API std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor> NA
         at::IntArrayRef dilation = 1,                        \
         bool ceil_mode = false);
 
+#define PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, INPUT_T) \
+PARTIALTORCH_API std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor> NAME( \
+        INPUT_T input,                                       \
+        at::IntArrayRef output_size);
+
 #define PT_DECLARE_FRACTIONAL_MAX_POOLND_OP(NAME, INPUT_T) \
 PARTIALTORCH_API std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor> NAME( \
         INPUT_T input,                                                       \
@@ -37,6 +42,9 @@ PT_DECLARE_MAX_POOLND_OP(NAME, const_intrusive_ptr_arg_t<TensorMaskedPair>)
 
 #define PT_DECLARE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(NAME) \
 PT_DECLARE_MAX_POOLND_WITH_INDICES_OP(NAME, const_intrusive_ptr_arg_t<TensorMaskedPair>)
+
+#define PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(NAME) \
+PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, const_intrusive_ptr_arg_t<TensorMaskedPair>)
 
 #define PT_DECLARE_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(NAME) \
 PT_DECLARE_FRACTIONAL_MAX_POOLND_OP(NAME, const_intrusive_ptr_arg_t<TensorMaskedPair>)
@@ -56,7 +64,12 @@ namespace partialtorch {
 
         PT_DECLARE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(max_pool3d_with_indices)
 
-        // fractional_max_pool
+        PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(adaptive_max_pool1d)
+
+        PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(adaptive_max_pool2d)
+
+        PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(adaptive_max_pool3d)
+
         PT_DECLARE_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(fractional_max_pool2d)
 
         PT_DECLARE_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(fractional_max_pool3d)
@@ -65,7 +78,9 @@ namespace partialtorch {
 
 #undef PT_DECLARE_MAX_POOLND_OP
 #undef PT_DECLARE_MAX_POOLND_WITH_INDICES_OP
+#undef PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP
 #undef PT_DECLARE_FRACTIONAL_MAX_POOLND_OP
 #undef PT_DECLARE_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS
 #undef PT_DECLARE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS
+#undef PT_DECLARE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS
 #undef PT_DECLARE_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS

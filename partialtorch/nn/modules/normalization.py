@@ -11,7 +11,7 @@ __all__ = ['LayerNorm']
 
 
 class LayerNorm(torch.nn.modules.normalization.LayerNorm):
-    r"""See :class:`torch.nn.modules.normalization.LayerNorm` for details.
+    r"""See :class:`torch.nn.LayerNorm` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:

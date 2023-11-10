@@ -260,7 +260,7 @@ This is the list of submodules inside ``partialtorch.nn.modules`` and the layers
 - [`partialtorch.nn.modules.instancenorm`](partialtorch/nn/modules/instancenorm.py): `InstanceNormNd`
 - [`partialtorch.nn.modules.normalization`](partialtorch/nn/modules/normalization.py): `LayerNorm`
 - [`partialtorch.nn.modules.padding`](partialtorch/nn/modules/padding.py): `CircularPadNd`, `ConstantPadNd`, `ReflectionPadNd`, `ReplicationPadNd`, `ZeroPadNd`
-- [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): `MaxPoolNd`, `FractionalMaxPoolNd`
+- [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): `MaxPoolNd`, `AdaptiveMaxPoolNd`, `FractionalMaxPoolNd`
 
 The steps for declaring your custom module is identical, except that we now use the classes inside ``partialtorch.nn``
 which input and output ``MaskedPair``.

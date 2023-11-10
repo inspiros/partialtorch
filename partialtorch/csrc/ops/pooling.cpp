@@ -39,6 +39,16 @@ std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor> NAME(            \
             op, mask_op, input, kernel_size, stride, padding, dilation, ceil_mode); \
 }
 
+#define PT_DEFINE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, IMPL_OP, MASK_OP, INPUT_T) \
+std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor> NAME(        \
+        INPUT_T input,                                                    \
+        at::IntArrayRef output_size) {                                    \
+    static constexpr auto op = IMPL_OP;                                   \
+    static constexpr auto mask_op = MASK_OP;                              \
+    return impl::max_poolnd_with_indices_impl(                            \
+            op, mask_op, input, output_size);                             \
+}
+
 #define PT_DEFINE_FRACTIONAL_MAX_POOLND_OP(NAME, IMPL_OP, MASK_OP, INPUT_T) \
 std::tuple<c10::intrusive_ptr<TensorMaskedPair>, at::Tensor> NAME(          \
         INPUT_T input,                                                      \
@@ -59,19 +69,26 @@ PT_DEFINE_MAX_POOLND_OP(NAME, IMPL_OP, MASK_OP, const at::Tensor &)
 PT_DEFINE_MAX_POOLND_WITH_INDICES_OP(NAME, IMPL_OP, MASK_OP, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
 PT_DEFINE_MAX_POOLND_WITH_INDICES_OP(NAME, IMPL_OP, MASK_OP, const at::Tensor &)
 
+#define PT_DEFINE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(NAME, IMPL_OP, MASK_OP) \
+PT_DEFINE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, IMPL_OP, MASK_OP, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
+PT_DEFINE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, IMPL_OP, MASK_OP, const at::Tensor &)
+
 #define PT_DEFINE_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(NAME, IMPL_OP, MASK_OP) \
 PT_DEFINE_FRACTIONAL_MAX_POOLND_OP(NAME, IMPL_OP, MASK_OP, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
 PT_DEFINE_FRACTIONAL_MAX_POOLND_OP(NAME, IMPL_OP, MASK_OP, const at::Tensor &)
 
 // ~~~~~ ops registration macros ~~~~~
 #define PT_MAX_POOLND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
-utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<at::IntArrayRef>("kernel_size").arg<at::IntArrayRef, DIMENSION>("stride", "[]").arg<at::IntArrayRef, DIMENSION>("padding", "0").arg<at::IntArrayRef, DIMENSION>("dilation", "1").arg<bool>("ceil_mode", "False").ret<TensorMaskedPair>()
+utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<at::IntArrayRef, DIMENSION>("kernel_size").arg<at::IntArrayRef, DIMENSION>("stride", "[]").arg<at::IntArrayRef, DIMENSION>("padding", "0").arg<at::IntArrayRef, DIMENSION>("dilation", "1").arg<bool>("ceil_mode", "False").ret<TensorMaskedPair>()
 
 #define PT_MAX_POOLND_WITH_INDICES_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
-utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<at::IntArrayRef>("kernel_size").arg<at::IntArrayRef, DIMENSION>("stride", "[]").arg<at::IntArrayRef, DIMENSION>("padding", "0").arg<at::IntArrayRef, DIMENSION>("dilation", "1").arg<bool>("ceil_mode", "False").ret<TensorMaskedPair>().ret<at::Tensor>()
+utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<at::IntArrayRef, DIMENSION>("kernel_size").arg<at::IntArrayRef, DIMENSION>("stride", "[]").arg<at::IntArrayRef, DIMENSION>("padding", "0").arg<at::IntArrayRef, DIMENSION>("dilation", "1").arg<bool>("ceil_mode", "False").ret<TensorMaskedPair>().ret<at::Tensor>()
+
+#define PT_ADAPTIVE_MAX_POOLND_WITH_INDICES_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
+utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<at::IntArrayRef, DIMENSION>("output_size").ret<TensorMaskedPair>().ret<at::Tensor>()
 
 #define PT_FRACTIONAL_MAX_POOLND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
-utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<at::IntArrayRef>("kernel_size").arg<at::IntArrayRef, DIMENSION>("output_size").arg<const at::Tensor &>("random_samples").ret<TensorMaskedPair>().ret<at::Tensor>()
+utils::FunctionSchemaBuilder(#NAME).add_overload(#OVERLOAD_NAME).add_overload(#POSTFIX).arg<INPUT_T>("input").arg<at::IntArrayRef, DIMENSION>("kernel_size").arg<at::IntArrayRef, DIMENSION>("output_size").arg<const at::Tensor &>("random_samples").ret<TensorMaskedPair>().ret<at::Tensor>()
 
 #define PT_REGISTER_MAX_POOLND_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
 m.def(PT_MAX_POOLND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T).schema().c_str(), \
@@ -80,6 +97,10 @@ m.def(PT_MAX_POOLND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPU
 #define PT_REGISTER_MAX_POOLND_WITH_INDICES_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
 m.def(PT_MAX_POOLND_WITH_INDICES_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T).schema().c_str(), \
     TORCH_FN(static_cast<masked_pair_with_indices (*)(INPUT_T, at::IntArrayRef, at::IntArrayRef, at::IntArrayRef, at::IntArrayRef, bool)>(NAME)));
+
+#define PT_REGISTER_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
+m.def(PT_ADAPTIVE_MAX_POOLND_WITH_INDICES_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T).schema().c_str(), \
+    TORCH_FN(static_cast<masked_pair_with_indices (*)(INPUT_T, at::IntArrayRef)>(NAME)));
 
 #define PT_REGISTER_FRACTIONAL_MAX_POOLND_OP(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T) \
 m.def(PT_FRACTIONAL_MAX_POOLND_SCHEMA_BUILDER(NAME, OVERLOAD_NAME, POSTFIX, DIMENSION, INPUT_T).schema().c_str(), \
@@ -92,6 +113,10 @@ PT_REGISTER_MAX_POOLND_OP(NAME, Tensor, POSTFIX, DIMENSION, const at::Tensor &)
 #define PT_REGISTER_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION) \
 PT_REGISTER_MAX_POOLND_WITH_INDICES_OP(NAME, MaskedPair, POSTFIX, DIMENSION, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
 PT_REGISTER_MAX_POOLND_WITH_INDICES_OP(NAME, Tensor, POSTFIX, DIMENSION, const at::Tensor &)
+
+#define PT_REGISTER_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION) \
+PT_REGISTER_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, MaskedPair, POSTFIX, DIMENSION, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
+PT_REGISTER_ADAPTIVE_MAX_POOLND_WITH_INDICES_OP(NAME, Tensor, POSTFIX, DIMENSION, const at::Tensor &)
 
 #define PT_REGISTER_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(NAME, POSTFIX, DIMENSION) \
 PT_REGISTER_FRACTIONAL_MAX_POOLND_OP(NAME, MaskedPair, POSTFIX, DIMENSION, const_intrusive_ptr_arg_t<TensorMaskedPair>) \
@@ -161,7 +186,7 @@ namespace partialtorch {
             }
         }
 
-        // TODO: implement any_poolnd for mask_ops
+        // TODO: maybe implement any_poolnd for mask_ops
         // max_pool
         PT_DEFINE_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(
                 max_pool1d, at::_ops::max_pool1d(), nullptr)
@@ -181,7 +206,15 @@ namespace partialtorch {
         PT_DEFINE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(
                 max_pool3d_with_indices, at::_ops::max_pool3d_with_indices(), nullptr)
 
-        // fractional_max_pool
+        PT_DEFINE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(
+                adaptive_max_pool1d, at::_ops::adaptive_max_pool1d(), nullptr)
+
+        PT_DEFINE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(
+                adaptive_max_pool2d, at::_ops::adaptive_max_pool2d(), nullptr)
+
+        PT_DEFINE_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(
+                adaptive_max_pool3d, at::_ops::adaptive_max_pool3d(), nullptr)
+
         PT_DEFINE_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(
                 fractional_max_pool2d, at::_ops::fractional_max_pool2d(), nullptr)
 
@@ -196,8 +229,9 @@ namespace partialtorch {
             PT_REGISTER_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(max_pool1d_with_indices, , 1)
             PT_REGISTER_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(max_pool2d_with_indices, , 2)
             PT_REGISTER_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(max_pool3d_with_indices, , 3)
-
-            // fractional_max_pool
+            PT_REGISTER_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(adaptive_max_pool1d, , 1)
+            PT_REGISTER_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(adaptive_max_pool2d, , 2)
+            PT_REGISTER_ADAPTIVE_MAX_POOLND_WITH_INDICES_OPS_FORALL_TENSOR_OVERLOADS(adaptive_max_pool3d, , 3)
             PT_REGISTER_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(fractional_max_pool2d, , 2)
             PT_REGISTER_FRACTIONAL_MAX_POOLND_OPS_FORALL_TENSOR_OVERLOADS(fractional_max_pool3d, , 3)
         }

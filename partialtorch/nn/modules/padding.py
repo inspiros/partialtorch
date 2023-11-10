@@ -37,7 +37,7 @@ class _CircularPadNd(torch.nn.modules.padding._CircularPadNd):
 
 
 class CircularPad1d(_CircularPadNd):
-    r"""See :class:`~torch.nn.modules.padding.CircularPad1d` for details.
+    r"""See :class:`torch.nn.CircularPad1d` for details.
     """
     padding: Tuple[int, int]
 
@@ -56,7 +56,7 @@ class CircularPad1d(_CircularPadNd):
 
 
 class CircularPad2d(_CircularPadNd):
-    r"""See :class:`~torch.nn.modules.padding.CircularPad2d` for details.
+    r"""See :class:`torch.nn.CircularPad2d` for details.
     """
     padding: Tuple[int, int, int, int]
 
@@ -75,7 +75,7 @@ class CircularPad2d(_CircularPadNd):
 
 
 class CircularPad3d(_CircularPadNd):
-    r"""See :class:`~torch.nn.modules.padding.CircularPad3d` for details.
+    r"""See :class:`torch.nn.CircularPad3d` for details.
     """
     padding: Tuple[int, int, int, int, int, int]
 
@@ -115,7 +115,7 @@ class _ConstantPadNd(torch.nn.modules.padding._ConstantPadNd):
 
 
 class ConstantPad1d(_ConstantPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ConstantPad1d` for details.
+    r"""See :class:`torch.nn.ConstantPad1d` for details.
     """
     padding: Tuple[int, int]
 
@@ -128,7 +128,7 @@ class ConstantPad1d(_ConstantPadNd):
 
 
 class ConstantPad2d(_ConstantPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ConstantPad2d` for details.
+    r"""See :class:`torch.nn.ConstantPad2d` for details.
     """
     padding: Tuple[int, int, int, int]
 
@@ -141,7 +141,7 @@ class ConstantPad2d(_ConstantPadNd):
 
 
 class ConstantPad3d(_ConstantPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ConstantPad3d` for details.
+    r"""See :class:`torch.nn.ConstantPad3d` for details.
     """
     padding: Tuple[int, int, int, int, int, int]
 
@@ -175,7 +175,7 @@ class _ReflectionPadNd(torch.nn.modules.padding._ReflectionPadNd):
 
 
 class ReflectionPad1d(_ReflectionPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ReflectionPad1d` for details.
+    r"""See :class:`torch.nn.ReflectionPad1d` for details.
     """
     padding: Tuple[int, int]
 
@@ -188,7 +188,7 @@ class ReflectionPad1d(_ReflectionPadNd):
 
 
 class ReflectionPad2d(_ReflectionPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ReflectionPad2d` for details.
+    r"""See :class:`torch.nn.ReflectionPad2d` for details.
     """
     padding: Tuple[int, int, int, int]
 
@@ -201,7 +201,7 @@ class ReflectionPad2d(_ReflectionPadNd):
 
 
 class ReflectionPad3d(_ReflectionPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ReflectionPad3d` for details.
+    r"""See :class:`torch.nn.ReflectionPad3d` for details.
     """
     padding: Tuple[int, int, int, int, int, int]
 
@@ -235,7 +235,7 @@ class _ReplicationPadNd(torch.nn.modules.padding._ReplicationPadNd):
 
 
 class ReplicationPad1d(_ReplicationPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ReplicationPad1d` for details.
+    r"""See :class:`torch.nn.ReplicationPad1d` for details.
     """
     padding: Tuple[int, int]
 
@@ -248,7 +248,7 @@ class ReplicationPad1d(_ReplicationPadNd):
 
 
 class ReplicationPad2d(_ReplicationPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ReplicationPad2d` for details.
+    r"""See :class:`torch.nn.ReplicationPad2d` for details.
     """
     padding: Tuple[int, int, int, int]
 
@@ -261,7 +261,7 @@ class ReplicationPad2d(_ReplicationPadNd):
 
 
 class ReplicationPad3d(_ReplicationPadNd):
-    r"""See :class:`~torch.nn.modules.padding.ReplicationPad3d` for details.
+    r"""See :class:`torch.nn.ReplicationPad3d` for details.
     """
     padding: Tuple[int, int, int, int, int, int]
 
@@ -274,7 +274,7 @@ class ReplicationPad3d(_ReplicationPadNd):
 
 
 class ZeroPad1d(ConstantPad1d):
-    r"""See :class:`~torch.nn.modules.padding.ZeroPad1d` for details.
+    r"""See :class:`torch.nn.ZeroPad1d` for details.
     """
 
     def __init__(self, padding: _size_2_t,
@@ -291,7 +291,7 @@ class ZeroPad1d(ConstantPad1d):
 
 
 class ZeroPad2d(ConstantPad2d):
-    r"""See :class:`~torch.nn.modules.padding.ZeroPad2d` for details.
+    r"""See :class:`torch.nn.ZeroPad2d` for details.
     """
 
     def __init__(self, padding: _size_4_t,
@@ -308,7 +308,7 @@ class ZeroPad2d(ConstantPad2d):
 
 
 class ZeroPad3d(ConstantPad3d):
-    r"""See :class:`~torch.nn.modules.padding.ZeroPad3d` for details.
+    r"""See :class:`torch.nn.ZeroPad3d` for details.
     """
 
     def __init__(self, padding: _size_6_t,

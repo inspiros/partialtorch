@@ -52,6 +52,18 @@ def max_pool3d_with_indices(input: _MaskedPairOrTensor,
                             ceil_mode: _bool = False) -> Tuple[MaskedPair, Tensor]: ...
 
 
+def adaptive_max_pool1d(input: _MaskedPairOrTensor,
+                        output_size: Union[_int, _size]) -> Tuple[MaskedPair, Tensor]: ...
+
+
+def adaptive_max_pool2d(input: _MaskedPairOrTensor,
+                        output_size: Union[_int, _size]) -> Tuple[MaskedPair, Tensor]: ...
+
+
+def adaptive_max_pool3d(input: _MaskedPairOrTensor,
+                        output_size: Union[_int, _size]) -> Tuple[MaskedPair, Tensor]: ...
+
+
 # fractional_max_pool
 def fractional_max_pool2d(input: _MaskedPairOrTensor,
                           kernel_size: Union[_int, _size],

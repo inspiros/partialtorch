@@ -11,7 +11,7 @@ class _DropoutNd(torch.nn.modules.dropout._DropoutNd):
 
 
 class Dropout(_DropoutNd):
-    r"""See :class:`~torch.nn.modules.dropout.Dropout` for details.
+    r"""See :class:`torch.nn.Dropout` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -19,7 +19,7 @@ class Dropout(_DropoutNd):
 
 
 class Dropout1d(_DropoutNd):
-    r"""See :class:`~torch.nn.modules.dropout.Dropout1d` for details.
+    r"""See :class:`torch.nn.Dropout1d` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -27,7 +27,7 @@ class Dropout1d(_DropoutNd):
 
 
 class Dropout2d(_DropoutNd):
-    r"""See :class:`~torch.nn.modules.dropout.Dropout2d` for details.
+    r"""See :class:`torch.nn.Dropout2d` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -35,7 +35,7 @@ class Dropout2d(_DropoutNd):
 
 
 class Dropout3d(_DropoutNd):
-    r"""See :class:`~torch.nn.modules.dropout.Dropout3d` for details.
+    r"""See :class:`torch.nn.Dropout3d` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -43,7 +43,7 @@ class Dropout3d(_DropoutNd):
 
 
 class AlphaDropout(_DropoutNd):
-    r"""See :class:`~torch.nn.modules.dropout.AlphaDropout` for details.
+    r"""See :class:`torch.nn.AlphaDropout` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -51,7 +51,7 @@ class AlphaDropout(_DropoutNd):
 
 
 class FeatureAlphaDropout(_DropoutNd):
-    r"""See :class:`~torch.nn.modules.dropout.FeatureAlphaDropout` for details.
+    r"""See :class:`torch.nn.FeatureAlphaDropout` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:

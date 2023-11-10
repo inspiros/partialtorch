@@ -7,7 +7,7 @@ __all__ = ['Fold', 'Unfold']
 
 
 class Fold(torch.nn.modules.fold.Fold):
-    r"""See :class:`~torch.nn.modules.fold.Fold` for details.
+    r"""See :class:`torch.nn.Fold` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -16,7 +16,7 @@ class Fold(torch.nn.modules.fold.Fold):
 
 
 class Unfold(torch.nn.modules.fold.Unfold):
-    r"""See :class:`~torch.nn.modules.fold.Unfold` for details.
+    r"""See :class:`torch.nn.Unfold` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:

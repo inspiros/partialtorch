@@ -7,7 +7,7 @@ __all__ = ['Flatten', 'Unflatten']
 
 
 class Flatten(torch.nn.modules.flatten.Flatten):
-    r"""See :class:`~torch.nn.modules.flatten.Flatten` for details.
+    r"""See :class:`torch.nn.Flatten` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -15,7 +15,7 @@ class Flatten(torch.nn.modules.flatten.Flatten):
 
 
 class Unflatten(torch.nn.modules.flatten.Unflatten):
-    r"""See :class:`~torch.nn.modules.flatten.Unflatten` for details.
+    r"""See :class:`torch.nn.Unflatten` for details.
     """
 
     def _require_tuple_tuple(self, input):

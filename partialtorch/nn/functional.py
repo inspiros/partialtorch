@@ -19,7 +19,8 @@ partial_conv_transpose2d = partialtorch.ops.partial_conv_transpose2d
 partial_conv_transpose3d = partialtorch.ops.partial_conv_transpose3d
 
 
-# TODO: conv_tbc, avg_pool1d, avg_pool2d, avg_pool3d, ...
+# TODO: conv_tbc
+# TODO: avg_pool
 
 # noinspection PyUnusedLocal
 def fractional_max_pool2d_with_indices(
@@ -240,7 +241,92 @@ max_pool3d = boolean_dispatch(
 )
 
 
-# TODO: max_unpool, lp_pool, adaptive_max_pool, adaptive_avg_pool
+# TODO: max_unpool
+# TODO: lp_pool
+
+
+def adaptive_max_pool1d_with_indices(
+        input: MaskedPair,
+        output_size: BroadcastingList1[int],
+        return_indices: bool = False) -> Tuple[MaskedPair, Tensor]:
+    r"""See :func:`~torch.nn.functional.adaptive_max_pool1d_with_indices` for details.
+    """
+    return partialtorch.ops.adaptive_max_pool1d(input, output_size)
+
+
+def _adaptive_max_pool1d(
+        input: MaskedPair,
+        output_size: BroadcastingList1[int],
+        return_indices: bool = False) -> MaskedPair:
+    return adaptive_max_pool1d_with_indices(input, output_size)[0]
+
+
+adaptive_max_pool1d = boolean_dispatch(
+    arg_name="return_indices",
+    arg_index=2,
+    default=False,
+    if_true=adaptive_max_pool1d_with_indices,
+    if_false=_adaptive_max_pool1d,
+    module_name=__name__,
+    func_name="adaptive_max_pool1d",
+)
+
+
+def adaptive_max_pool2d_with_indices(
+        input: MaskedPair,
+        output_size: BroadcastingList1[int],
+        return_indices: bool = False) -> Tuple[MaskedPair, Tensor]:
+    r"""See :func:`~torch.nn.functional.adaptive_max_pool2d_with_indices` for details.
+    """
+    return partialtorch.ops.adaptive_max_pool2d(input, output_size)
+
+
+def _adaptive_max_pool2d(
+        input: MaskedPair,
+        output_size: BroadcastingList1[int],
+        return_indices: bool = False) -> MaskedPair:
+    return adaptive_max_pool2d_with_indices(input, output_size)[0]
+
+
+adaptive_max_pool2d = boolean_dispatch(
+    arg_name="return_indices",
+    arg_index=2,
+    default=False,
+    if_true=adaptive_max_pool2d_with_indices,
+    if_false=_adaptive_max_pool2d,
+    module_name=__name__,
+    func_name="adaptive_max_pool2d",
+)
+
+
+def adaptive_max_pool3d_with_indices(
+        input: MaskedPair,
+        output_size: BroadcastingList1[int],
+        return_indices: bool = False) -> Tuple[MaskedPair, Tensor]:
+    r"""See :func:`~torch.nn.functional.adaptive_max_pool3d_with_indices` for details.
+    """
+    return partialtorch.ops.adaptive_max_pool3d(input, output_size)
+
+
+def _adaptive_max_pool3d(
+        input: MaskedPair,
+        output_size: BroadcastingList1[int],
+        return_indices: bool = False) -> MaskedPair:
+    return adaptive_max_pool3d_with_indices(input, output_size)[0]
+
+
+adaptive_max_pool3d = boolean_dispatch(
+    arg_name="return_indices",
+    arg_index=2,
+    default=False,
+    if_true=adaptive_max_pool3d_with_indices,
+    if_false=_adaptive_max_pool3d,
+    module_name=__name__,
+    func_name="adaptive_max_pool3d",
+)
+
+
+# TODO: adaptive_avg_pool
 
 
 def dropout(input: MaskedPair, p: float = 0.5, training: bool = True, inplace: bool = False) -> MaskedPair:

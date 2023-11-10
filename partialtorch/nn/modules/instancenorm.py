@@ -39,7 +39,7 @@ class _InstanceNorm(torch.nn.modules.instancenorm._InstanceNorm):
 
 
 class InstanceNorm1d(_InstanceNorm):
-    r"""See :class:`torch.nn.modules.instancenorm.InstanceNorm1d` for details.
+    r"""See :class:`torch.nn.InstanceNorm1d` for details.
     """
 
     def _get_no_batch_dim(self):
@@ -51,7 +51,7 @@ class InstanceNorm1d(_InstanceNorm):
 
 
 class InstanceNorm2d(_InstanceNorm):
-    r"""See :class:`torch.nn.modules.instancenorm.InstanceNorm2d` for details.
+    r"""See :class:`torch.nn.InstanceNorm2d` for details.
     """
 
     def _get_no_batch_dim(self):
@@ -63,7 +63,7 @@ class InstanceNorm2d(_InstanceNorm):
 
 
 class InstanceNorm3d(_InstanceNorm):
-    r"""See :class:`torch.nn.modules.instancenorm.InstanceNorm3d` for details.
+    r"""See :class:`torch.nn.InstanceNorm3d` for details.
     """
 
     def _get_no_batch_dim(self):

@@ -64,7 +64,7 @@ class _PartialConvNd(torch.nn.modules.conv._ConvNd):
 
 
 class PartialConv1d(_PartialConvNd):
-    r"""See :class:`torch.nn.modules.conv.Conv1d` for details.
+    r"""See :class:`torch.nn.Conv1d` for details.
     """
 
     def __init__(self,
@@ -99,7 +99,7 @@ class PartialConv1d(_PartialConvNd):
 
 
 class PartialConv2d(_PartialConvNd):
-    r"""See :class:`torch.nn.modules.conv.Conv2d` for details.
+    r"""See :class:`torch.nn.Conv2d` for details.
     """
 
     def __init__(self,
@@ -134,7 +134,7 @@ class PartialConv2d(_PartialConvNd):
 
 
 class PartialConv3d(_PartialConvNd):
-    r"""See :class:`torch.nn.modules.conv.Conv3d` for details.
+    r"""See :class:`torch.nn.Conv3d` for details.
     """
 
     def __init__(self,
@@ -220,7 +220,7 @@ class _PartialConvTransposeNd(torch.nn.modules.conv._ConvTransposeNd):
 
 
 class PartialConvTranspose1d(_PartialConvTransposeNd):
-    r"""See :class:`torch.nn.modules.conv.ConvTranspose1d` for details.
+    r"""See :class:`torch.nn.ConvTranspose1d` for details.
     """
 
     def __init__(self,
@@ -257,7 +257,7 @@ class PartialConvTranspose1d(_PartialConvTransposeNd):
 
 
 class PartialConvTranspose2d(_PartialConvTransposeNd):
-    r"""See :class:`torch.nn.modules.conv.ConvTranspose2d` for details.
+    r"""See :class:`torch.nn.ConvTranspose2d` for details.
     """
 
     def __init__(self,
@@ -294,7 +294,7 @@ class PartialConvTranspose2d(_PartialConvTransposeNd):
 
 
 class PartialConvTranspose3d(_PartialConvTransposeNd):
-    r"""See :class:`torch.nn.modules.conv.ConvTranspose3d` for details.
+    r"""See :class:`torch.nn.ConvTranspose3d` for details.
     """
 
     def __init__(self,

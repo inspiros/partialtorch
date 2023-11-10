@@ -13,7 +13,7 @@ __all__ = [
 
 
 class Identity(torch.nn.modules.linear.Identity):
-    r"""See :class:`~torch.nn.modules.linear.Identity` for details.
+    r"""See :class:`torch.nn.Identity` for details.
     """
 
     def forward(self, input: MaskedPair) -> MaskedPair:
@@ -22,7 +22,7 @@ class Identity(torch.nn.modules.linear.Identity):
 
 # noinspection PyMethodOverriding
 class PartialLinear(torch.nn.modules.linear.Linear):
-    r"""See :class:`~torch.nn.modules.linear.Linear` for details.
+    r"""See :class:`torch.nn.Linear` for details.
     """
 
     def __init__(self,
@@ -45,7 +45,7 @@ class PartialLinear(torch.nn.modules.linear.Linear):
 
 
 class PartialBilinear(torch.nn.modules.linear.Bilinear):
-    r"""See :class:`~torch.nn.modules.linear.Bilinear` for details.
+    r"""See :class:`torch.nn.Bilinear` for details.
     """
 
     def __init__(self,
