@@ -548,6 +548,8 @@ namespace partialtorch {
 
         inline at::Tensor index_non_masked() const;
 
+        inline c10::intrusive_ptr<MaskedPair<at::Tensor>> view(at::SymIntArrayRef size) const;
+
         inline c10::intrusive_ptr<MaskedPair<at::Tensor>> t() const;
 
         inline c10::intrusive_ptr<MaskedPair<at::Tensor>> t_();
@@ -555,6 +557,8 @@ namespace partialtorch {
         inline c10::intrusive_ptr<MaskedPair<at::Tensor>> transpose(int64_t dim0, int64_t dim1) const;
 
         inline c10::intrusive_ptr<MaskedPair<at::Tensor>> transpose_(int64_t dim0, int64_t dim1);
+
+        inline c10::intrusive_ptr<MaskedPair<at::Tensor>> permute(at::IntArrayRef dims) const;
 
         // Python API
         inline c10::optional<at::Tensor> __getitem__(int64_t item) const;

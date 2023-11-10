@@ -3,7 +3,7 @@ from typing import overload, Tuple, Optional, Union
 import torch
 
 from partialtorch.types import (
-    _int, _bool, _dtype, _device, _layout, _memory_format, Number, Storage, Tensor, _TensorOrTensors
+    _int, _bool, _dtype, _device, _size, _layout, _memory_format, Number, Storage, Tensor, _TensorOrTensors
 )
 
 
@@ -119,6 +119,8 @@ class MaskedPair:
 
     def index_non_masked(self) -> Tensor: ...
 
+    def view(self, size: _size) -> MaskedPair: ...
+
     def t(self) -> MaskedPair: ...
 
     def t_(self) -> MaskedPair: ...
@@ -126,6 +128,8 @@ class MaskedPair:
     def transpose(self) -> MaskedPair: ...
 
     def transpose_(self) -> MaskedPair: ...
+
+    def permute(self, dims: _size) -> MaskedPair: ...
 
 
 # creation ops

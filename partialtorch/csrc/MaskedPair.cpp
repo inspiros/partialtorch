@@ -126,6 +126,10 @@ namespace partialtorch {
         return ops::index_non_masked(get_intrusive_ptr());
     }
 
+    inline c10::intrusive_ptr<TensorMaskedPair> TensorMaskedPair::view(at::SymIntArrayRef size) const {
+        return ops::view(get_intrusive_ptr(), size);
+    }
+
     inline c10::intrusive_ptr<TensorMaskedPair> TensorMaskedPair::t() const {
         return ops::t(get_intrusive_ptr());
     }
@@ -140,6 +144,10 @@ namespace partialtorch {
 
     inline c10::intrusive_ptr<TensorMaskedPair> TensorMaskedPair::transpose_(int64_t dim0, int64_t dim1) {
         return ops::transpose(get_intrusive_ptr(), dim0, dim1);
+    }
+
+    inline c10::intrusive_ptr<TensorMaskedPair> TensorMaskedPair::permute(at::IntArrayRef dims) const {
+        return ops::permute(get_intrusive_ptr(), dims);
     }
 
     // Python methods
@@ -299,10 +307,12 @@ namespace partialtorch {
                 .def("to_tensor", &TensorMaskedPair::to_tensor)
                 .def("item", &TensorMaskedPair::item)
                 .def("index_non_masked", &TensorMaskedPair::index_non_masked)
+                .def("view", &TensorMaskedPair::view)
                 .def("t", &TensorMaskedPair::t)
                 .def("t_", &TensorMaskedPair::t_)
                 .def("transpose", &TensorMaskedPair::transpose)
                 .def("transpose_", &TensorMaskedPair::transpose_)
+                .def("permute", &TensorMaskedPair::permute)
                 .def("__getitem__", &TensorMaskedPair::__getitem__)
                 .def("__next__", &TensorMaskedPair::__next__)
                 .def("__iter__", &TensorMaskedPair::__iter__)
