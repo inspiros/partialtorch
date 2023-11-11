@@ -7,3 +7,4 @@ partial_conv3d = torch.ops.partialtorch.partial_conv3d
 partial_conv_transpose1d = torch.ops.partialtorch.partial_conv_transpose1d
 partial_conv_transpose2d = torch.ops.partialtorch.partial_conv_transpose2d
 partial_conv_transpose3d = torch.ops.partialtorch.partial_conv_transpose3d
+partial_conv_tbc = torch.ops.partialtorch.partial_conv_tbc

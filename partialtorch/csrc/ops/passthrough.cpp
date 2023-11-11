@@ -1033,6 +1033,22 @@ namespace partialtorch {
                 gather, at::_ops::gather_dimname(),
                 at::Dimname, dim, const at::Tensor &, index, bool, sparse_grad)
 
+        PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                channel_shuffle, at::_ops::channel_shuffle(),
+                int64_t, groups)
+
+        PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                native_channel_shuffle, at::_ops::native_channel_shuffle(),
+                int64_t, groups)
+
+        PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                pixel_shuffle, at::_ops::pixel_shuffle(),
+                int64_t, upscale_factor)
+
+        PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                pixel_unshuffle, at::_ops::pixel_unshuffle(),
+                int64_t, downscale_factor)
+
         PT_DEFINE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                 unfold, at::_ops::unfold(),
                 int64_t, dimension, int64_t, size, int64_t, step)
@@ -1529,6 +1545,18 @@ namespace partialtorch {
                     at::Dimname, dim, ,
                     const at::Tensor &, index, ,
                     bool, sparse_grad, "False")
+            PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                    channel_shuffle, , ,
+                    int64_t, groups,)
+            PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                    native_channel_shuffle, , ,
+                    int64_t, groups,)
+            PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                    pixel_shuffle, , ,
+                    int64_t, upscale_factor,)
+            PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                    pixel_unshuffle, , ,
+                    int64_t, downscale_factor,)
             PT_REGISTER_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                     unfold, , ,
                     int64_t, dimension, , int64_t, size, , int64_t, step,)

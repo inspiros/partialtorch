@@ -1,7 +1,7 @@
 r"""
 Partial equivalence of :mod:`~torch.functional`.
 
-Note: All functions in this module are not :func:`~torch.jit.script`-able.
+Note: All functions in this module are not :func:`torch.jit.script`-able.
 """
 
 from typing import Union, Optional
@@ -18,7 +18,7 @@ def norm(input: MaskedPair,
          keepdim=False,
          out: MaskedPair = None,
          dtype=None) -> MaskedPair:  # noqa: F811
-    r"""See :func:`~torch.functional.norm` for details.
+    r"""See :func:`torch.functional.norm` for details.
     """
     # We don't do this for MPS or sparse tensors
     if input.layout != torch.strided and input.device.type not in \

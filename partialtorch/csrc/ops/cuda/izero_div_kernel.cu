@@ -20,7 +20,7 @@ namespace partialtorch {
                     };
 
                     template<BinaryRestrictPtrScheme scheme = OutOfPlace, typename scalar_t, typename index_t>
-                    __launch_bounds__(1024) __global__ void izero_div_kernel_impl(
+                    C10_LAUNCH_BOUNDS_1(1024) __global__ void izero_div_kernel_impl(
                             index_t n_kernels,
                             std::conditional_t<scheme == Inplace,
                                     const scalar_t *, const scalar_t *__restrict__> self,
@@ -35,7 +35,7 @@ namespace partialtorch {
                     }
 
                     template<BinaryRestrictPtrScheme scheme = OutOfPlace, typename scalar_t, typename index_t>
-                    __launch_bounds__(1024) __global__ void izero_div_kernel_impl(
+                    C10_LAUNCH_BOUNDS_1(1024) __global__ void izero_div_kernel_impl(
                             index_t n_kernels,
                             scalar_t self,
                             std::conditional_t<scheme == LeftInplace,
@@ -49,7 +49,7 @@ namespace partialtorch {
                     }
 
                     template<BinaryRestrictPtrScheme scheme = OutOfPlace, typename scalar_t, typename index_t>
-                    __launch_bounds__(1024) __global__ void izero_div_kernel_impl(
+                    C10_LAUNCH_BOUNDS_1(1024) __global__ void izero_div_kernel_impl(
                             index_t n_kernels,
                             std::conditional_t<scheme == Inplace,
                                     const scalar_t *, const scalar_t *__restrict__> self,
@@ -285,7 +285,7 @@ namespace partialtorch {
 
                 namespace impl {
                     template<typename scalar_t, typename index_t>
-                    __launch_bounds__(1024) __global__ void izero_div_backward_kernel_impl(
+                    C10_LAUNCH_BOUNDS_1(1024) __global__ void izero_div_backward_kernel_impl(
                             index_t n_kernels,
                             const scalar_t *__restrict__ grad_output,
                             const scalar_t *__restrict__ self,
@@ -303,7 +303,7 @@ namespace partialtorch {
                     }
 
                     template<typename scalar_t, typename index_t>
-                    __launch_bounds__(1024) __global__ void izero_div_backward_kernel_impl(
+                    C10_LAUNCH_BOUNDS_1(1024) __global__ void izero_div_backward_kernel_impl(
                             index_t n_kernels,
                             const scalar_t *__restrict__ grad_output,
                             scalar_t other,
@@ -316,7 +316,7 @@ namespace partialtorch {
                     }
 
                     template<typename scalar_t, typename index_t>
-                    __launch_bounds__(1024) __global__ void izero_div_backward_kernel_impl(
+                    C10_LAUNCH_BOUNDS_1(1024) __global__ void izero_div_backward_kernel_impl(
                             index_t n_kernels,
                             const scalar_t *__restrict__ grad_output,
                             scalar_t self,

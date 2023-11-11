@@ -1,243 +1,249 @@
-from typing import overload, Optional
+from typing import overload, Optional, Union
 
 from partialtorch.types import (
     _float, _bool, Number,
     Tensor, MaskedPair, _MaskedPairOrTensor
 )
 
+# Note: all ops with annotated signature
+# op_name(self: _MaskedPairOrTensor, other: _MaskedPairOrTensorOrScalar, ...)
+# also accept self as a Scalar but not both self and other being Scalars.
+# This behavior is intended for convenience but may be removed in the future
+# in C++ side to match with torch's native ops schemas.
+_MaskedPairOrTensorOrScalar = Union[_MaskedPairOrTensor, Number]
 
 # ----------------------
 # bitwise binary
 # ----------------------
 # logical
 def bitwise_and(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_and_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor) -> MaskedPair: ...
+                 other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_or(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_or_(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_xor(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_xor_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor) -> MaskedPair: ...
+                 other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_left_shift(self: _MaskedPairOrTensor,
-                       other: _MaskedPairOrTensor) -> MaskedPair: ...
+                       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_left_shift_(self: _MaskedPairOrTensor,
-                        other: _MaskedPairOrTensor) -> MaskedPair: ...
+                        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_right_shift(self: _MaskedPairOrTensor,
-                        other: _MaskedPairOrTensor) -> MaskedPair: ...
+                        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def bitwise_right_shift_(self: _MaskedPairOrTensor,
-                         other: _MaskedPairOrTensor) -> MaskedPair: ...
+                         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 # python logical magic methods
 def __and__(self: _MaskedPairOrTensor,
-            other: _MaskedPairOrTensor) -> MaskedPair: ...
+            other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __iand__(self: _MaskedPairOrTensor,
-             other: _MaskedPairOrTensor) -> MaskedPair: ...
+             other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __or__(self: _MaskedPairOrTensor,
-           other: _MaskedPairOrTensor) -> MaskedPair: ...
+           other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __ior__(self: _MaskedPairOrTensor,
-            other: _MaskedPairOrTensor) -> MaskedPair: ...
+            other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __xor__(self: _MaskedPairOrTensor,
-            other: _MaskedPairOrTensor) -> MaskedPair: ...
+            other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __ixor__(self: _MaskedPairOrTensor,
-             other: _MaskedPairOrTensor) -> MaskedPair: ...
+             other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __lshift__(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __ilshift__(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __rshift__(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def __irshift__(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 # arithmetics
 def add(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor,
+        other: _MaskedPairOrTensorOrScalar,
         *,
         alpha: Number = 1) -> MaskedPair: ...
 
 
 def add_(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor,
+         other: _MaskedPairOrTensorOrScalar,
          *,
          alpha: Number = 1) -> MaskedPair: ...
 
 
 def sub(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor,
+        other: _MaskedPairOrTensorOrScalar,
         *,
         alpha: Number = 1) -> MaskedPair: ...
 
 
 def sub_(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor,
+         other: _MaskedPairOrTensorOrScalar,
          *,
          alpha: Number = 1) -> MaskedPair: ...
 
 
 def subtract(self: _MaskedPairOrTensor,
-             other: _MaskedPairOrTensor,
+             other: _MaskedPairOrTensorOrScalar,
              *,
              alpha: Number = 1) -> MaskedPair: ...
 
 
 def subtract_(self: _MaskedPairOrTensor,
-              other: _MaskedPairOrTensor,
+              other: _MaskedPairOrTensorOrScalar,
               *,
               alpha: Number = 1) -> MaskedPair: ...
 
 
 def mul(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def mul_(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor) -> MaskedPair: ...
+         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def multiply(self: _MaskedPairOrTensor,
-             other: _MaskedPairOrTensor) -> MaskedPair: ...
+             other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def multiply_(self: _MaskedPairOrTensor,
-              other: _MaskedPairOrTensor) -> MaskedPair: ...
+              other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def div(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def div_(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor) -> MaskedPair: ...
+         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def div(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor,
+        other: _MaskedPairOrTensorOrScalar,
         *,
         rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 @overload
 def div_(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor,
+         other: _MaskedPairOrTensorOrScalar,
          *,
          rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 @overload
 def divide(self: _MaskedPairOrTensor,
-           other: _MaskedPairOrTensor) -> MaskedPair: ...
+           other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def divide_(self: _MaskedPairOrTensor,
-            other: _MaskedPairOrTensor) -> MaskedPair: ...
+            other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def divide(self: _MaskedPairOrTensor,
-           other: _MaskedPairOrTensor,
+           other: _MaskedPairOrTensorOrScalar,
            *,
            rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 @overload
 def divide_(self: _MaskedPairOrTensor,
-            other: _MaskedPairOrTensor,
+            other: _MaskedPairOrTensorOrScalar,
             *,
             rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 def floor_divide(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor) -> MaskedPair: ...
+                 other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def floor_divide_(self: _MaskedPairOrTensor,
-                  other: _MaskedPairOrTensor) -> MaskedPair: ...
+                  other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def true_divide(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def true_divide_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor) -> MaskedPair: ...
+                 other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def fmod(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor) -> MaskedPair: ...
+         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def fmod_(self: _MaskedPairOrTensor,
-          other: _MaskedPairOrTensor) -> MaskedPair: ...
+          other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def remainder(self: _MaskedPairOrTensor,
-              other: _MaskedPairOrTensor) -> MaskedPair: ...
+              other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def remainder_(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def pow(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def pow_(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor) -> MaskedPair: ...
+         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def float_power(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def float_power_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor) -> MaskedPair: ...
+                 other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def atan2(self: _MaskedPairOrTensor,
@@ -324,91 +330,91 @@ def equal(self: _MaskedPairOrTensor,
 
 
 def eq(self: _MaskedPairOrTensor,
-       other: _MaskedPairOrTensor) -> MaskedPair: ...
+       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def eq_(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def ne(self: _MaskedPairOrTensor,
-       other: _MaskedPairOrTensor) -> MaskedPair: ...
+       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def ne_(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def not_equal(self: _MaskedPairOrTensor,
-              other: _MaskedPairOrTensor) -> MaskedPair: ...
+              other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def not_equal_(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def lt(self: _MaskedPairOrTensor,
-       other: _MaskedPairOrTensor) -> MaskedPair: ...
+       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def lt_(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def less(self: _MaskedPairOrTensor,
-         other: _MaskedPairOrTensor) -> MaskedPair: ...
+         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def less_(self: _MaskedPairOrTensor,
-          other: _MaskedPairOrTensor) -> MaskedPair: ...
+          other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def gt(self: _MaskedPairOrTensor,
-       other: _MaskedPairOrTensor) -> MaskedPair: ...
+       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def gt_(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def greater(self: _MaskedPairOrTensor,
-            other: _MaskedPairOrTensor) -> MaskedPair: ...
+            other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def greater_(self: _MaskedPairOrTensor,
-             other: _MaskedPairOrTensor) -> MaskedPair: ...
+             other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def le(self: _MaskedPairOrTensor,
-       other: _MaskedPairOrTensor) -> MaskedPair: ...
+       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def le_(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def less_equal(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def less_equal_(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def ge(self: _MaskedPairOrTensor,
-       other: _MaskedPairOrTensor) -> MaskedPair: ...
+       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def ge_(self: _MaskedPairOrTensor,
-        other: _MaskedPairOrTensor) -> MaskedPair: ...
+        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def greater_equal(self: _MaskedPairOrTensor,
-                  other: _MaskedPairOrTensor) -> MaskedPair: ...
+                  other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def greater_equal_(self: _MaskedPairOrTensor,
-                   other: _MaskedPairOrTensor) -> MaskedPair: ...
+                   other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 # min max
@@ -441,150 +447,150 @@ def fmax(self: _MaskedPairOrTensor,
 # ----------------------
 # logical
 def partial_bitwise_and(self: _MaskedPairOrTensor,
-                        other: _MaskedPairOrTensor) -> MaskedPair: ...
+                        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_bitwise_and_(self: _MaskedPairOrTensor,
-                         other: _MaskedPairOrTensor) -> MaskedPair: ...
+                         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_bitwise_or(self: _MaskedPairOrTensor,
-                       other: _MaskedPairOrTensor) -> MaskedPair: ...
+                       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_bitwise_or_(self: _MaskedPairOrTensor,
-                        other: _MaskedPairOrTensor) -> MaskedPair: ...
+                        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_bitwise_xor(self: _MaskedPairOrTensor,
-                        other: _MaskedPairOrTensor) -> MaskedPair: ...
+                        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_bitwise_xor_(self: _MaskedPairOrTensor,
-                         other: _MaskedPairOrTensor) -> MaskedPair: ...
+                         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 # arithmetics
 @overload
 def partial_add(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor,
+                other: _MaskedPairOrTensorOrScalar,
                 *,
                 alpha: Number = 1) -> MaskedPair: ...
 
 
 @overload
 def partial_add_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor,
+                 other: _MaskedPairOrTensorOrScalar,
                  *,
                  alpha: Number = 1) -> MaskedPair: ...
 
 
 @overload
 def partial_sub(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor,
+                other: _MaskedPairOrTensorOrScalar,
                 *,
                 alpha: Number = 1) -> MaskedPair: ...
 
 
 @overload
 def partial_sub_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor,
+                 other: _MaskedPairOrTensorOrScalar,
                  *,
                  alpha: Number = 1) -> MaskedPair: ...
 
 
 @overload
 def partial_subtract(self: _MaskedPairOrTensor,
-                     other: _MaskedPairOrTensor,
+                     other: _MaskedPairOrTensorOrScalar,
                      *,
                      alpha: Number = 1) -> MaskedPair: ...
 
 
 @overload
 def partial_subtract_(self: _MaskedPairOrTensor,
-                      other: _MaskedPairOrTensor,
+                      other: _MaskedPairOrTensorOrScalar,
                       *,
                       alpha: Number = 1) -> MaskedPair: ...
 
 
 def partial_mul(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_mul_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor) -> MaskedPair: ...
+                 other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_multiply(self: _MaskedPairOrTensor,
-                     other: _MaskedPairOrTensor) -> MaskedPair: ...
+                     other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_multiply_(self: _MaskedPairOrTensor,
-                      other: _MaskedPairOrTensor) -> MaskedPair: ...
+                      other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def partial_div(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def partial_div_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor) -> MaskedPair: ...
+                 other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def partial_div(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor,
+                other: _MaskedPairOrTensorOrScalar,
                 *,
                 rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 @overload
 def partial_div_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor,
+                 other: _MaskedPairOrTensorOrScalar,
                  *,
                  rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 @overload
 def partial_divide(self: _MaskedPairOrTensor,
-                   other: _MaskedPairOrTensor) -> MaskedPair: ...
+                   other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def partial_divide_(self: _MaskedPairOrTensor,
-                    other: _MaskedPairOrTensor) -> MaskedPair: ...
+                    other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 @overload
 def partial_divide(self: _MaskedPairOrTensor,
-                   other: _MaskedPairOrTensor,
+                   other: _MaskedPairOrTensorOrScalar,
                    *,
                    rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 @overload
 def partial_divide_(self: _MaskedPairOrTensor,
-                    other: _MaskedPairOrTensor,
+                    other: _MaskedPairOrTensorOrScalar,
                     *,
                     rounding_mode: Optional[str] = None) -> MaskedPair: ...
 
 
 def partial_floor_divide(self: _MaskedPairOrTensor,
-                         other: _MaskedPairOrTensor) -> MaskedPair: ...
+                         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_floor_divide_(self: _MaskedPairOrTensor,
-                          other: _MaskedPairOrTensor) -> MaskedPair: ...
+                          other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_true_divide(self: _MaskedPairOrTensor,
-                        other: _MaskedPairOrTensor) -> MaskedPair: ...
+                        other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_true_divide_(self: _MaskedPairOrTensor,
-                         other: _MaskedPairOrTensor) -> MaskedPair: ...
+                         other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_logaddexp(self: _MaskedPairOrTensor,
@@ -598,7 +604,7 @@ def partial_logaddexp2(self: _MaskedPairOrTensor,
 # scaled arithmetics
 @overload
 def partial_add(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor,
+                other: _MaskedPairOrTensorOrScalar,
                 *,
                 alpha: Number = 1,
                 scaled: _bool) -> MaskedPair: ...
@@ -606,7 +612,7 @@ def partial_add(self: _MaskedPairOrTensor,
 
 @overload
 def partial_add_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor,
+                 other: _MaskedPairOrTensorOrScalar,
                  *,
                  alpha: Number = 1,
                  scaled: _bool) -> MaskedPair: ...
@@ -614,7 +620,7 @@ def partial_add_(self: _MaskedPairOrTensor,
 
 @overload
 def partial_sub(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor,
+                other: _MaskedPairOrTensorOrScalar,
                 *,
                 alpha: Number = 1,
                 scaled: _bool) -> MaskedPair: ...
@@ -622,7 +628,7 @@ def partial_sub(self: _MaskedPairOrTensor,
 
 @overload
 def partial_sub_(self: _MaskedPairOrTensor,
-                 other: _MaskedPairOrTensor,
+                 other: _MaskedPairOrTensorOrScalar,
                  *,
                  alpha: Number = 1,
                  scaled: _bool) -> MaskedPair: ...
@@ -630,7 +636,7 @@ def partial_sub_(self: _MaskedPairOrTensor,
 
 @overload
 def partial_subtract(self: _MaskedPairOrTensor,
-                     other: _MaskedPairOrTensor,
+                     other: _MaskedPairOrTensorOrScalar,
                      *,
                      alpha: Number = 1,
                      scaled: _bool) -> MaskedPair: ...
@@ -638,7 +644,7 @@ def partial_subtract(self: _MaskedPairOrTensor,
 
 @overload
 def partial_subtract_(self: _MaskedPairOrTensor,
-                      other: _MaskedPairOrTensor,
+                      other: _MaskedPairOrTensorOrScalar,
                       *,
                       alpha: Number = 1,
                       scaled: _bool) -> MaskedPair: ...
@@ -662,27 +668,27 @@ def partial_equal(self: _MaskedPairOrTensor,
 
 
 def partial_eq(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_eq_(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_ne(self: _MaskedPairOrTensor,
-               other: _MaskedPairOrTensor) -> MaskedPair: ...
+               other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_ne_(self: _MaskedPairOrTensor,
-                other: _MaskedPairOrTensor) -> MaskedPair: ...
+                other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_not_equal(self: _MaskedPairOrTensor,
-                      other: _MaskedPairOrTensor) -> MaskedPair: ...
+                      other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 def partial_not_equal_(self: _MaskedPairOrTensor,
-                       other: _MaskedPairOrTensor) -> MaskedPair: ...
+                       other: _MaskedPairOrTensorOrScalar) -> MaskedPair: ...
 
 
 # min max

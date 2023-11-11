@@ -88,6 +88,14 @@ namespace partialtorch {
         PT_DECLARE_SCALED_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(partial_conv_transpose2d)
 
         PT_DECLARE_SCALED_CONV_TRANSPOSEND_OPS_FORALL_TENSOR_OVERLOADS(partial_conv_transpose3d)
+
+        // conv_tbc
+        c10::intrusive_ptr<TensorMaskedPair> partial_conv_tbc(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> input,
+                const at::Tensor &weight,
+                const at::Tensor &bias,
+                int64_t pad = 0,
+                bool scaled = false);
     }
 }
 

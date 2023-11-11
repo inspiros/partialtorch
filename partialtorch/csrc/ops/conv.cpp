@@ -332,6 +332,38 @@ namespace partialtorch {
                 auto output_mask = mask_ratio.to(at::kBool);
                 return masked_pair(output_data, output_mask);
             }
+
+            template<bool scaled = false, typename input_T>
+            static C10_ALWAYS_INLINE c10::intrusive_ptr<TensorMaskedPair> partial_conv_tbc_impl(
+                    const input_T &input,
+                    const at::Tensor &weight,
+                    const at::Tensor &bias,
+                    int64_t pad) {
+                static constexpr auto op = at::_ops::conv_tbc();
+                if (!utils::has_tensor_mask(input))
+                    return masked_pair(op.call(
+                            utils::get_data(input), weight, bias, pad));
+
+                auto zeros_bias = at::zeros_like(bias);
+                auto output_data = op.call(
+                        utils::_ops::fill_identity_zeros<false>::call(input),
+                        weight, zeros_bias, pad);
+                auto mask_ratio_options = output_data.options();
+                at::Tensor mask_ratio;
+                {
+                    at::NoGradGuard g;
+                    mask_ratio = op.call(
+                            utils::get_tensor_mask(input, mask_ratio_options),
+                            at::ones_like(weight), zeros_bias, pad);
+                    if constexpr (scaled)
+                        utils::izero_ldiv_(mask_ratio, weight.size(0));
+                }
+                if constexpr (scaled)
+                    output_data.mul_(mask_ratio);
+                output_data.add_(bias.view({1, 1, -1}));
+                auto output_mask = mask_ratio.to(at::kBool);
+                return masked_pair(output_data, output_mask);
+            }
         }
 
         // convolution
@@ -504,6 +536,46 @@ namespace partialtorch {
 
         PT_DEFINE_CONV_TRANSPOSEND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
                 partial_conv_transpose3d, at::_ops::conv_transpose3d_input())
+
+        // conv_tbc
+        c10::intrusive_ptr<TensorMaskedPair> partial_conv_tbc(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> input,
+                const at::Tensor &weight,
+                const at::Tensor &bias,
+                int64_t pad) {
+            return impl::partial_conv_tbc_impl<false>(input, weight, bias, pad);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> partial_conv_tbc(
+                const at::Tensor &input,
+                const at::Tensor &weight,
+                const at::Tensor &bias,
+                int64_t pad) {
+            return impl::partial_conv_tbc_impl<false>(input, weight, bias, pad);
+        }
+
+        // scaled conv_tbc
+        c10::intrusive_ptr<TensorMaskedPair> partial_conv_tbc(
+                const_intrusive_ptr_arg_t<TensorMaskedPair> input,
+                const at::Tensor &weight,
+                const at::Tensor &bias,
+                int64_t pad,
+                bool scaled) {
+            if (scaled)
+                return impl::partial_conv_tbc_impl<true>(input, weight, bias, pad);
+            return impl::partial_conv_tbc_impl<false>(input, weight, bias, pad);
+        }
+
+        c10::intrusive_ptr<TensorMaskedPair> partial_conv_tbc(
+                const at::Tensor &input,
+                const at::Tensor &weight,
+                const at::Tensor &bias,
+                int64_t pad,
+                bool scaled) {
+            if (scaled)
+                return impl::partial_conv_tbc_impl<true>(input, weight, bias, pad);
+            return impl::partial_conv_tbc_impl<false>(input, weight, bias, pad);
+        }
 
         TORCH_LIBRARY_FRAGMENT(partialtorch, m) {
             // convolution
@@ -714,6 +786,57 @@ namespace partialtorch {
                     partial_conv_transpose2d, , 2)
             PT_REGISTER_CONV_TRANSPOSEND_OPS_AND_SCALED_OPS_FORALL_TENSOR_OVERLOADS(
                     partial_conv_transpose3d, , 3)
+
+            // conv_tbc
+            m.def(utils::FunctionSchemaBuilder("partial_conv_tbc").overload("MaskedPair")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("input")
+                          .arg<const at::Tensor &>("weight")
+                          .arg<const at::Tensor &>("bias")
+                          .arg<int64_t>("pad", "0")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          const at::Tensor &,
+                          const at::Tensor &,
+                          int64_t)>(partial_conv_tbc)));
+            m.def(utils::FunctionSchemaBuilder("partial_conv_tbc").overload("Tensor")
+                          .arg<const at::Tensor &>("input")
+                          .arg<const at::Tensor &>("weight")
+                          .arg<const at::Tensor &>("bias")
+                          .arg<int64_t>("pad", "0")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const at::Tensor &,
+                          const at::Tensor &,
+                          const at::Tensor &,
+                          int64_t)>(partial_conv_tbc)));
+
+            m.def(utils::FunctionSchemaBuilder("partial_conv_tbc").overload("MaskedPair_scaled")
+                          .arg<const_intrusive_ptr_arg_t<TensorMaskedPair>>("input")
+                          .arg<const at::Tensor &>("weight")
+                          .arg<const at::Tensor &>("bias")
+                          .arg<int64_t>("pad", "0")
+                          .vararg().arg<bool>("scaled")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const_intrusive_ptr_arg_t<TensorMaskedPair>,
+                          const at::Tensor &,
+                          const at::Tensor &,
+                          int64_t,
+                          bool)>(partial_conv_tbc)));
+            m.def(utils::FunctionSchemaBuilder("partial_conv_tbc").overload("Tensor_scaled")
+                          .arg<const at::Tensor &>("input")
+                          .arg<const at::Tensor &>("weight")
+                          .arg<const at::Tensor &>("bias")
+                          .arg<int64_t>("pad", "0")
+                          .vararg().arg<bool>("scaled")
+                          .ret<TensorMaskedPair>().schema().c_str(),
+                  TORCH_FN(static_cast<c10::intrusive_ptr<TensorMaskedPair> (*)(
+                          const at::Tensor &,
+                          const at::Tensor &,
+                          const at::Tensor &,
+                          int64_t,
+                          bool)>(partial_conv_tbc)));
         }
     }
 }

@@ -1,5 +1,6 @@
 from .activation import *
 from .batchnorm import *
+from .channelshuffle import *
 from .container import *
 from .conv import *
 from .dropout import *
@@ -10,7 +11,9 @@ from .linear import *
 from .module import *
 from .normalization import *
 from .padding import *
+from .pixelshuffle import *
 from .pooling import *
+from .upsampling import *
 
-# TODO: adaptive, channelshuffle, loss, pixelshuffle, rnn, transformer, upsampling
+# TODO: adaptive, loss, rnn, transformer
 #  unlikely to be added: lazy, sparse

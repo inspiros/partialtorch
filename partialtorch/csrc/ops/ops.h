@@ -17,4 +17,5 @@
 #include "reduction.h"
 #include "ternary.h"
 #include "unary.h"
+#include "upsampling.h"
 #include "utilities.h"

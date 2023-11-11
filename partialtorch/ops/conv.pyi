@@ -232,3 +232,19 @@ def partial_conv_transpose3d(input: _MaskedPairOrTensor,
                              dilation: Union[_int, _size] = 1,
                              *,
                              scaled: _bool) -> MaskedPair: ...
+
+
+@overload
+def partial_conv_tbc(input: _MaskedPairOrTensor,
+                     weight: Tensor,
+                     bias: Tensor,
+                     pad: _int = 0) -> MaskedPair: ...
+
+
+@overload
+def partial_conv_tbc(input: _MaskedPairOrTensor,
+                     weight: Tensor,
+                     bias: Tensor,
+                     pad: _int = 0,
+                     *,
+                     scaled: _bool) -> MaskedPair: ...

@@ -1,7 +1,6 @@
 from typing import overload, List, Sequence, Optional, Union
 
 import torch
-
 from partialtorch.types import (
     _int, _bool, _dtype, _layout, _device, _size, _memory_format, _dimname, _symint,
     Tensor, MaskedPair, _MaskedPairOrTensor, _MaskedPairListOrTensorList
@@ -433,6 +432,22 @@ def gather(self: _MaskedPairOrTensor,
            index: Tensor,
            *,
            sparse_grad: _bool = False) -> MaskedPair: ...
+
+
+def pixel_shuffle(self: _MaskedPairOrTensor,
+                  upscale_factor: _int) -> MaskedPair: ...
+
+
+def pixel_unshuffle(self: _MaskedPairOrTensor,
+                    downscale_factor: _int) -> MaskedPair: ...
+
+
+def channel_shuffle(self: _MaskedPairOrTensor,
+                    groups: _int) -> MaskedPair: ...
+
+
+def native_channel_shuffle(self: _MaskedPairOrTensor,
+                           groups: _int) -> MaskedPair: ...
 
 
 def unfold(self: _MaskedPairOrTensor,

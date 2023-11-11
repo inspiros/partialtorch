@@ -383,6 +383,18 @@ namespace partialtorch {
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                 gather, at::Dimname dim , const at::Tensor & index, bool sparse_grad = false)
 
+        PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                channel_shuffle, int64_t groups)
+
+        PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                native_channel_shuffle, int64_t groups)
+
+        PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                pixel_shuffle, int64_t upscale_factor)
+
+        PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH(
+                pixel_unshuffle, int64_t downscale_factor)
+
         PT_DECLARE_ONE2ONE_PASSTHROUGH_OPS_FORALL_TENSOR_OVERLOADS_WITH3(
                 unfold, int64_t dimension, int64_t size, int64_t step)
 

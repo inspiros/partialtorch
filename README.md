@@ -251,16 +251,20 @@ Currently, there are only a number of modules implemented in ``partialtorch.nn``
 of those in ``torch.nn``.
 This is the list of submodules inside ``partialtorch.nn.modules`` and the layers they provide:
 
-- [`partialtorch.nn.modules.activation`](partialtorch/nn/modules/activation.py): All activations except `torch.nn.MultiheadAttention`
-- [`partialtorch.nn.modules.batchnorm`](partialtorch/nn/modules/batchnorm.py): `BatchNormNd`
-- [`partialtorch.nn.modules.conv`](partialtorch/nn/modules/conv.py): `PartialConvNd`, `PartialConvTransposeNd`
-- [`partialtorch.nn.modules.dropout`](partialtorch/nn/modules/dropout.py): `DropoutNd`, `AlphaDropout`, `FeatureAlphaDropout`
-- [`partialtorch.nn.modules.flatten`](partialtorch/nn/modules/flatten.py): `Flatten`, `Unflatten`
-- [`partialtorch.nn.modules.fold`](partialtorch/nn/modules/fold.py): `Fold`, `Unfold`
-- [`partialtorch.nn.modules.instancenorm`](partialtorch/nn/modules/instancenorm.py): `InstanceNormNd`
-- [`partialtorch.nn.modules.normalization`](partialtorch/nn/modules/normalization.py): `LayerNorm`
-- [`partialtorch.nn.modules.padding`](partialtorch/nn/modules/padding.py): `CircularPadNd`, `ConstantPadNd`, `ReflectionPadNd`, `ReplicationPadNd`, `ZeroPadNd`
-- [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): `MaxPoolNd`, `AdaptiveMaxPoolNd`, `FractionalMaxPoolNd`
+- [`partialtorch.nn.modules.activation`](partialtorch/nn/modules/activation.py): All activations
+  except ``torch.nn.MultiheadAttention``
+- [`partialtorch.nn.modules.batchnorm`](partialtorch/nn/modules/batchnorm.py): ``BatchNormNd``
+- [`partialtorch.nn.modules.channelshuffle`](partialtorch/nn/modules/channelshuffle.py): ``ChannelShuffle``
+- [`partialtorch.nn.modules.conv`](partialtorch/nn/modules/conv.py): ``PartialConvNd``, ``PartialConvTransposeNd``
+- [`partialtorch.nn.modules.dropout`](partialtorch/nn/modules/dropout.py): ``DropoutNd``, ``AlphaDropout``, ``FeatureAlphaDropout``
+- [`partialtorch.nn.modules.flatten`](partialtorch/nn/modules/flatten.py): ``Flatten``, ``Unflatten``
+- [`partialtorch.nn.modules.fold`](partialtorch/nn/modules/fold.py): ``Fold``, ``Unfold``
+- [`partialtorch.nn.modules.instancenorm`](partialtorch/nn/modules/instancenorm.py): ``InstanceNormNd``
+- [`partialtorch.nn.modules.normalization`](partialtorch/nn/modules/normalization.py): ``LayerNorm``
+- [`partialtorch.nn.modules.padding`](partialtorch/nn/modules/padding.py): ``CircularPadNd``, ``ConstantPadNd``, ``ReflectionPadNd``, ``ReplicationPadNd``, ``ZeroPadNd``
+- [`partialtorch.nn.modules.pixelshuffle`](partialtorch/nn/modules/pixelshuffle.py): ``PixelShuffle``, ``PixelUnshuffle``
+- [`partialtorch.nn.modules.pooling`](partialtorch/nn/modules/pooling.py): ``MaxPoolNd``, ``AvgPoolNd``, ``FractionalMaxPoolNd``, ``LpPoolNd``, ``AdaptiveMaxPoolNd``, ``AdaptiveAvgPoolNd``
+- [`partialtorch.nn.modules.upsampling`](partialtorch/nn/modules/upsampling.py): ``Upsample``, ``UpsamplingNearest2d``, ``UpsamplingBilinear2d``, ``PartialUpsample``, ``PartialUpsamplingBilinear2d``
 
 The steps for declaring your custom module is identical, except that we now use the classes inside ``partialtorch.nn``
 which input and output ``MaskedPair``.
@@ -277,11 +281,11 @@ Note that to make them scriptable, you may have to explicitly annotate input and
 <sub>
 
 ```python
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from torch import Tensor
+
 
 class ConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels):
@@ -306,11 +310,11 @@ class ConvBlock(nn.Module):
 ```python
 import torch.nn as nn
 
-import partialtorch
 import partialtorch.nn as partial_nn
 import partialtorch.nn.functional as partial_F
 
 from partialtorch import MaskedPair
+
 
 class PartialConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels):
